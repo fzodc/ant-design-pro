@@ -1,5 +1,3 @@
-branch restore
-test v1.0 branch again
 English | [简体中文](./README.zh-CN.md) | [Русский](./README.ru-RU.md) | [Türkçe](./README.tr-TR.md) | [日本語](./README.ja-JP.md) | [Français](./README.fr-FR.md)
 test v1.0 branch again
 <h1 align="center">Ant Design Pro</h1>
