@@ -228,6 +228,11 @@ export default [
             name: 'privilege',
             component: './UserManager/Privilege',
           },
+          {
+            path: '/userManager/tenant',
+            name: 'tenant',
+            component: './UserManager/Tenant',
+          },
         ],
       },
       // admin

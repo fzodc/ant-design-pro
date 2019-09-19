@@ -84,10 +84,10 @@ class BindDataQueryTable extends PureComponent {
     // console.log('handleAdd:',fields);
     const {
       dispatch,
-      columnSchemas: { relationKeyForMasterTable,masterTableKey },
+      columnSchemas: { relationKeyForMasterTable,masterTableKey,userId },
       masterRecord,
     } = this.props;
-    const newPayload=payload;
+    const newPayload={...payload,userId};
     if(masterRecord&&relationKeyForMasterTable&&masterTableKey){
       newPayload.data.info[relationKeyForMasterTable]=masterRecord[masterTableKey];
     }

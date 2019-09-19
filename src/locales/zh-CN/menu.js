@@ -45,6 +45,7 @@ export default {
   'menu.userManager.user': '用户',
   'menu.userManager.role': '角色',
   'menu.userManager.privilege': '权限',
+  'menu.userManager.tenant': '租户',
   'menu.form': '表单页',
   'menu.form.basicform': '基础表单',
   'menu.form.stepform': '分步表单',

@@ -45,6 +45,7 @@ export default {
   'menu.userManager.user': 'User',
   'menu.userManager.role': 'Role',
   'menu.userManager.privilege': 'Privilege',
+  'menu.userManager.tenant': 'Tenant',
   'menu.form': 'Form',
   'menu.form.basicform': 'Basic Form',
   'menu.form.stepform': 'Step Form',
