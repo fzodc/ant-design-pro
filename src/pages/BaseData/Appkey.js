@@ -255,7 +255,7 @@ class Appkey extends PureComponent {
         { name: 'callerName', title: 'Caller Name', sorter: true, add: true, detailFlag:1 },
         { name: 'password', title: 'Password', sorter: true, detailFlag:1 },
         { name: 'newPassword', title: 'New Password', sorter: true, add: true, detailFlag:1 },
-        { name: 'tokenExpireTime', title: 'Token Expire Time', sorter: true, add: true, detailFlag:1 },
+        { name: 'tokenExpireTime', title: 'Token Expire Time',rules:[], sorter: true, add: true, detailFlag:1 },
         {
           name: 'authType',
           title: 'Auth Type of Consumer',
