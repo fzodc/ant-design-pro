@@ -1,17 +1,12 @@
 import React, {PureComponent} from 'react';
 import {Divider, message, Card, Row, Col, Table, Button, Form, Modal, Input, Select} from 'antd';
 import {connect} from 'dva';
-import BindDataQueryTable from '../BindDataQueryTable';
-import QueryCommand from '@/components/QueryTable/QueryCommand';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {getItems,getItemValue2} from '@/utils/masterData';
-import UserTransfer from './UserTransfer';
 
-import Authorized from '@/utils/Authorized';
-import {getAuth, getUserId, getUserName} from '@/utils/authority';
+import { getUserId, getUserName} from '@/utils/authority';
 import OrgSelectView from "../ApiGateway/OrgSelectView";
 
-const {check} = Authorized;
 const FormItem = Form.Item;
 const {Option} = Select;
 const statusList = getItems('common', 'status');
@@ -86,7 +81,7 @@ const CreateForm = Form.create()(props => {
       itemTemp.disabled = itemTemp.name === key||itemTemp.disabledAct==='true';
       return itemTemp;
     });
-  console.log('addForm:', addForms);
+  // console.log('addForm:', addForms);
   const modalTitle = selectedRow ? 'update' : 'new';
   return (
     <Modal
@@ -231,7 +226,6 @@ class Appkey extends PureComponent {
         info:newFields
       }
     };
-    console.log(payload);
     dispatch({
       type: 'appkeyModel/save',
       payload,
