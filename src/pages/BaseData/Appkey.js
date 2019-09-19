@@ -10,7 +10,7 @@ import OrgSelectView from "../ApiGateway/OrgSelectView";
 const FormItem = Form.Item;
 const {Option} = Select;
 const statusList = getItems('common', 'status');
-const authTypes = getItems('org', 'auth_type');
+const authTypes = getItems('appkey', 'auth_type');
 const statusFilter = statusList.map(item => ({
   value: item.itemCode,
   text: item.itemValue,
