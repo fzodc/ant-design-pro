@@ -10,6 +10,7 @@ import RoleTransfer from "./RoleTransfer";
 
 import Authorized from '@/utils/Authorized';
 import { getAuth } from '@/utils/authority';
+import {getUserId} from "../../utils/authority";
 
 const { check } = Authorized;
 
@@ -86,6 +87,8 @@ class User extends PureComponent {
       }],
       actions,
     };
+    const userId = getUserId();
+    columnSchemas.userId = userId;
     this.setState({columnSchemas});
   }
 
