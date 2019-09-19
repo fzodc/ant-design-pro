@@ -36,7 +36,6 @@ class Org extends PureComponent {
           }
         : { havePermissions: false, haveAddPermissions: false };
 
-    const orgTypes = getItems('org', 'org_type'); // 缓存取数据
     const authTypes = getItems('org', 'auth_type');
     const statusList = getItems('common', 'status');
 
@@ -46,23 +45,12 @@ class Org extends PureComponent {
       name: 'orgName',
       reCallDetail: true,
       columnDetails: [
-        { name: 'appkey', title: 'App Key', query: true, detailFlag: true }, // name  数据库属性 query查询是否显示 add 新增 ,disableAct修改, rules 输入规则 tag下拉框
         { name: 'id', title: 'ID', columnHidden: false, add: true, disabledAct: 'true' }, // 第一列需要作为查询条件，新增时不需要采集
         { name: 'orgCode', title: 'Code', columnHidden: true }, // 第二列需要作为查询条件，新增时需要采集
         { name: 'orgName', title: 'Name', sorter: true, query: true, add: true }, //  需要排序，需要作为查询条件，新增时需要采集
         { name: 'createTime', title: 'Create Date', format: 'YYYY-MM-DD HH:mm:ss' }, // 返回是日期类型，需要转换
         { name: 'tel', title: 'tel', columnHidden: true, add: true, rules: [] },
         { name: 'email', title: 'email', columnHidden: true, add: true, rules: [] },
-        {
-          name: 'orgType',
-          title: 'Org Type',
-          columnHidden: false,
-          query: true,
-          add: true,
-          tag: 'commonSelect',
-          tableName: 'org',
-          enumData: orgTypes,
-        }, // 需要作为查询条件，新增时需要采集，需要使用绑定的下拉标签
         {
           name: 'status',
           title: 'Status',
@@ -73,23 +61,6 @@ class Org extends PureComponent {
           tableName: 'org',
           enumData: statusList,
         }, // 需要作为查询条件，新增时需要采集，需要使用绑定的下拉标签
-        {
-          name: 'authType',
-          title: 'Auth Type of Consumer',
-          columnHidden: false,
-          add: true,
-          tag: 'commonSelect',
-          tableName: 'org',
-          query: true,
-          enumData: authTypes,
-        },
-        {
-          name: 'tokenExpireTime',
-          title: 'Token Valid Day',
-          columnHidden: true,
-          add: true,
-          defaultValue:'30',
-        },
         {
           name: 'remark',
           title: 'remark',

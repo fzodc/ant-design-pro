@@ -26,6 +26,7 @@ export default {
   'menu.baseData.org': '接入系统管理',
   'menu.baseData.group': '分组管理',
   'menu.baseData.adapterSpec': '适配器配置',
+  'menu.baseData.appkey': 'Appkey配置',
   'menu.baseData.attrSpec': '属性规格',
   'menu.baseData.attrSpecFromAdapter': '适配器属性规格',
   'menu.apiGateway': '服务管理',

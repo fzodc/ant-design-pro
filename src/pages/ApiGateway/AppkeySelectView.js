@@ -7,7 +7,7 @@ const { Option } = Select;
   orgList: orgModel.orgList,
   loading: loading.models.orgList,
 }))
-class OrgSelectView extends PureComponent {
+class AppkeySelectView extends PureComponent {
   componentDidMount = () => {
     const { dispatch, orgType, userId } = this.props;
     // console.log("userId",userId);
@@ -18,11 +18,11 @@ class OrgSelectView extends PureComponent {
   };
 
   getOption(sign) {
-    const { orgList,field } = this.props;
-    return this.getOptionWhithList(orgList,sign,field);
+    const { orgList } = this.props;
+    return this.getOptionWhithList(orgList,sign);
   }
 
-  getOptionWhithList = (list,sign,field) => {
+  getOptionWhithList = (list,sign) => {
 
     let newList = list;
 
@@ -42,13 +42,10 @@ class OrgSelectView extends PureComponent {
         </Option>
       );
     }
-    let newField = 'id'
-    if(field){
-      newField = field;
-    }
+
     return newList.map(item => (
-      <Option key={item.id} value={item[newField]}>
-        {item.orgName}-{item.orgCode}
+      <Option key={item.id} value={item.id}>
+        {item.orgName}
       </Option>
     ));
   };
@@ -60,9 +57,8 @@ class OrgSelectView extends PureComponent {
 
   render() {
     // const value = this.conversionObject();
-    const { value,sign,isDisable, } = this.props;
+    const { value,sign,isDisable } = this.props;
     const disable = isDisable?'disabled':'';
-    // console.log("xxoo",newValue);
     return (
       <Select style={{ width: '100%' }} value={value} onSelect={this.selectChangeItem} disabled={disable}>
         {this.getOption(sign)}
@@ -71,4 +67,4 @@ class OrgSelectView extends PureComponent {
   }
 }
 
-export default OrgSelectView;
+export default AppkeySelectView;

@@ -174,6 +174,11 @@ export default [
             component: './BaseData/Org',
           },
           {
+            path: '/baseData/appkey',
+            name: 'appkey',
+            component: './BaseData/Appkey',
+          },
+          {
             path: '/baseData/group',
             name: 'group',
             component: './BaseData/Group',
@@ -193,6 +198,11 @@ export default [
             name: 'adapterAttrSpec',
             component: './BaseData/AdapterAttrSpec',
             hideInMenu: true,
+          },
+          {
+            path: '/baseData/appkey',
+            name: 'appkey',
+            component: './BaseData/Appkey',
           },
         ],
       },

@@ -26,6 +26,7 @@ export default {
   'menu.baseData.org': 'Org',
   'menu.baseData.group': 'Group',
   'menu.baseData.adapterSpec': 'Adapter',
+  'menu.baseData.appkey': 'Appkey',
   'menu.baseData.attrSpec': 'Attr Spec Management',
   'menu.baseData.attrSpecFromAdapter': 'Attr Spec of a Adapter',
   'menu.apiGateway': 'Service Config',
