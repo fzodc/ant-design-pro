@@ -249,7 +249,7 @@ class Register extends Component {
             )}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('mail', {
+            {getFieldDecorator('email', {
               rules: [
                 {
                   required: true,
@@ -324,7 +324,7 @@ class Register extends Component {
               >
                 <Option value="86">+86</Option>
               </Select>
-              {getFieldDecorator('mobile', {
+              {getFieldDecorator('tel', {
                 rules: [
                   {
                     required: true,
