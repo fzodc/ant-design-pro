@@ -21,6 +21,9 @@ export default {
   'validation.email.required': 'Please enter your email!',
   'validation.email.wrong-format': 'The email address is in the wrong format!',
   'validation.userName.required': 'Please enter your userName!',
+  'validation.tenant.required': 'please enter tenantName!',
+  'validation.address.required': 'please enter address!',
+  'validation.description.required': 'please enter description!',
   'validation.password.required': 'Please enter your password!',
   'validation.password.twice': 'The passwords entered twice do not match!',
   'validation.password.strength.msg':

@@ -10,6 +10,13 @@ export async function fakeAccountLogin(params) {
   });
 }
 
+export async function fakeAccountRegister(params) {
+  return request(`${PREFIX_PATH}/baseInfo/sysUser/register`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
 export async function queryCurrent() {
   return request(`${PREFIX_PATH}/baseInfo/sysUser/currentUser`);
 }

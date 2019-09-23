@@ -1,6 +1,7 @@
 // import { fakeRegister } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
 import { reloadAuthorized } from '@/utils/Authorized';
+import { fakeAccountRegister } from '@/services/userService';
 
 export default {
   namespace: 'register',
@@ -10,14 +11,15 @@ export default {
   },
 
   effects: {
-    // *submit({ payload }, { call, put }) {
-    *submit(_, { put }) {
-      // const response = yield call(fakeRegister, payload);
-      const response = { status: 'ok', currentAuthority: 'guess' };
-      yield put({
-        type: 'registerHandle',
-        payload: response,
-      });
+    *submit({ payload, callback }, { call, put }) {
+    // *submit(_, { put }) {
+      const response = yield call(fakeAccountRegister, payload);
+      if (callback) callback(response);
+      // const response = { status: 'ok', currentAuthority: 'guess' };
+      // yield put({
+      //   type: 'registerHandle',
+      //   payload: response,
+      // });
     },
   },
 

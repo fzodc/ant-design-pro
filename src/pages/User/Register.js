@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
 import router from 'umi/router';
-import { Form, Input, Button, Select, Row, Col, Popover, Progress } from 'antd';
+import { Form, Input, Button, Select, Row, Col, Popover, Progress, message } from 'antd';
 import styles from './Register.less';
 
 const FormItem = Form.Item;
@@ -98,9 +98,26 @@ class Register extends Component {
         dispatch({
           type: 'register/submit',
           payload: {
-            ...values,
-            prefix,
+            data:{
+              info:{
+                ...values,
+                prefix,
+              }
+            }
           },
+          callback:resp=>{
+            const {msg, code}= resp;
+            if(code === '200'){
+              message.success('Register Success');
+              setTimeout(() => {
+                router.push({
+                  pathname: `/user/login`,
+                });
+              },3000);
+            }else{
+              message.error(`error:${msg}`);
+            }
+          }
         });
       }
     });
@@ -183,6 +200,42 @@ class Register extends Component {
           <FormattedMessage id="app.register.register" />
         </h3>
         <Form onSubmit={this.handleSubmit}>
+          <FormItem>
+            {getFieldDecorator('name', {
+              rules: [
+                {
+                  required: true,
+                  message: formatMessage({ id: 'validation.tenant.required' }),
+                },
+              ],
+            })(
+              <Input size="large" placeholder={formatMessage({ id: 'form.tenant.placeholder' })} />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('address', {
+              rules: [
+                {
+                  required: true,
+                  message: formatMessage({ id: 'validation.address.required' }),
+                },
+              ],
+            })(
+              <Input size="large" placeholder={formatMessage({ id: 'form.address.placeholder' })} />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('description', {
+              rules: [
+                {
+                  required: true,
+                  message: formatMessage({ id: 'validation.description.required' }),
+                },
+              ],
+            })(
+              <Input size="large" placeholder={formatMessage({ id: 'form.description.placeholder' })} />
+            )}
+          </FormItem>
           <FormItem>
             {getFieldDecorator('username', {
               rules: [
@@ -291,7 +344,7 @@ class Register extends Component {
               )}
             </InputGroup>
           </FormItem>
-          <FormItem>
+          {/*<FormItem>
             <Row gutter={8}>
               <Col span={16}>
                 {getFieldDecorator('captcha', {
@@ -321,7 +374,7 @@ class Register extends Component {
                 </Button>
               </Col>
             </Row>
-          </FormItem>
+          </FormItem>*/}
           <FormItem>
             <Button
               size="large"
