@@ -119,6 +119,14 @@ class User extends PureComponent {
 
   render() {
     const {modalVisible,selectedRow,columnSchemas}=this.state;
+    const auth = getAuth("user_role"); // 获取某个功能权的角色
+    const commandAct = check(auth,'Modify');
+    const roleAuth = commandAct?(
+      <QueryCommand>
+        <Divider type="vertical" />
+        <a onClick={() => this.handleRole()}>Role</a>
+      </QueryCommand>
+    ):'';
     return (
       <PageHeaderWrapper>
         <BindDataQueryTable
@@ -135,10 +143,7 @@ class User extends PureComponent {
             };
           }}
         >
-          <QueryCommand>
-            <Divider type="vertical" />
-            <a onClick={() => this.handleRole()}>Role</a>
-          </QueryCommand>
+          {roleAuth}
         </BindDataQueryTable>
         <RoleTransfer
           title='Grant authorization'
