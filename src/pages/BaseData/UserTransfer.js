@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Transfer, Modal, message } from 'antd';
 import { connect } from 'dva';
+import {getUserId} from "../../utils/authority";
 
 @connect(({ userModel, uniComp, loading }) => ({
   userList: userModel.userList,
@@ -18,9 +19,10 @@ class UserTransfer extends PureComponent {
   componentDidMount = () => {
     const { dispatch, modalVisible } = this.props;
     this.setState({ modalVisible });
+    const userId = getUserId();
     dispatch({
       type: 'userModel/allUserList',
-      payload: { setDisabled: false },
+      payload: { setDisabled: false,userId },
     });
   };
 
