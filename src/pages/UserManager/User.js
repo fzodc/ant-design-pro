@@ -66,6 +66,7 @@ class User extends PureComponent {
         { name: 'password', title: formatMessage({'id':'app.user.sys_user.password'}),tag:'passwordTag', add: true, columnHidden: true,detail:false },
         { name: 'email', title: formatMessage({'id':'app.user.sys_user.email'}), query: false, add: true ,rules:[]},
         { name: 'tel', title: formatMessage({'id':'app.user.sys_user.tel'}), query: false, add: true ,rules:[]},
+        { name: 'roleName', title: formatMessage({'id':'app.user.sys_user.roleName'})},
         {
           name: 'status',
           title: formatMessage({'id':'app.user.sys_user.status'}),
