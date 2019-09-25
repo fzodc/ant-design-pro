@@ -329,22 +329,6 @@ class Appkey extends PureComponent {
         dataIndex: 'authRatio',
       },
       {
-        title: 'Password',
-        dataIndex: 'password',
-      },
-      {
-        title: 'New Password',
-        dataIndex: 'newPassword',
-      },
-      {
-        name: 'status',
-        title: 'Status',
-        filters: statusFilter,
-        render(val) {
-          return <span>{getItemValue2(statusList, val)}</span>
-        },
-      },
-      {
         name:'action',
         title:'Action',
         width: 100,
@@ -375,22 +359,6 @@ class Appkey extends PureComponent {
       {
         title: 'Auth Count',
         dataIndex: 'authCount',
-      },
-      {
-        title: 'Password',
-        dataIndex: 'password',
-      },
-      {
-        title: 'New Password',
-        dataIndex: 'newPassword',
-      },
-      {
-        name: 'status',
-        title: 'Status',
-        filters: statusFilter,
-        render(val) {
-          return <span>{getItemValue2(statusList, val)}</span>
-        },
       },
       {
         name:'action',
