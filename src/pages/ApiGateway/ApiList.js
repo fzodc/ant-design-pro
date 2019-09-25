@@ -35,6 +35,7 @@ import {getAuth, getUserId} from '@/utils/authority';
 import GroupMutiTreeSelectView from "./GroupMutiTreeSelectView";
 import WsdlSelectView from "./WsdlSelectView";
 import AppkeyTransfer from "./AppkeyTransfer";
+import TenantSelectView from "../UserManager/TenantSelectView";
 
 const { check } = Authorized;
 
@@ -608,11 +609,16 @@ class TableList extends PureComponent {
     const {state} = location;
     const {wsdlId} = state || {wsdlId: ''};
     const {selectedRows} = this.state;
+    let tenateStr = '';
+    if( userId === 4 || userId === 22){
+      tenateStr = (<Col md={8} sm={24}>
+        <FormItem label="tenantId">{getFieldDecorator('Tenant', {})(<TenantSelectView userId={userId} />)}</FormItem></Col>);
+    }
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="Api Name">
+            <FormItem label="API Name">
               {getFieldDecorator('name')(<Input placeholder="please enter" />)}
             </FormItem>
           </Col>
@@ -631,6 +637,9 @@ class TableList extends PureComponent {
               })(<WsdlSelectView userId={userId} />)}
             </FormItem>
           </Col>
+        </Row>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          {tenateStr}
         </Row>
         <div style={{ overflow: 'hidden' }}>
           <div style={{ float: 'right', marginBottom: 8 }}>
@@ -660,6 +669,11 @@ class TableList extends PureComponent {
     const userId = getUserId();
     const {state} = location;
     const {wsdlId} = state || {wsdlId: ''};
+    let tenateStr = '';
+    if( userId === 4 || userId === 22){
+      tenateStr = (<Col md={8} sm={24}>
+        <FormItem label="tenantId">{getFieldDecorator('Tenant', {})(<TenantSelectView userId={userId} />)}</FormItem></Col>);
+    }
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -687,6 +701,7 @@ class TableList extends PureComponent {
           </Col>
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          {tenateStr}
           <Col md={8} sm={24}>
             <FormItem label="Status">
               {getFieldDecorator('status')(<SelectView javaCode="apiService" javaKey="status" />)}

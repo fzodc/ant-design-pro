@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import {Card, Table, Row, Col} from 'antd';
+import Ellipsis from '@/components/Ellipsis';
 
 const fieldLabels = {
   appKey: 'AppKey：',
@@ -26,8 +27,19 @@ class Detail extends PureComponent {
     });
     const apiColumns = [
       {
+        title: 'Api Id',
+        dataIndex: 'apiId'
+      },
+      {
         title: 'Api Name',
         dataIndex: 'name'
+      },
+      {
+        title: 'Request Url',
+        dataIndex: 'requestUrl',
+        render(val) {
+          return <Ellipsis length={20} tooltip>{val}</Ellipsis>;
+        },
       },
     ];
     const paginationProps = {
