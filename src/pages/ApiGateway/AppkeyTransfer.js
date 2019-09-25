@@ -108,7 +108,7 @@ class AppkeyTransfer extends PureComponent {
           onChange={this.handleChange}
           onSelectChange={this.handleSelectChange}
           onScroll={this.handleScroll}
-          render={item => `${item.orgName}-${item.appkey}`}
+          render={item => `${item.callerName}-${item.appkey}`}
           listStyle={{
             width: 280,
             height: 300,
