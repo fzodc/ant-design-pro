@@ -314,8 +314,6 @@ class Appkey extends PureComponent {
       {
         title: 'appkey',
         dataIndex: 'appkey',
-        fixed: 'left',
-        width: 50,
         render: (text, record) =>{
           return <a onClick={() => this.handleDrawerVisible(record,true)}>{text}</a>;
         },
@@ -331,8 +329,6 @@ class Appkey extends PureComponent {
       {
         name:'action',
         title:'Action',
-        width: 100,
-        fixed: 'right',
         render: (text, record) => (
           <span>
             <a onClick={()=>this.handleModalVisible(record, true , 0)}>Modify</a>
@@ -346,7 +342,6 @@ class Appkey extends PureComponent {
       {
         title: 'appkey',
         dataIndex: 'appkey',
-        fixed: 'left',
         width: 50,
         render: (text, record) =>{
           return <a onClick={() => this.handleDrawerVisible(record,true)}>{text}</a>;
@@ -363,8 +358,6 @@ class Appkey extends PureComponent {
       {
         name:'action',
         title:'Action',
-        width: 100,
-        fixed: 'right',
         render: (text, record) => (
           <span>
             <a onClick={()=>this.handleModalVisible(record, true , 1)}>Modify</a>
@@ -404,7 +397,6 @@ class Appkey extends PureComponent {
                 dataSource={appkeyInbounds}
                 size="small"
                 bordered="true"
-                scroll={{ x: 800 }}
                 pagination={paginationProps}
               />
             </Card>
@@ -416,7 +408,6 @@ class Appkey extends PureComponent {
                 dataSource={appkeyOutbounds}
                 size="small"
                 bordered="true"
-                scroll={{ x: 800 }}
                 pagination={paginationProps}
               />
             </Card>
