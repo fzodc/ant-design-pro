@@ -147,13 +147,8 @@ class Appkey extends PureComponent {
         id
       },
       callback:resp=>{
-        const {code,data} = resp;
-        if(code === '200'){
-          const {appkeyInbounds,appkeyOutbounds,orgCode,apiServices} = data;
-          this.setState({orgId:id,orgCode,appkeyInbounds,appkeyOutbounds,apiServices});
-        }else{
-          this.setState({orgId:id,orgCode:null,appkeyInbounds:[],appkeyOutbounds:[],apiServices:[]});
-        }
+        const {appkeyInbounds,appkeyOutbounds,orgCode,apiServices} = resp;
+        this.setState({orgId:id,orgCode,appkeyInbounds,appkeyOutbounds,apiServices});
       }
     });
   }
