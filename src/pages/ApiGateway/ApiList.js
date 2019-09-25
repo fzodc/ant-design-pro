@@ -612,7 +612,7 @@ class TableList extends PureComponent {
     let tenateStr = '';
     if( userId === 4 || userId === 22){
       tenateStr = (<Col md={8} sm={24}>
-        <FormItem label="tenantId">{getFieldDecorator('Tenant', {})(<TenantSelectView userId={userId} />)}</FormItem></Col>);
+        <FormItem label="Tenant">{getFieldDecorator('tenantId', {})(<TenantSelectView userId={userId} />)}</FormItem></Col>);
     }
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
@@ -672,7 +672,7 @@ class TableList extends PureComponent {
     let tenateStr = '';
     if( userId === 4 || userId === 22){
       tenateStr = (<Col md={8} sm={24}>
-        <FormItem label="tenantId">{getFieldDecorator('Tenant', {})(<TenantSelectView userId={userId} />)}</FormItem></Col>);
+        <FormItem label="Tenant">{getFieldDecorator('tenantId', {})(<TenantSelectView userId={userId} />)}</FormItem></Col>);
     }
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
