@@ -1,11 +1,12 @@
 import React, {PureComponent} from 'react';
-import {Divider, message, Card, Row, Col, Table, Button, Form, Modal, Input, Select} from 'antd';
+import {Divider, message, Card, Row, Col, Table, Button, Form, Modal, Input, Select, Drawer} from 'antd';
 import {connect} from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {getItems,getItemValue2} from '@/utils/masterData';
 
 import { getUserId, getUserName} from '@/utils/authority';
 import OrgSelectView from "../ApiGateway/OrgSelectView";
+import Detail from "./Detail";
 
 const FormItem = Form.Item;
 const {Option} = Select;
@@ -119,13 +120,15 @@ const CreateForm = Form.create()(props => {
 class Appkey extends PureComponent {
 
   state ={
+    apiServices :[],
     appkeyInbounds :[],
     appkeyOutbounds :[],
     modalVisible : false,
     selectedRow : {},
     sign : 0,
     orgId : '',
-    orgCode:''
+    orgCode:'',
+    drawerVisible:false
   }
 
   getOrgInfo = e => {
@@ -144,8 +147,8 @@ class Appkey extends PureComponent {
         id
       },
       callback:resp=>{
-        const {appkeyInbounds,appkeyOutbounds,orgCode} = resp;
-        this.setState({orgId:id,orgCode,appkeyInbounds,appkeyOutbounds});
+        const {appkeyInbounds,appkeyOutbounds,orgCode,apiServices} = resp;
+        this.setState({orgId:id,orgCode,appkeyInbounds,appkeyOutbounds,apiServices});
       }
     });
   }
@@ -236,15 +239,28 @@ class Appkey extends PureComponent {
     });
   }
 
+  handleDrawerVisible = (row, flag) => {
+    this.setState({
+      selectedRow: row,
+      drawerVisible: !!flag,
+    });
+  };
+
+  onDrawerClose = () => {
+    this.handleDrawerVisible(null, false);
+  }
+
   render() {
     const {
       modalVisible,
       selectedRow,
       orgId,
       orgCode,
+      apiServices,
       appkeyInbounds,
       appkeyOutbounds,
-      sign
+      sign,
+      drawerVisible
     } = this.state;
     const userId = getUserId();
     let columnSchemas = {
@@ -300,10 +316,17 @@ class Appkey extends PureComponent {
         dataIndex: 'appkey',
         fixed: 'left',
         width: 50,
+        render: (text, record) =>{
+          return <a onClick={() => this.handleDrawerVisible(record,true)}>{text}</a>;
+        },
       },
       {
         title: 'Caller Name',
         dataIndex: 'callerName',
+      },
+      {
+        title: 'Auth Ratio',
+        dataIndex: 'authRatio',
       },
       {
         title: 'Password',
@@ -341,10 +364,17 @@ class Appkey extends PureComponent {
         dataIndex: 'appkey',
         fixed: 'left',
         width: 50,
+        render: (text, record) =>{
+          return <a onClick={() => this.handleDrawerVisible(record,true)}>{text}</a>;
+        },
       },
       {
         title: 'Target System Name',
         dataIndex: 'targetSystemName',
+      },
+      {
+        title: 'Auth Count',
+        dataIndex: 'authCount',
       },
       {
         title: 'Password',
@@ -385,11 +415,14 @@ class Appkey extends PureComponent {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
     };
+    const paginationProps = {
+      pageSize: 5,
+    };
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
           <Row gutter={2}>
-            <Col lg={6} md={12} sm={24} style={{height: 80}}>
+            <Col lg={6} md={12} sm={24}>
               <span>Org Name</span>
               <OrgSelectView style={{ width: '100%' }} userId={userId} onChange={this.getOrgInfo} value={orgId} />
             </Col>
@@ -404,6 +437,7 @@ class Appkey extends PureComponent {
                 size="small"
                 bordered="true"
                 scroll={{ x: 800 }}
+                pagination={paginationProps}
               />
             </Card>
           </Col>
@@ -415,6 +449,7 @@ class Appkey extends PureComponent {
                 size="small"
                 bordered="true"
                 scroll={{ x: 800 }}
+                pagination={paginationProps}
               />
             </Card>
           </Col>
@@ -426,6 +461,15 @@ class Appkey extends PureComponent {
           renderAutoForm
           columnSchemas={columnSchemas}
         />
+        <Drawer
+          height={400}
+          placement="bottom"
+          closable
+          onClose={this.onDrawerClose}
+          visible={drawerVisible}
+        >
+          <Detail selectedRow={selectedRow} targetServices={apiServices} />
+        </Drawer>
       </PageHeaderWrapper>
     );
   }

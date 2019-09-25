@@ -34,6 +34,7 @@ import Authorized from '@/utils/Authorized';
 import {getAuth, getUserId} from '@/utils/authority';
 import GroupMutiTreeSelectView from "./GroupMutiTreeSelectView";
 import WsdlSelectView from "./WsdlSelectView";
+import AppkeyTransfer from "./AppkeyTransfer";
 
 const { check } = Authorized;
 
@@ -755,15 +756,7 @@ class TableList extends PureComponent {
             onOk={() => this.okHandle()}
             onCancel={() => this.cancelHandle()}
           >
-            {/* <Transfer */}
-            {/* dataSource={mockData} */}
-            {/* titles={['Source', 'Target']} */}
-            {/* targetKeys={[]} */}
-            {/* selectedKeys={[]} */}
-            {/* onScroll={this.handleScroll} */}
-            {/* render={item => item.title} */}
-            {/* /> */}
-            <OrgTransfer targetData={selectedRow} onOrgTransfer={this.handleOrgTransfer} />
+            <AppkeyTransfer targetData={selectedRow} onOrgTransfer={this.handleOrgTransfer} />
           </Modal>
           <Drawer
             width={640}

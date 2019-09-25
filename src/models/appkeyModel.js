@@ -1,5 +1,5 @@
 import {message} from 'antd';
-import {list, listOut,save} from '../services/appkeyService';
+import {list, listOut,save,listAllIn} from '../services/appkeyService';
 import constants from '@/utils/constUtil';
 import {conversionWsdl} from "../pages/util";
 
@@ -31,6 +31,20 @@ export default {
       const response = yield call(save, payload);
       if (callback) callback(response);
     },
+    * listIn({payload, callback}, {call, put}) {
+      const response = yield call(listOut,payload);
+      yield put({
+        type: 'saveIn',
+        payload: response,
+      });
+    },
+    * listAllIn({payload, callback}, {call, put}) {
+      const response = yield call(listAllIn,payload);
+      yield put({
+        type: 'saveIn',
+        payload: response,
+      });
+    },
     * listOut({payload, callback}, {call, put}) {
       const response = yield call(listOut,payload);
       if (callback) {
@@ -50,6 +64,14 @@ export default {
       return {
         ...state,
         data,
+      };
+    },
+    saveIn(state, action) {
+      const data = action.payload ? action.payload.data : [];
+      const inAppkeyList = data;
+      return {
+        ...state,
+        inAppkeyList
       };
     },
     saveOut(state, action) {
