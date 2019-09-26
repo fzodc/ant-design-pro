@@ -347,6 +347,10 @@ export default [
                 path: '/account/settings/notification',
                 component: './Account/Settings/NotificationView',
               },
+              {
+                path: '/account/settings/tenant',
+                component: './Account/Settings/TenantView',
+              },
             ],
           },
         ],

@@ -5,11 +5,14 @@ import { FormattedMessage } from 'umi-plugin-react/locale';
 import { Menu } from 'antd';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import styles from './Info.less';
+import {getUserId} from "../../../utils/authority";
 
 const { Item } = Menu;
 
-@connect(({ user }) => ({
+@connect(({ user,appkeyModel ,loading}) => ({
   currentUser: user.currentUser,
+  appkeyModel,
+  loading: loading.models.appkeyModel,
 }))
 class Info extends Component {
   constructor(props) {
@@ -29,6 +32,9 @@ class Info extends Component {
           defaultMessage="New Message Notification"
         />
       ),
+      tenant:(
+        <FormattedMessage id="app.settings.menuMap.tenant" defaultMessage="Tenant Manager" />
+      )
     };
     const key = location.pathname.replace(`${match.path}/`, '');
     this.state = {
@@ -49,6 +55,12 @@ class Info extends Component {
   }
 
   componentDidMount() {
+    const {dispatch} = this.props;
+    const userId = getUserId();
+    dispatch({
+      type: 'appkeyModel/tenantManager',
+      payload: {userId},
+    });
     window.addEventListener('resize', this.resize);
     this.resize();
   }

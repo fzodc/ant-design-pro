@@ -1,5 +1,5 @@
 import {message} from 'antd';
-import {list, listOut,save,listAllIn} from '../services/appkeyService';
+import {list, listOut,save,listAllIn,tenantManager} from '../services/appkeyService';
 import constants from '@/utils/constUtil';
 import {conversionWsdl} from "../pages/util";
 
@@ -10,7 +10,8 @@ export default {
   state: {
     inAppkeyList :[],
     outAppkeyList :[],
-    data:[]
+    data:[],
+    tenant:{}
   },
 
   effects: {
@@ -57,6 +58,14 @@ export default {
         payload: response,
       });
     },
+    * tenantManager({payload, callback}, {call, put}) {
+      const response = yield call(tenantManager,payload);
+      yield put({
+        type: 'saveTenant',
+        payload: response,
+      });
+      if (callback) callback(response);
+    },
   },
   reducers: {
     save(state, action) {
@@ -81,6 +90,13 @@ export default {
       return {
         ...state,
         outAppkeyList,
+      };
+    },
+    saveTenant(state, action) {
+      const tenant = action.payload ? action.payload.data : {};
+      return {
+        ...state,
+        tenant,
       };
     },
   }

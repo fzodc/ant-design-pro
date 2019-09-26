@@ -44,3 +44,7 @@ export async function listOut(params) {
 export async function listAllIn(params) {
   return request(`${PREFIX_PATH}/baseInfo/appkeyInbound/appkeyInboundList?apiId=${params.apiId}`);
 }
+
+export async function tenantManager(params) {
+  return request(`${PREFIX_PATH}/baseInfo/tenant/management?userId=${params.userId}`);
+}
