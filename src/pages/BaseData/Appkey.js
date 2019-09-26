@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import {Divider, message, Card, Row, Col, Table, Button, Form, Modal, Input, Select, Drawer} from 'antd';
 import {connect} from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import {getItems,getItemValue2} from '@/utils/masterData';
+import {getItems} from '@/utils/masterData';
 
 import { getUserId, getUserName} from '@/utils/authority';
 import OrgSelectView from "../ApiGateway/OrgSelectView";
@@ -12,10 +12,6 @@ const FormItem = Form.Item;
 const {Option} = Select;
 const statusList = getItems('common', 'status');
 const authTypes = getItems('appkey', 'auth_type');
-const statusFilter = statusList.map(item => ({
-  value: item.itemCode,
-  text: item.itemValue,
-}))
 /**
  * get form item array for query condition form and add(modify) form
  * @param currentProps
@@ -129,6 +125,14 @@ class Appkey extends PureComponent {
     orgId : '',
     orgCode:'',
     drawerVisible:false
+  }
+
+  componentDidMount() {
+
+    const {location} = this.props;
+    const {state} = location;
+    const {id,orgCode} = state || {id: '',orgCode:''};
+    this.setState({orgId:id,orgCode});
   }
 
   getOrgInfo = e => {

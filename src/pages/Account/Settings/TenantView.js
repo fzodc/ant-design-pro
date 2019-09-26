@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from 'react';
+import router from 'umi/router';
 import { Card, Table} from 'antd';
 import {connect} from 'dva';
 import DescriptionList from '@/components/DescriptionList';
@@ -7,8 +8,8 @@ import {getUserId} from "../../../utils/authority";
 const {Description} = DescriptionList;
 
 @connect(({appkeyModel, loading}) => ({
-  appkeyModel,
-  loading: loading.models.appkeyModel,
+  tenant:appkeyModel.tenant,
+  loading: loading.models.tenant,
 }))
 class TenantView extends Component {
 
@@ -21,15 +22,34 @@ class TenantView extends Component {
     });
   }
 
+  handleList = ( record ) =>{
+    const { id,orgCode } = record;
+    router.push({
+      pathname: `/baseData/appkey`, // 通过url参数传递
+      state: {
+        // 通过对象传递
+        id,
+        orgCode
+      },
+    });
+  }
+
   render() {
-    const {appkeyModel} = this.props;
-    const {tenant} = appkeyModel||{};
-    const {orgs} = tenant||[];
+    const {tenant} = this.props;
+    const newTenant = tenant || {name:'',code:'',remark:'',address:'',description:'',orgs:[]};
+    const {orgs} = newTenant||[];
     const tenColumns = [
       { dataIndex: 'id', title: 'Id'   },
       { dataIndex: 'orgCode', title: 'Code'   },
       { dataIndex: 'orgName', title: 'Name' },
       { dataIndex: 'remark', title: 'Remark' },
+      {
+        title: 'Action',
+        key: 'action',
+        render: (text, record) => (
+          <a onClick={()=> this.handleList(record)}>Appkey List</a>
+        )
+      }
     ];
     const paginationProps = {
       pageSize: 5
@@ -38,11 +58,11 @@ class TenantView extends Component {
       <Fragment>
         <Card title="Tenant" bordered={false}>
           <DescriptionList size="large" title="" style={{marginBottom: 0}}>
-            <Description term="Tenant Name">{tenant.name}</Description>
-            <Description term="Tenant Code">{tenant.code}</Description>
-            <Description term="Tenant Remark">{tenant.remark}</Description>
-            <Description term="Tenant Address">{tenant.address}</Description>
-            <Description term="Tenant Description">{tenant.description}</Description>
+            <Description term="Tenant Name">{newTenant.name}</Description>
+            <Description term="Tenant Code">{newTenant.code}</Description>
+            <Description term="Tenant Remark">{newTenant.remark}</Description>
+            <Description term="Tenant Address">{newTenant.address}</Description>
+            <Description term="Tenant Description">{newTenant.description}</Description>
           </DescriptionList>
         </Card>
         <Card title="Org List" bordered={false}>
