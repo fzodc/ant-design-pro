@@ -9,20 +9,7 @@ export default {
 
   effects: {
     *allUserList({ payload, callback }, { call, put }) {
-      const params = {
-        tableName: 'sys_user',
-        data: {
-          info: {
-            // status: 'A',
-            pageNo: 1,
-            pageSize: 9999,
-          },
-        },
-      };
-
-      const response = yield call(list, params);
-      console.log('response in user model:', response);
-
+      const response = yield call(list, payload);
       yield put({
         type: 'save',
         action: { payload, response },

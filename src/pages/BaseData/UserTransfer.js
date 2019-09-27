@@ -22,7 +22,17 @@ class UserTransfer extends PureComponent {
     const userId = getUserId();
     dispatch({
       type: 'userModel/allUserList',
-      payload: { setDisabled: false,userId },
+      payload: {
+        tableName: 'sys_user',
+        userId,
+        data: {
+          info: {
+            // status: 'A',
+            pageNo: 1,
+            pageSize: 9999,
+          },
+        },
+      },
     });
   };
 
