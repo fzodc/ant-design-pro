@@ -67,7 +67,7 @@ const CreateForm = Form.create()(props => {
         return <Input disabled={item.disabled} placeholder={`please enter ${item.title}`} />;
     }
   };
-  const addForms = getFormItemArray(props, 'add')
+  let addForms = getFormItemArray(props, 'add')
     .filter(data => !(`${data.name}` === key && !selectedRow))
     .map(item => {
       const itemTemp = item;
@@ -76,7 +76,18 @@ const CreateForm = Form.create()(props => {
       return itemTemp;
     });
   // console.log('addForm:', addForms);
+  const editForms = getFormItemArray(props, 'edit')
+    .filter(data => !(`${data.name}` === key && !selectedRow))
+    .map(item => {
+      const itemTemp = item;
+      // console.log("======:",itemTemp.name === key,key,itemTemp.name);
+      itemTemp.disabled = itemTemp.name === key||itemTemp.disabledAct==='true';
+      return itemTemp;
+    });
   const modalTitle = selectedRow ? 'update' : 'new';
+  if(selectedRow){
+    addForms = editForms;
+  }
   return (
     <Modal
       title={modalTitle}
@@ -286,22 +297,23 @@ class Appkey extends PureComponent {
       key: 'id',
       name: 'id',
       columnDetails: [
-        { name: 'appkey', title: 'App Key', sorter: true, add: true, detailFlag:1 },
-        { name: 'callerName', title: 'Caller Name', sorter: true, add: true, detailFlag:1 },
-        { name: 'password', title: 'Password', sorter: true, detailFlag:1 },
-        { name: 'newPassword', title: 'New Password', sorter: true, add: true, detailFlag:1 },
-        { name: 'tokenExpireTime', title: 'Token Expire Time',rules:[], sorter: true, add: true, detailFlag:1 },
+        { name: 'appkey', title: 'App Key', sorter: true, add: true ,edit:true },
+        { name: 'callerName', title: 'Caller Name', sorter: true, add: true ,edit:true },
+        { name: 'password', title: 'Password', sorter: true },
+        { name: 'newPassword', title: 'New Password', sorter: true, add: true ,edit:true },
+        { name: 'tokenExpireTime', title: 'Token Expire Time',rules:[], sorter: true, add: true ,edit:true },
         {
           name: 'authType',
           title: 'Auth Type of Consumer',
           columnHidden: false,
           add: true,
+          edit:true,
           tag: 'commonSelect',
           tableName: 'org',
           query: true,
           enumData: authTypes,},
-        { name: 'status', title: 'status', tag: 'commonSelect',sorter: true, add: true, detailFlag:1 , enumData: statusList},
-        { name: 'remark', title: 'Remark', sorter: true, add: true, detailFlag:1 },
+        { name: 'status', title: 'status', tag: 'commonSelect',sorter: true, add: true ,edit:true, enumData: statusList},
+        { name: 'remark', title: 'Remark', sorter: true, add: true ,edit:true },
       ]
     };
     if(sign === 1){
@@ -309,10 +321,11 @@ class Appkey extends PureComponent {
         key: 'id',
         name: 'id',
         columnDetails: [
-          { name: 'appkey', title: 'App Key', sorter: true, add: true, detailFlag:1 },
-          { name: 'targetSystemName', title: 'Target System Name', sorter: true, add: true, detailFlag:1 },
-          { name: 'password', title: 'Password', sorter: true, detailFlag:1 },
-          { name: 'newPassword', title: 'New Password', sorter: true, add: true, detailFlag:1 },
+          { name: 'appkey', title: 'App Key', sorter: true, add: true, edit:true },
+          { name: 'targetSystemName', title: 'Target System Name', sorter: true, add: true, edit:true },
+          { name: 'password', title: 'Password', sorter: true, edit:true },
+          { name: 'newPassword', title: 'New Password', sorter: true, add: true },
+          { name: 'tokenExpireTime', title: 'Token Expire Time',rules:[], sorter: true, edit:true, disabledAct:'true' },
           {
             name: 'authType',
             title: 'Auth Type of Consumer',
@@ -320,9 +333,11 @@ class Appkey extends PureComponent {
             tag: 'commonSelect',
             tableName: 'org',
             query: true,
-            enumData: authTypes,},
-          { name: 'status', title: 'status', tag: 'commonSelect',sorter: true, detailFlag:1 , enumData: statusList},
-          { name: 'remark', title: 'Remark', sorter: true, detailFlag:1 },
+            enumData: authTypes,
+            edit:true,
+            disabledAct:'true'},
+          { name: 'status', title: 'status', tag: 'commonSelect',sorter: true , enumData: statusList, edit:true,},
+          { name: 'remark', title: 'Remark', sorter: true },
         ]
       };
     }
