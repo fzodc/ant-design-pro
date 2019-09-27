@@ -11,6 +11,7 @@ import RoleTransfer from "./RoleTransfer";
 import Authorized from '@/utils/Authorized';
 import { getAuth } from '@/utils/authority';
 import {getUserId} from "../../utils/authority";
+import TenantSelectView from "./TenantSelectView";
 
 const { check } = Authorized;
 
@@ -34,6 +35,8 @@ class User extends PureComponent {
     const auth=getAuth("user_save"); // 获取某个功能权的角色
     const saveAct = check(auth,'Modify'); // 检查某个功能权的权限，如果有权限，返回第二个参数的值作为展现内容
     const commandAct = check(auth,'Role');
+    const userId = getUserId();
+    const isSuper = !!(userId ===4 ||userId === 22);
 // 动作对象
     const actions=saveAct||commandAct?{
       title:'action',
@@ -67,6 +70,8 @@ class User extends PureComponent {
         { name: 'email', title: formatMessage({'id':'app.user.sys_user.email'}), query: false, add: true ,rules:[]},
         { name: 'tel', title: formatMessage({'id':'app.user.sys_user.tel'}), query: false, add: true ,rules:[]},
         { name: 'roleName', title: formatMessage({'id':'app.user.sys_user.roleName'})},
+        { name: 'tenantName', title: formatMessage({'id':'app.user.sys_user.tenantName'}), columnHidden: !isSuper},
+        { name: 'tenantId', title: formatMessage({'id':'app.user.sys_user.tenantName'}),tag:'TenantSelectView',query: isSuper ,columnHidden: true},
         {
           name: 'status',
           title: formatMessage({'id':'app.user.sys_user.status'}),
@@ -88,7 +93,6 @@ class User extends PureComponent {
       }],
       actions,
     };
-    const userId = getUserId();
     columnSchemas.userId = userId;
     this.setState({columnSchemas});
   }

@@ -29,6 +29,7 @@ import PrivilegeTreeSelectView from '@/pages/UserManager/PrivilegeTreeSelectView
 import GroupTreeSelectView from '@/pages/ApiGateway/GroupTreeSelectView';
 import AdapterSelectView from '@/pages/ApiGateway/AdapterSelectView';
 import OrgSelectView from "../../pages/ApiGateway/OrgSelectView";
+import TenantSelectView from "../../pages/UserManager/TenantSelectView";
 
 const { Option } = Select;
 const { TextArea, Password } = Input;
@@ -109,6 +110,8 @@ const CreateForm = Form.create()(props => {
         return <AdapterSelectView style={{ width: '100%' }} showSearch optionFilterProp="children" />;
       case 'OrgSelectView':
         return <OrgSelectView style={{ width: '100%' }} userId={item.tagAttr.userId} orgType={item.tagAttr.orgType} sign="1" />;
+      case 'TenantSelectView':
+        return <TenantSelectView style={{ width: '100%' }} />;
       case 'textArea':
         return <TextArea rows={item.rows} />;
       case 'inputNumber':
@@ -562,6 +565,8 @@ class QueryTable extends PureComponent {
                       style={{ width: '100%' }}
                       placeholder="please enter"
                     />
+                  ) : item.tag === 'TenantSelectView' ?(
+                    <TenantSelectView />
                   ) : (
                     <Input key={`ele-${item.name}`} placeholder="please enter" />
                   )
@@ -609,6 +614,8 @@ class QueryTable extends PureComponent {
                     style={{ width: '100%' }}
                     placeholder="please enter"
                   />
+                ) : item.tag === 'TenantSelectView' ?(
+                  <TenantSelectView />
                 ) : (
                   <Input key={`ele-${item.name}`} placeholder="please enter" />
                 )

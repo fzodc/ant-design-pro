@@ -48,3 +48,13 @@ export async function listAllIn(params) {
 export async function tenantManager(params) {
   return request(`${PREFIX_PATH}/baseInfo/tenant/management?userId=${params.userId}`);
 }
+
+export async function access(params){
+  return request(`${PREFIX_PATH}/baseInfo/appkeyInbound/access`, {
+    method: 'POST',
+    data: {
+      ...params,
+      method: 'post',
+    },
+  });
+}

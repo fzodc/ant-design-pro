@@ -6,6 +6,7 @@ export default {
   'app.user.sys_user.email':'Email',
   'app.user.sys_user.tel':'Mobile',
   'app.user.sys_user.roleName':'Role Name',
+  'app.user.sys_user.tenantName':'Tenant Name',
   'app.user.sys_user.status':'Status',
   'app.user.sys_user.remark':'Remark',
   'app.user.sys_user.sysUserRoles':'Role List Of This User',

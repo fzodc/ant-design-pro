@@ -4,7 +4,7 @@ import { connect } from 'dva';
 
 const { Option } = Select;
 @connect(({ uniComp, loading }) => ({
-  tenantList:uniComp.data.list,
+  tenantList:uniComp.tenantList,
   loading: loading.models.tenantList,
 }))
 class TenantSelectView extends PureComponent {
@@ -15,13 +15,12 @@ class TenantSelectView extends PureComponent {
     const pageSize = 9999;
     const params = {userId, tableName, pageSize};
     dispatch({
-      type: 'uniComp/list',
+      type: 'uniComp/listTenant',
       payload: params
     });
   };
 
   getOption() {
-    console.log(this.props);
     const { tenantList } = this.props;
     return this.getOptionWhithList(tenantList);
   }

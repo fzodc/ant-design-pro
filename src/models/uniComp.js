@@ -10,6 +10,7 @@ export default {
       list: [],
       pagination: {},
     },
+    tenantList:[]
   },
 
   effects: {
@@ -90,7 +91,15 @@ export default {
       }
       // console.log("response.data",response.data);
       if (callback) callback(response.data);
-    }
+    },
+    * listTenant({ payload, callback }, { call, put }) {
+      const response = yield call(list, payload);
+      yield put({
+        type: 'saveTenant',
+        payload: response
+      });
+      if (callback) callback(response);
+    },
   },
 
   reducers: {
@@ -113,5 +122,12 @@ export default {
         data: response,
       };
     },
+    saveTenant(state, action) {
+      const tenantList = action.payload ? action.payload.data.records : [];
+      return {
+        ...state,
+        tenantList
+      };
+    }
   },
 };

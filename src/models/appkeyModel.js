@@ -1,5 +1,5 @@
 import {message} from 'antd';
-import {list, listOut,save,listAllIn,tenantManager} from '../services/appkeyService';
+import {list, listOut,save,listAllIn,tenantManager,access} from '../services/appkeyService';
 import constants from '@/utils/constUtil';
 import {conversionWsdl} from "../pages/util";
 
@@ -64,6 +64,11 @@ export default {
         type: 'saveTenant',
         payload: response,
       });
+      if (callback) callback(response);
+    },
+    * access({payload, callback}, {call, put }) {
+      console.log('postinfo add:', payload);
+      const response = yield call(access, payload);
       if (callback) callback(response);
     },
   },

@@ -10,6 +10,7 @@ export default {
   'app.user.sys_user.sysUserRoles':'此用户的角色列表',
   'app.user.sys_user.roleId':'角色编号',
   'app.user.sys_user.roleName':'角色名',
+  'app.user.sys_user.tenantName':'租户名',
   'app.user.sys_role.id':'关系编号',
   'app.user.sys_role.sysUserRoles':'此用户的角色列表',
 }

@@ -7,6 +7,7 @@ import {getItems} from '@/utils/masterData';
 import { getUserId, getUserName} from '@/utils/authority';
 import OrgSelectView from "../ApiGateway/OrgSelectView";
 import Detail from "./Detail";
+import ApiTransfer from "./ApiTransfer";
 
 const FormItem = Form.Item;
 const {Option} = Select;
@@ -61,10 +62,6 @@ const CreateForm = Form.create()(props => {
               </Option>
             ))}
           </Select>
-        );
-      case 'OrgSelectView':
-        return (
-          <OrgSelectView style={{ width: '100%' }} userId={item.userId} value={item.defaultValue} field="orgCode" />
         );
       default:
         return <Input disabled={item.disabled} placeholder={`please enter ${item.title}`} />;
@@ -124,7 +121,8 @@ class Appkey extends PureComponent {
     sign : 0,
     orgId : '',
     orgCode:'',
-    drawerVisible:false
+    drawerVisible:false,
+    transferVisible : false
   }
 
   componentDidMount() {
@@ -174,7 +172,7 @@ class Appkey extends PureComponent {
 
   handleDel = (record,act) => {
     const { dispatch } = this.props;
-    const { sign } = this.state;
+    const { sign,orgCode } = this.state;
 
     let tableName = 'appkeyInbound';
     if( sign === 1){
@@ -185,6 +183,7 @@ class Appkey extends PureComponent {
     payload.data.info = {};
     payload.option = parseInt(act, 10);
     payload.data.info.id = record.id;
+    payload.data.info.orgCode = orgCode;
     dispatch({
       type: 'appkeyModel/save',
       payload,
@@ -204,6 +203,20 @@ class Appkey extends PureComponent {
       modalVisible: flag,
       selectedRow: row,
       sign
+    });
+  };
+
+  handleDrawerVisible = (row, flag) => {
+    this.setState({
+      selectedRow: row,
+      drawerVisible: !!flag,
+    });
+  };
+
+  handleTransferVisible = (row, flag) => {
+    this.setState({
+      transferVisible: flag,
+      selectedRow: row
     });
   };
 
@@ -243,28 +256,30 @@ class Appkey extends PureComponent {
     });
   }
 
-  handleDrawerVisible = (row, flag) => {
-    this.setState({
-      selectedRow: row,
-      drawerVisible: !!flag,
-    });
-  };
-
   onDrawerClose = () => {
     this.handleDrawerVisible(null, false);
+  }
+
+  handleAccess = (flag, record) => {
+    this.handleTransferVisible(record, flag);
+  };
+
+  handleRefreshData = () =>{
+    const {orgId} = this.state;
+    this.getOrgDetail(orgId);
   }
 
   render() {
     const {
       modalVisible,
+      transferVisible,
+      drawerVisible,
       selectedRow,
       orgId,
-      orgCode,
       apiServices,
       appkeyInbounds,
       appkeyOutbounds,
       sign,
-      drawerVisible
     } = this.state;
     const userId = getUserId();
     let columnSchemas = {
@@ -285,7 +300,6 @@ class Appkey extends PureComponent {
           tableName: 'org',
           query: true,
           enumData: authTypes,},
-        { name: 'orgCode', title: 'Org Name',tag:'OrgSelectView',columnHidden: true, add: true,rows:3, userId, defaultValue:orgCode },
         { name: 'status', title: 'status', tag: 'commonSelect',sorter: true, add: true, detailFlag:1 , enumData: statusList},
         { name: 'remark', title: 'Remark', sorter: true, add: true, detailFlag:1 },
       ]
@@ -303,14 +317,12 @@ class Appkey extends PureComponent {
             name: 'authType',
             title: 'Auth Type of Consumer',
             columnHidden: false,
-            add: true,
             tag: 'commonSelect',
             tableName: 'org',
             query: true,
             enumData: authTypes,},
-          { name: 'orgCode', title: 'Org Name',tag:'OrgSelectView',columnHidden: true, add: true,rows:3, userId, defaultValue:orgCode },
-          { name: 'status', title: 'status', tag: 'commonSelect',sorter: true, add: true, detailFlag:1 , enumData: statusList},
-          { name: 'remark', title: 'Remark', sorter: true, add: true, detailFlag:1 },
+          { name: 'status', title: 'status', tag: 'commonSelect',sorter: true, detailFlag:1 , enumData: statusList},
+          { name: 'remark', title: 'Remark', sorter: true, detailFlag:1 },
         ]
       };
     }
@@ -335,6 +347,8 @@ class Appkey extends PureComponent {
         title:'Action',
         render: (text, record) => (
           <span>
+            <a onClick={()=>this.handleAccess(true,record)}>Access</a>
+            <Divider type="vertical" />
             <a onClick={()=>this.handleModalVisible(record, true , 0)}>Modify</a>
             <Divider type="vertical" />
             <a onClick={()=>this.handleDel(record, 3)}>Del</a>
@@ -433,6 +447,16 @@ class Appkey extends PureComponent {
         >
           <Detail selectedRow={selectedRow} targetServices={apiServices} />
         </Drawer>
+        <ApiTransfer
+          title="Access Api"
+          modalVisible={transferVisible}
+          onVisible={this.handleTransferVisible}
+          selectedRow={selectedRow}
+          onRefreshData={this.handleRefreshData}
+          keyName="apiId"
+          apiServices={apiServices}
+          relationName="apiServices" // 选中的关联表
+        />
       </PageHeaderWrapper>
     );
   }
