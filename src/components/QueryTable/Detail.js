@@ -4,6 +4,7 @@ import DescriptionList from '@/components/DescriptionList';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 import {connect} from 'dva';
+import Ellipsis from '@/components/Ellipsis';
 
 const { Description } = DescriptionList;
 const { Column } = Table;
@@ -74,13 +75,13 @@ class Detail extends PureComponent {
     if (columnDetail.format) {
       return moment(val).format(columnDetail.format);
     }
-    // if (columnDetail.showLen !== undefined) {
-    //   return (
-    //     <Ellipsis length={columnDetail.showLen} tooltip>
-    //       {val}
-    //     </Ellipsis>
-    //   );
-    // }
+    if (columnDetail.showLen !== undefined) {
+      return (
+        <Ellipsis length={columnDetail.showLen} tooltip>
+          {val}
+        </Ellipsis>
+      );
+    }
     if (columnDetail.enumData != null) {
       const item = columnDetail.enumData.find(d => d.itemCode === val);
       const itemValue = item ? item.itemValue : '';

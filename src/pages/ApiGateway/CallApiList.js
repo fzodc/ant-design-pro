@@ -7,15 +7,12 @@ import {
   Button,
   Card,
   Col,
-  Divider,
-  Drawer,
   Dropdown,
   Form,
   Icon,
   Input,
   Menu,
   message,
-  Modal,
   Row,
   Select
 } from 'antd';
@@ -27,15 +24,8 @@ import styles from './ApiList.less';
 import constants from '@/utils/constUtil';
 import {getGroupName, getItems, getItemValue2} from '@/utils/masterData';
 import SelectView from './SelectView';
-import {getPayloadForAccess} from './ApiCreate/util';
-import Authorized from '@/utils/Authorized';
-import {getAuth, getUserId} from '@/utils/authority';
+import { getUserId} from '@/utils/authority';
 import GroupMutiTreeSelectView from "./GroupMutiTreeSelectView";
-import WsdlSelectView from "./WsdlSelectView";
-import AppkeyTransfer from "./AppkeyTransfer";
-import TenantSelectView from "../UserManager/TenantSelectView";
-
-const { check } = Authorized;
 
 const { ACT, API_STATUS } = constants;
 
@@ -54,9 +44,8 @@ const statusFilter = statusList.map(item => ({
 }));
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ apiGatewayModel, apiCreateModel, groupModel, loading }) => ({
+@connect(({ apiGatewayModel, groupModel, loading }) => ({
   apiGatewayModel,
-  apiCreateModel,
   groupList: groupModel.groupList,
   loading: loading.models.apiGatewayModel,
 }))
@@ -65,8 +54,6 @@ class TableList extends PureComponent {
   state = {
     expandForm: false,
     selectedRows: [],
-    selectedRow: {},
-    updateApiServiceOrg: [],
     formValues: {},
     pagination: {
       pageNo: 1,
@@ -74,10 +61,7 @@ class TableList extends PureComponent {
     },
     filtersArg: {},
     sorter: {},
-    modalVisible: false,
-    drawerVisible: false,
     userId: null,
-    // columns:[],
   };
 
   componentWillMount() {
@@ -98,23 +82,16 @@ class TableList extends PureComponent {
     this.setState({ userId });
 
     const { dispatch,apiGatewayModel,location } = this.props;
-    const {state} = location;
-    const {wsdlId} = state || {wsdlId:''};
-    const {data:{list}}=apiGatewayModel;
-
-    const formValues = {wsdlId};
-    this.setState({formValues});
-
-    if(!list||list.length===0||wsdlId) {
+    const {data:{callList}}=apiGatewayModel;
+    if(!callList||callList.length===0) {
       const payload = {userId};
       payload.data = {};
       payload.data.info = {
         pageNo: 1,
-        pageSize: 10,
-        wsdlId
+        pageSize: 10
       };
       dispatch({
-        type: 'apiGatewayModel/apiList',
+        type: 'apiGatewayModel/callList',
         payload,
       });
     }
@@ -127,18 +104,6 @@ class TableList extends PureComponent {
 
   getColumns = memoizeOne((groupList) => {
 
-    console.log("---render^^^^^^^^^^^^^^^^");
-    const auth = getAuth('api_save'); // 获取某个功能权的角色
-    const commandAct = check(auth, 'commandAct'); // 检查某个功能权的权限，如果有权限，返回第二个参数的值作为展现内容
-
-    console.log("---", groupList)
-    // {
-    //   title: '服务类型',
-    //     dataIndex: 'serviceType',
-    //   render(val) {
-    //     return <Fragment>{getItemValue2(serviceTypeList, val)} </Fragment>;
-    //   },
-    // },
     const columns = [
       {
         title: 'Id',
@@ -185,31 +150,6 @@ class TableList extends PureComponent {
         render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
       },
     ];
-    if (commandAct) {
-      const actions = {
-        title: 'Action',
-        render: (text, record) => (
-          <Fragment>
-            <span
-              id="toOnline"
-              style={{
-                display:
-                  record.status === API_STATUS.OFFLINE || record.status === API_STATUS.CLOSE
-                    ? 'inline'
-                    : 'none',
-              }}
-            >
-              <a onClick={() => this.handleStatusClick(ACT.ONLINE, record)}>Online</a>
-              <Divider type="vertical" />
-            </span>
-            <a onClick={() => this.handleAccess(true, record)}>Authorization</a>
-            <Divider type="vertical" />
-            {this.renderMoreBtn({current: record})}
-          </Fragment>
-        ),
-      };
-      columns.push(actions);
-    }
 
     return columns;
   }, isEqual);
@@ -320,7 +260,7 @@ class TableList extends PureComponent {
     };
     payload.data.info.pageNo = payload.data.info.pageNo ? payload.data.info.pageNo : 1;
     dispatch({
-      type: 'apiGatewayModel/apiList',
+      type: 'apiGatewayModel/callList',
       payload,
     });
   };
@@ -331,9 +271,6 @@ class TableList extends PureComponent {
     this.setState({
       formValues: {},
     });
-    form.setFieldsValue({
-      wsdlId:null
-    });
     const { userId } = this.state;
     const payload = {userId};
     payload.data = {};
@@ -342,7 +279,7 @@ class TableList extends PureComponent {
       pageSize: 10
     };
     dispatch({
-      type: 'apiGatewayModel/apiList',
+      type: 'apiGatewayModel/callList',
       payload,
     });
   };
@@ -371,29 +308,6 @@ class TableList extends PureComponent {
       },
     });
   };
-  // handleMenuClick = e => {
-  //   const { dispatch } = this.props;
-  //   const { selectedRows } = this.state;
-  //
-  //   if (!selectedRows) return;
-  //
-  //   const payload={};
-  //   payload.data={};
-  //   payload.data.info={};
-  //   payload.option=parseInt(e.key,10);
-  //   console.log("-----:",payload,e.key);
-  //   payload.data.info.apiIds=selectedRows.map(row => row.apiId);
-  //   selectedRows.forEach((data, index, array) => {
-  //     console.log(data, index, array);
-  //   });
-  //   dispatch({
-  //     type: 'apiGatewayModel/remove',
-  //     payload,
-  //     callback: (resp) => {
-  //       this.respDeal(resp,dispatch);
-  //     },
-  //   });
-  // };
 
   handleSelectRows = rows => {
     this.setState({
@@ -430,35 +344,10 @@ class TableList extends PureComponent {
         ...sorter,
       };
       dispatch({
-        type: 'apiGatewayModel/apiList',
+        type: 'apiGatewayModel/callList',
         payload,
       });
     });
-  };
-
-  handleAccess = (flag, record) => {
-    console.log('handleTest', flag, record);
-    if(  record.status === API_STATUS.OFFLINE || record.status === API_STATUS.CLOSE ) {
-      message.error("Api还未发布无法授权！");
-      return ;
-    }
-    this.setState({ selectedRow: record });
-    const { dispatch } = this.props;
-    const payload = {};
-    payload.data = {};
-    payload.data.info = {};
-    payload.option=4;
-    payload.data.info.apiId = record.apiId;
-    dispatch({
-      type: 'apiCreateModel/apiInfo',
-      payload,
-      callback: resp => {
-        this.setState({ selectedRow: resp.data });
-      },
-    });
-
-    this.handleModalVisible(record, flag);
-    // message.success('下一个版本实现');
   };
 
   handleDebug = (flag, record) => {
@@ -490,17 +379,6 @@ class TableList extends PureComponent {
     });
 
   };
-
-  onClose = () => {
-    this.setState({
-      drawerVisible: false,
-    });
-  };
-
-  // handleVisible = drawerVisible => {
-  //   // console.log("---modalVisible＝＝＝＝3:",modalVisible);
-  //   this.setState({ drawerVisible });
-  // };
 
   handleUpdate = (flag, record) => {
     const { apiId } = record;
@@ -540,77 +418,11 @@ class TableList extends PureComponent {
     });
   };
 
-  handleOrgTransfer = updateApiServiceOrg => {
-    console.log('---updateApiServiceOrg＝＝＝＝3:', updateApiServiceOrg);
-    this.setState({ updateApiServiceOrg });
-  };
-
-  okHandle = () => {
-    const { updateApiServiceOrg, selectedRow } = this.state;
-    const { dispatch } = this.props;
-    console.log('---updateApiServiceOrg＝＝＝＝4:', updateApiServiceOrg);
-    selectedRow.apiServiceOrgs = updateApiServiceOrg||[];
-    const apiInfo = getPayloadForAccess(selectedRow);
-    console.log('api access submit apiInfo:', apiInfo);
-    // submit the values
-    dispatch({
-      type: 'apiCreateModel/submitAccess',
-      payload: apiInfo,
-      callback: response => {
-        if (response.code === '200') {
-          const msg = response.msg || 'success.';
-          this.setState({
-            modalVisible: false,
-            selectedRow: null,
-          });
-          message.success(msg);
-        } else {
-          const msg = response.msg || '服务器内部错误。';
-          message.error(msg);
-        }
-      },
-    });
-    // console.log("submitAccess");
-    // this.setState({
-    //   modalVisible: false,
-    //   selectedRow: null,
-    // });
-  };
-
-  cancelHandle = () => {
-    this.setState({
-      modalVisible: false,
-      selectedRow: null,
-    });
-  };
-
-  handleModalVisible = (row, flag) => {
-    this.setState({
-      modalVisible: flag,
-      selectedRow: row,
-    });
-  };
-
-  // handleDrawerVisible = (row, flag) => {
-  //   this.setState({
-  //     drawerVisible: flag,
-  //     selectedRow: row,
-  //   });
-  // };
-
   renderSimpleForm() {
     const {
-      form: { getFieldDecorator,getFieldValue },
-      location
+      form: { getFieldDecorator }
     } = this.props;
-    const userId = getUserId();
-    const {state} = location;
-    const {wsdlId} = state || {wsdlId: ''};
     const {selectedRows} = this.state;
-    let tenantStr = '';
-    if( userId === 4 || userId === 22){
-      tenantStr = (<Col md={8} sm={24}><FormItem label="Tenant">{getFieldDecorator('tenantId', {})(<TenantSelectView userId={userId} />)}</FormItem></Col>);
-    }
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -626,17 +438,6 @@ class TableList extends PureComponent {
               )}
             </FormItem>
           </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="Wsdl">
-              {getFieldDecorator('wsdlId', {
-                initialValue: wsdlId,
-                rules: [{ required: getFieldValue('serviceType') === '2', message: 'please choose' }],
-              })(<WsdlSelectView userId={userId} />)}
-            </FormItem>
-          </Col>
-        </Row>
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          {tenantStr}
         </Row>
         <div style={{ overflow: 'hidden' }}>
           <div style={{ float: 'right', marginBottom: 8 }}>
@@ -660,16 +461,8 @@ class TableList extends PureComponent {
 
   renderAdvancedForm() {
     const {
-      form: { getFieldDecorator,getFieldValue },
-      location
+      form: { getFieldDecorator }
     } = this.props;
-    const userId = getUserId();
-    const {state} = location;
-    const {wsdlId} = state || {wsdlId: ''};
-    let tenantStr = '';
-    if( userId === 4 || userId === 22){
-      tenantStr = (<Col md={8} sm={24}><FormItem label="Tenant">{getFieldDecorator('tenantId', {})(<TenantSelectView userId={userId} />)}</FormItem></Col>);
-    }
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -687,17 +480,8 @@ class TableList extends PureComponent {
               )}
             </FormItem>
           </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="Wsdl">
-              {getFieldDecorator('wsdlId', {
-                initialValue: wsdlId,
-                rules: [{ required: getFieldValue('serviceType') === '2', message: 'please choose' }],
-              })(<WsdlSelectView userId={userId} />)}
-            </FormItem>
-          </Col>
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          {tenantStr}
           <Col md={8} sm={24}>
             <FormItem label="Status">
               {getFieldDecorator('status')(<SelectView javaCode="apiService" javaKey="status" />)}
@@ -727,19 +511,13 @@ class TableList extends PureComponent {
   }
 
   render() {
-    // console.log("ddddabc--apilist====:", localStorage.getItem("antd-pro-authority"));
+    // console.log("ddddabc--callList====:", localStorage.getItem("antd-pro-authority"));
     const {
-      apiGatewayModel: { data },
+      apiGatewayModel: { callList },
       loading,
       groupList,
     } = this.props;
-    const {selectedRows, modalVisible, selectedRow, drawerVisible} = this.state;
-    // const menu = (
-    //   <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
-    //     <Menu.Item key={DEL_ACT}>删除/下线</Menu.Item>
-    //     <Menu.Item key={ONLINE_ACT}>发布</Menu.Item>
-    //   </Menu>
-    // );
+    const {selectedRows} = this.state;
 
     const rowKey = 'apiId';
 
@@ -752,29 +530,13 @@ class TableList extends PureComponent {
             rowKey={rowKey}
             selectedRows={selectedRows}
             loading={loading}
-            data={data}
+            data={callList}
             columns={columns}
             size="small"
             onSelectRow={this.handleSelectRows}
             onChange={this.handleStandardTableChange}
           />
         </div>
-        <Modal
-          title="Authorization to call this API"
-          visible={modalVisible}
-          width={680}
-          onOk={() => this.okHandle()}
-          onCancel={() => this.cancelHandle()}
-        >
-          <AppkeyTransfer targetData={selectedRow} onOrgTransfer={this.handleOrgTransfer} />
-        </Modal>
-        <Drawer
-          width={640}
-          placement="right"
-          closable={false}
-          onClose={this.onClose}
-          visible={drawerVisible}
-        />
       </Card>
     );
   }

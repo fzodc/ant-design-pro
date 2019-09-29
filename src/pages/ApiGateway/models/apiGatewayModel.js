@@ -1,4 +1,4 @@
-import { apiList,apiListBySearch, apiStatusBatch, removeApis } from '@/services/apiGatewayService';
+import { apiList,callList,apiListBySearch, apiStatusBatch, removeApis } from '@/services/apiGatewayService';
 import { conversion } from '../../util';
 
 export default {
@@ -9,6 +9,10 @@ export default {
       list: [],
       pagination: {},
     },
+    callList:{
+      list: [],
+      pagination: {},
+    }
   },
 
   effects: {
@@ -18,6 +22,15 @@ export default {
       const response = yield call(apiList, newPayload);
       yield put({
         type: 'save',
+        payload: response,
+      });
+    },
+    *callList({ payload }, { call, put }) {
+      console.log('payload', JSON.stringify(payload));
+      const newPayload = { ...payload, newTime: new Date() };
+      const response = yield call(callList, newPayload);
+      yield put({
+        type: 'saveCall',
         payload: response,
       });
     },
@@ -57,6 +70,15 @@ export default {
       return {
         ...state,
         data: response,
+      };
+    },
+    saveCall(state, action) {
+      console.log('--------1', action.payload);
+      const response = conversion(action.payload.data);
+      console.log('--------2', response);
+      return {
+        ...state,
+        callList: response,
       };
     },
     list(state, action) {

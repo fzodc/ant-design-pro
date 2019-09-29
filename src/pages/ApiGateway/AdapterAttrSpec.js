@@ -1,5 +1,5 @@
 import React from 'react';
-import BindDataQueryTable from '../BindDataQueryTable';
+import BindDataQueryTable from '../BindDataQueryTable/index';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { getItems } from '@/utils/masterData';
 

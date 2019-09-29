@@ -25,6 +25,7 @@ import Ellipsis from '@/components/Ellipsis';
 import WsdlUpload from "./WsdlUpload";
 import WsdlApi from "./WsdlApi";
 import Detail from "./Wsdl/Detail";
+import TenantSelectView from "../UserManager/TenantSelectView";
 
 import styles from './ApiList.less';
 import {getItems,getItemValue2} from '@/utils/masterData';
@@ -682,8 +683,13 @@ class WsdlList extends PureComponent {
 
   renderForm() {
     const {
-      form: {getFieldDecorator},
+      form: { getFieldDecorator },
     } = this.props;
+    const userId = getUserId();
+    let tenantStr = '';
+    if( userId === 4 || userId === 22){
+      tenantStr = (<Col md={8} sm={24}><FormItem label="Tenant">{getFieldDecorator('tenantId', {})(<TenantSelectView userId={userId} />)}</FormItem></Col>);
+    }
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{md: 8, lg: 24, xl: 48}}>
@@ -697,16 +703,21 @@ class WsdlList extends PureComponent {
               {getFieldDecorator('wsdlUrlPath')(<Input placeholder="please enter WSDL URL Path" />)}
             </FormItem>
           </Col>
-          <Col md={8} sm={24}>
-            <span className={styles.submitButtons}>
-              <Button type="primary" htmlType="submit">
-                Query
-              </Button>
-              <Button style={{marginLeft: 8}} onClick={this.handleFormReset} htmlType="button">
-                Reset
-              </Button>
-            </span>
-          </Col>
+          {tenantStr}
+        </Row>
+        <Row gutter={{md: 8, lg: 24, xl: 48}}>
+          <div style={{ overflow: 'hidden' }}>
+            <div style={{ float: 'right', marginBottom: 24 }}>
+              <span className={styles.submitButtons}>
+                <Button type="primary" htmlType="submit">
+                  Query
+                </Button>
+                <Button style={{marginRight: 32}} onClick={this.handleFormReset} htmlType="button">
+                  Reset
+                </Button>
+              </span>
+            </div>
+          </div>
         </Row>
         <Row gutter={{md: 8, lg: 24, xl: 48}}>
           <Col md={8} sm={24}>

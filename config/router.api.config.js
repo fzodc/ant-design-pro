@@ -48,8 +48,22 @@ export default [
           {
             path: '/apiGateway/apiList',
             name: 'apiList',
-            component: './ApiGateway/ApiList',
+            component: './ApiGateway/Info',
             authority: ['user'],
+            routes: [
+              {
+                path: '/apiGateway/apiList',
+                redirect: '/apiGateway/apiList/list',
+              },
+              {
+                path: '/apiGateway/apiList/list',
+                component: './ApiGateway/ApiList',
+              },
+              {
+                path: '/apiGateway/apiList/callList',
+                component: './ApiGateway/CallApiList',
+              }
+            ]
           },
           {
             path: '/apiGateway/apiUpdate',
@@ -159,6 +173,17 @@ export default [
               },
             ],
           },
+          {
+            path: '/apiGateway/adapterSpec',
+            name: 'adapterSpec',
+            component: './ApiGateway/AdapterSpec',
+          },
+          {
+            path: '/apiGateway/adapterAttrSpec',
+            name: 'adapterAttrSpec',
+            component: './ApiGateway/AdapterAttrSpec',
+            hideInMenu: true,
+          },
         ],
       },
       // baseData
@@ -184,25 +209,19 @@ export default [
             component: './BaseData/Group',
           },
           {
-            path: '/baseData/adapterSpec',
-            name: 'adapterSpec',
-            component: './BaseData/AdapterSpec',
-          },
-          {
             path: '/baseData/attrSpec',
             name: 'attrSpec',
             component: './BaseData/AttrSpec',
           },
           {
-            path: '/baseData/adapterAttrSpec',
-            name: 'adapterAttrSpec',
-            component: './BaseData/AdapterAttrSpec',
-            hideInMenu: true,
-          },
-          {
             path: '/baseData/appkey',
             name: 'appkey',
             component: './BaseData/Appkey',
+          },
+          {
+            path: '/baseData/tenant',
+            name: 'tenant',
+            component: './BaseData/Tenant',
           },
         ],
       },
@@ -227,12 +246,7 @@ export default [
             path: '/userManager/privilege',
             name: 'privilege',
             component: './UserManager/Privilege',
-          },
-          {
-            path: '/userManager/tenant',
-            name: 'tenant',
-            component: './UserManager/Tenant',
-          },
+          }
         ],
       },
       // admin

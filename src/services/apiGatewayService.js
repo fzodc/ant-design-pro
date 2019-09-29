@@ -15,6 +15,17 @@ export async function apiList(params) {
   });
 }
 
+export async function callList(params) {
+  console.log('params in queryApi:', params,`${PREFIX_PATH}/baseInfo/apiService/callApis`);
+  return request(`${PREFIX_PATH}/baseInfo/apiService/callApis`, {
+    method: 'POST',
+    data: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
 export async function apiListBySearch(params) {
   console.log('params in queryApi:', params,`${PREFIX_PATH}/baseInfo/apiService/apiListBySearch`);
   return request(`${PREFIX_PATH}/baseInfo/apiService/apiListBySearch`, {

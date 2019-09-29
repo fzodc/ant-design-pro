@@ -2,10 +2,10 @@ import React, {PureComponent} from 'react';
 import {Divider} from 'antd';
 import {connect} from 'dva';
 import router from 'umi/router';
-import BindDataQueryTable from '../BindDataQueryTable';
+import BindDataQueryTable from '../BindDataQueryTable/index';
 import QueryCommand from '@/components/QueryTable/QueryCommand';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import { getItems, getName } from '@/utils/masterData';
+import { getItems } from '@/utils/masterData';
 
 import Authorized from '@/utils/Authorized';
 import { getAuth, getUserId } from '@/utils/authority';
@@ -125,7 +125,7 @@ class Adapter extends PureComponent {
     const { id } = selectedRow;
     // router.push(`/apiGateway/apiCreate/${apiId}`);
     router.push({
-      pathname: `/baseData/adapterAttrSpec`, // 通过url参数传递
+      pathname: `/apiGateway/adapterAttrSpec`, // 通过url参数传递
       state: {
         // 通过对象传递
         adapterSpecId:id,

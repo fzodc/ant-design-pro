@@ -4,6 +4,8 @@ export default {
   'app.settings.menuMap.binding': 'Account Binding',
   'app.settings.menuMap.notification': 'New Message Notification',
   'app.settings.menuMap.tenant': 'Tenant Manager',
+  'app.settings.menuMap.apiList': 'Own API List',
+  'app.settings.menuMap.callList': 'Call API List',
   'app.settings.basic.avatar': 'Avatar',
   'app.settings.basic.change-avatar': 'Change avatar',
   'app.settings.basic.email': 'Email',

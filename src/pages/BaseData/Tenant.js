@@ -1,12 +1,7 @@
 import React, {PureComponent} from 'react';
-import {Divider} from 'antd';
 import {connect} from 'dva';
-import { formatMessage } from 'umi-plugin-react/locale';
-import BindDataQueryTable from '../BindDataQueryTable';
-import QueryCommand from '@/components/QueryTable/QueryCommand';
+import BindDataQueryTable from '../BindDataQueryTable/index';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import { getItems } from '@/utils/masterData';
-import RoleTransfer from "./RoleTransfer";
 
 import Authorized from '@/utils/Authorized';
 import { getAuth } from '@/utils/authority';
@@ -64,7 +59,6 @@ class Tenant extends PureComponent {
   handleRef = (ref) => {
     this.child = ref
   }
-
 
   render() {
     const {columnSchemas}=this.state;
