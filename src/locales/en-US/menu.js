@@ -27,7 +27,7 @@ export default {
   'menu.baseData.group': 'Group',
   'menu.baseData.appkey': 'Appkey',
   'menu.baseData.attrSpecFromAdapter': 'Attr Spec of a Adapter',
-  'menu.baseData.tenant': 'Tenant Management',
+  'menu.baseData.tenant': 'Tenant',
   'menu.apiGateway': 'Service Config',
   'menu.apiGateway.apiList': 'Api List',
   'menu.apiGateway.apiCreate': 'Create Api',
