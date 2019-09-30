@@ -142,6 +142,9 @@ class Appkey extends PureComponent {
     const {state} = location;
     const {id,orgCode} = state || {id: '',orgCode:''};
     this.setState({orgId:id,orgCode});
+    if(orgCode !== '' && id !== ''){
+      this.getOrgDetail(id);
+    }
   }
 
   getOrgInfo = e => {
