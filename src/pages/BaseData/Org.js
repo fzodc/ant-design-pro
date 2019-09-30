@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import {Divider, message} from 'antd';
+import router from 'umi/router';
 import BindDataQueryTable from '../BindDataQueryTable';
 import QueryCommand from '@/components/QueryTable/QueryCommand';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -28,7 +29,7 @@ class Org extends PureComponent {
       saveAct || commandAct
         ? {
             title: 'action',
-            width: 160,
+            width: 200,
             saveAct,
             commandAct,
             havePermissions: true,
@@ -127,6 +128,19 @@ class Org extends PureComponent {
     }
   };
 
+  handleList = ( record ) =>{
+    const { selectedRow } = this.state;
+    const { id,orgCode } = selectedRow;
+    router.push({
+      pathname: `/baseData/appkey`, // 通过url参数传递
+      state: {
+        // 通过对象传递
+        id,
+        orgCode
+      },
+    });
+  }
+
   handleVisible = modalVisible => {
     // console.log("---modalVisible＝＝＝＝3:",modalVisible);
     this.setState({ modalVisible });
@@ -165,6 +179,10 @@ class Org extends PureComponent {
             <Divider type="vertical" />
             <a onClick={() => this.handleUser()} title="Set Data Access Permission">
               Access
+            </a>
+            <Divider type="vertical" />
+            <a onClick={() => this.handleList()} title="Appkey List">
+              Appkey
             </a>
           </QueryCommand>
         </BindDataQueryTable>
