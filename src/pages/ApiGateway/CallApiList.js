@@ -26,6 +26,7 @@ import {getGroupName, getItems, getItemValue2} from '@/utils/masterData';
 import SelectView from './SelectView';
 import { getUserId} from '@/utils/authority';
 import GroupMutiTreeSelectView from "./GroupMutiTreeSelectView";
+import OrgSelectView from "./OrgSelectView";
 
 const { ACT, API_STATUS } = constants;
 
@@ -62,6 +63,7 @@ class TableList extends PureComponent {
     filtersArg: {},
     sorter: {},
     userId: null,
+    appkeyOutbounds :[]
   };
 
   componentWillMount() {
@@ -81,7 +83,7 @@ class TableList extends PureComponent {
     const userId = getUserId();
     this.setState({ userId });
 
-    const { dispatch,apiGatewayModel,location } = this.props;
+    const { dispatch,apiGatewayModel } = this.props;
     const {data:{callList}}=apiGatewayModel;
     if(!callList||callList.length===0) {
       const payload = {userId};
@@ -102,6 +104,11 @@ class TableList extends PureComponent {
     return this.getOption(groupList, 'groupId', 'groupName');
   }
 
+  getAppkeyOption() {
+    const {appkeyOutbounds} = this.state;
+    return this.getOption(appkeyOutbounds, 'appkey', 'targetSystemName');
+  }
+
   getColumns = memoizeOne((groupList) => {
 
     const columns = [
@@ -119,6 +126,10 @@ class TableList extends PureComponent {
               {text}
             </Ellipsis>
           </a>,
+      },
+      {
+        title: 'Target System Name',
+        dataIndex: 'targetSystemName'
       },
       {
         title: 'Group',
@@ -418,6 +429,32 @@ class TableList extends PureComponent {
     });
   };
 
+  getOrgInfo = e => {
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
+    this.getOrgDetail(e);
+  }
+
+  getOrgDetail = id =>{
+    const {form} = this.props;
+    const appkey = null;
+    form.setFieldsValue({appkey});
+
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'uniComp/detail',
+      payload:{
+        tableName:'org',
+        id
+      },
+      callback:resp=>{
+        const {appkeyOutbounds} = resp;
+        this.setState({appkeyOutbounds});
+      }
+    });
+  }
+
   renderSimpleForm() {
     const {
       form: { getFieldDecorator }
@@ -463,6 +500,7 @@ class TableList extends PureComponent {
     const {
       form: { getFieldDecorator }
     } = this.props;
+    const userId = getUserId();
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -480,8 +518,24 @@ class TableList extends PureComponent {
               )}
             </FormItem>
           </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="Org">
+              {getFieldDecorator('orgId')(
+                <OrgSelectView style={{ width: '100%' }} userId={userId} onChange={this.getOrgInfo} />
+              )}
+            </FormItem>
+          </Col>
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <FormItem label="TargetSystemName">
+              {getFieldDecorator('appkey')(
+                <Select placeholder="please choose" style={{ width: '100%' }}>
+                  {this.getAppkeyOption()}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
           <Col md={8} sm={24}>
             <FormItem label="Status">
               {getFieldDecorator('status')(<SelectView javaCode="apiService" javaKey="status" />)}
