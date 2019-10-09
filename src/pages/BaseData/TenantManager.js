@@ -162,6 +162,35 @@ class TenantManager extends PureComponent {
     });
   };
 
+  handleFormReset = () => {
+    const {form, dispatch} = this.props;
+    form.resetFields();
+    this.setState({
+      formValues: {},
+    });
+
+    const userId = getUserId();
+    const tableName = "tenant";
+    const payload = {userId, tableName};
+    payload.data = {};
+    payload.data.info = {
+      pageNo: 1,
+      pageSize: 10
+    };
+    dispatch({
+      type: 'uniComp/tenantInfo',
+      payload,
+      callback: resp => {
+        const {data} = resp;
+        const { pagination,records } = data;
+        this.setState({
+          pagination,
+          tenantList:records
+        });
+      }
+    });
+  };
+
   renderForm = () =>{
     const userId = getUserId();
     const {
