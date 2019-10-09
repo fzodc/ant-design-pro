@@ -206,17 +206,32 @@ class TenantManager extends PureComponent {
     } = this.props;
     const {pagination,tenantList} = this.state;
     const columns = [
-      {dataIndex: 'tenantId', title: 'Tenant Id'},
       {dataIndex: 'tenantName', title: 'Tenant Name'},
       {dataIndex: 'tenantCode', title: 'Tenant Code'},
       {dataIndex: 'tenantUser', title: 'Tenant User'},
       {dataIndex: 'userName', title: 'User Name'},
+      {dataIndex: 'orgName', title: 'Org Name'},
       {dataIndex: 'systemName', title: 'System Name'},
-      {dataIndex: 'appkeyInboundId', title: 'Appkey InboundId'},
-      {dataIndex: 'inboundAppkey', title: 'Inbound Appkey'},
-      {dataIndex: 'inboundSystem', title: 'Inbound System'},
-      {dataIndex: 'ouboundAppkey', title: 'Oubound Appkey'},
-      {dataIndex: 'ouboundSystem', title: 'Oubound System'},
+      {
+        dataIndex: 'inboundAppkey',
+        title: 'Inbound Appkey',
+        render: text => <span style={{color: 'red'}}>{text}</span>
+      },
+      {
+        dataIndex: 'inboundSystem',
+        title: 'Inbound System',
+        render: text => <span style={{color: 'red'}}>{text}</span>
+      },
+      {
+        dataIndex: 'ouboundAppkey',
+        title: 'Oubound Appkey',
+        render: text => <span style={{color: 'blue'}}>{text}</span>
+      },
+      {
+        dataIndex: 'ouboundSystem',
+        title: 'Oubound System',
+        render: text => <span style={{color: 'blue'}}>{text}</span>
+      },
       {dataIndex: 'managementUsers', title: 'Management Users'},
     ];
     const paginationProps = {

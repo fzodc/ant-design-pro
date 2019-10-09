@@ -13,7 +13,16 @@ class UserSelectView extends PureComponent {
     const { dispatch, userId } = this.props;
     const tableName = "sys_user";
     const pageSize = 9999;
-    const payload = {userId, tableName, pageSize};
+    const payload = {
+      userId,
+      tableName,
+      data:{
+        info:{
+            pageNo:1,
+            pageSize
+          }
+        }
+      };
     dispatch({
       type: 'uniComp/allUserList',
       payload
