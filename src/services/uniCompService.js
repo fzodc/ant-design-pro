@@ -32,6 +32,17 @@ export async function detail(params) {
   return request(`${PREFIX_PATH}/baseInfo/sysdata/${params.tableName}/detail?id=${params.id}`);
 }
 
+export async function tenantInfo(params) {
+  // console.log(`${PREFIX_PATH}/baseInfo/sysdata/${params.tableName}/detail?id=${params.id}`);
+  return request(`${PREFIX_PATH}/baseInfo/${params.tableName}/tenantInfo`, {
+    method: 'POST',
+    data: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
 export async function save(params) {
   return request(`${PREFIX_PATH}/baseInfo/sysdata/${params.tableName}/save`, {
     method: 'POST',

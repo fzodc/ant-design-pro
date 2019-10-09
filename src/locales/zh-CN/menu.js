@@ -28,6 +28,7 @@ export default {
   'menu.baseData.appkey': 'Appkey配置',
   'menu.baseData.attrSpecFromAdapter': '适配器属性规格',
   'menu.baseData.tenant': '租户管理',
+  'menu.baseData.tenantManager': '租户数据展现',
   'menu.apiGateway': '服务管理',
   'menu.apiGateway.apiList': 'Api管理',
   'menu.apiGateway.apiCreate': '创建Api',

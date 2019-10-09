@@ -223,6 +223,11 @@ export default [
             name: 'tenant',
             component: './BaseData/Tenant',
           },
+          {
+            path: '/baseData/tenantManager',
+            name: 'tenantManager',
+            component: './BaseData/TenantManager',
+          },
         ],
       },
       // userManager

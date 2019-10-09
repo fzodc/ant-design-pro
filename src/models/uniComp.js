@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { list, save, statusBatch, detail, token, del, config } from '../services/uniCompService';
+import { list, save, statusBatch, detail, token, del, config, tenantInfo } from '../services/uniCompService';
 import { conversion, conversionReq } from "../pages/util";
 
 export default {
@@ -97,6 +97,14 @@ export default {
       yield put({
         type: 'saveTenant',
         payload: response
+      });
+      if (callback) callback(response);
+    },
+    * tenantInfo({ payload, callback }, { call, put }) {
+      const response = yield call(tenantInfo, payload);
+      yield put({
+        type: 'saveTenant',
+        payload: response,
       });
       if (callback) callback(response);
     },
