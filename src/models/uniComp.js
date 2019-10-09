@@ -10,7 +10,8 @@ export default {
       list: [],
       pagination: {},
     },
-    tenantList:[]
+    tenantList:[],
+    userList:[]
   },
 
   effects: {
@@ -108,6 +109,14 @@ export default {
       });
       if (callback) callback(response);
     },
+    * allUserList({ payload, callback }, { call, put }) {
+      const response = yield call(list, payload);
+      yield put({
+        type: 'saveUser',
+        payload: response
+      });
+      if (callback) callback(response);
+    },
   },
 
   reducers: {
@@ -135,6 +144,13 @@ export default {
       return {
         ...state,
         tenantList
+      };
+    },
+    saveUser(state, action) {
+      const userList = action.payload ? action.payload.data.records : [];
+      return {
+        ...state,
+        userList
       };
     }
   },
