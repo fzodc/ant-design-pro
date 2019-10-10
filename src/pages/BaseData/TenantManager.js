@@ -46,10 +46,8 @@ class TenantManager extends PureComponent {
       payload,
       callback: resp => {
         const {data} = resp;
-        const { pagination,records } = data;
         this.setState({
-          pagination,
-          tenantList:records
+          tenantList:data
         });
       }
     });
@@ -151,10 +149,8 @@ class TenantManager extends PureComponent {
         payload,
         callback: resp => {
           const {data} = resp;
-          const { pagination,records } = data;
           this.setState({
-            pagination,
-            tenantList:records
+            tenantList:data
           });
         }
       });
@@ -182,10 +178,8 @@ class TenantManager extends PureComponent {
       payload,
       callback: resp => {
         const {data} = resp;
-        const { pagination,records } = data;
         this.setState({
-          pagination,
-          tenantList:records
+          tenantList:data
         });
       }
     });
@@ -233,7 +227,7 @@ class TenantManager extends PureComponent {
     const {
       loading,
     } = this.props;
-    const {pagination,tenantList} = this.state;
+    const {tenantList} = this.state;
     const columns = [
       {dataIndex: 'tenantName', title: 'Tenant Name'},
       {dataIndex: 'tenantCode', title: 'Tenant Code'},
@@ -252,21 +246,19 @@ class TenantManager extends PureComponent {
         render: text => <span style={{color: 'red'}}>{text}</span>
       },
       {
-        dataIndex: 'ouboundAppkey',
-        title: 'Oubound Appkey',
+        dataIndex: 'outboundAppkey',
+        title: 'Outbound Appkey',
         render: text => <span style={{color: 'blue'}}>{text}</span>
       },
       {
-        dataIndex: 'ouboundSystem',
-        title: 'Oubound System',
+        dataIndex: 'outboundSystem',
+        title: 'Outbound System',
         render: text => <span style={{color: 'blue'}}>{text}</span>
       },
       {dataIndex: 'managementUsers', title: 'Management Users'},
     ];
     const paginationProps = {
-      showSizeChanger: true,
-      showQuickJumper: true,
-      ...pagination,
+      pageSize: 10,
     };
     return (
       <PageHeaderWrapper>
@@ -279,7 +271,6 @@ class TenantManager extends PureComponent {
               columns={columns}
               dataSource={tenantList}
               pagination={paginationProps}
-              onChange={this.handleStandardTableChange}
             />
           </div>
         </Card>
