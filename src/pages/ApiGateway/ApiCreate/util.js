@@ -2,9 +2,10 @@ import constants from '@/utils/constUtil';
 
 const {CALL_POINT} = constants;
 
-export function getPayload(option,apiService) {
+export function getPayload(option,apiService,userId) {
   return {
     option, // 1- 新增记录 2- 修改记录
+    userId,
     data: {
       info: {
         apiService,
@@ -46,7 +47,7 @@ const removeAttr=(oldApiServiceBackendAttrs,newApiServiceBackendAttrs) =>{
   return removeAttrList;
 }
 
-export function getPayloadForUpdate(oldApiService,values) {
+export function getPayloadForUpdate(oldApiService,values,userId) {
 
 
 
@@ -96,6 +97,7 @@ export function getPayloadForUpdate(oldApiService,values) {
   apiService.apiServiceBackends=newApiServiceBackends;
   const apiInfo= {
     option:2, // 1-新增记录 2-修改记录
+    userId,
     data: {
       info: {
         apiService,

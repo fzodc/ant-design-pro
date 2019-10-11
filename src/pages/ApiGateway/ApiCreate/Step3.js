@@ -41,7 +41,8 @@ class Step3 extends React.PureComponent {
         const apiServiceBackend = { ...data, ...values };
         const apiServiceBackends = [apiServiceBackend];
         apiService.apiServiceBackends = apiServiceBackends;
-        const apiInfo = getPayload(1, apiService);
+        const userId = getUserId();
+        const apiInfo = getPayload(1, apiService,userId);
         // console.log(apiService);
         if (!err) {
           dispatch({

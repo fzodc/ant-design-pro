@@ -264,7 +264,8 @@ class ApiUpdate extends PureComponent {
         if(editArray.length>0){
           message.warn("Before submitting, please hold or cancel the data in the table that is being modified!",6);
         }
-        const apiInfo = getPayloadForUpdate(apiService, values);
+        const userId = getUserId();
+        const apiInfo = getPayloadForUpdate(apiService, values,userId);
         // console.log("api update submit apiInfo:",apiInfo);
         // submit the values
         dispatch({
