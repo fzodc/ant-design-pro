@@ -300,7 +300,7 @@ class Appkey extends PureComponent {
       key: 'id',
       name: 'id',
       columnDetails: [
-        { name: 'appkey', title: 'App Key', sorter: true, add: true ,edit:true },
+        { name: 'appkey', title: 'App Key', sorter: true, add: false ,edit:true,disabledAct:'true' },
         { name: 'callerName', title: 'Caller Name', sorter: true, add: true ,edit:true },
         { name: 'password', title: 'Password', sorter: true },
         { name: 'newPassword', title: 'New Password', sorter: true, add: true ,edit:true },
