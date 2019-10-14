@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {Divider, message, Card, Row, Col, Table, Button, Form, Modal, Input, Select, Drawer} from 'antd';
+import {Divider, message, Card, Row, Col, Table, Button, Form, Modal, Input, Select, Drawer, Tag} from 'antd';
 import {connect} from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {getItems} from '@/utils/masterData';
@@ -13,6 +13,7 @@ const FormItem = Form.Item;
 const {Option} = Select;
 const statusList = getItems('common', 'status');
 const authTypes = getItems('appkey', 'auth_type');
+const tokenExpires = getItems('appkey', 'token_expire');
 /**
  * get form item array for query condition form and add(modify) form
  * @param currentProps
@@ -32,6 +33,7 @@ const CreateForm = Form.create()(props => {
   const {
     columnSchemas: { key },
   } = props;
+  const content = selectedRow?  'Are you sure modify, it maybe effect use this appkey call user':'Do you submit？';
   const okHandle = () => {
     // console.log('okHandle1');
     form.validateFields((err, fieldsValue) => {
@@ -39,7 +41,7 @@ const CreateForm = Form.create()(props => {
       if (err) return;
       Modal.confirm({
         title: '',
-        content: 'Do you submit？',
+        content,
         okText: 'Confirm',
         cancelText: 'Cancel',
         onOk: () => handleAdd(fieldsValue, form),
@@ -55,7 +57,7 @@ const CreateForm = Form.create()(props => {
     switch (item.tag) {
       case 'commonSelect':
         return (
-          <Select style={{ width: '100%' }}>
+          <Select style={{ width: '100%' }} disabled={item.disabled}>
             {item.enumData.map(d => (
               <Option key={`${item.javaCode}_${item.javaKey}_${d.itemCode}`} value={d.itemCode}>
                 {d.itemValue}
@@ -81,13 +83,14 @@ const CreateForm = Form.create()(props => {
     .map(item => {
       const itemTemp = item;
       // console.log("======:",itemTemp.name === key,key,itemTemp.name);
-      itemTemp.disabled = itemTemp.name === key||itemTemp.disabledAct==='true';
+      itemTemp.disabled = itemTemp.disabledAct==='true';
       return itemTemp;
     });
   const modalTitle = selectedRow ? 'update' : 'new';
   if(selectedRow){
     addForms = editForms;
   }
+  console.log(addForms);
   return (
     <Modal
       title={modalTitle}
@@ -304,7 +307,13 @@ class Appkey extends PureComponent {
         { name: 'callerName', title: 'Caller Name', sorter: true, add: true ,edit:true },
         { name: 'password', title: 'Password', sorter: true },
         { name: 'newPassword', title: 'New Password', sorter: true, add: true ,edit:true },
-        { name: 'tokenExpireTime', title: 'Token Expire Time',rules:[], sorter: true, add: true ,edit:true },
+        { name: 'tokenExpireTime',
+          title: 'Token Expire Time',
+          add: true,
+          edit:true,
+          rules:[],
+          tag: 'commonSelect',
+          enumData: tokenExpires},
         {
           name: 'authType',
           title: 'Auth Type of Consumer',
@@ -314,7 +323,7 @@ class Appkey extends PureComponent {
           tag: 'commonSelect',
           tableName: 'org',
           query: true,
-          enumData: authTypes,},
+          enumData: authTypes},
         { name: 'status', title: 'status', tag: 'commonSelect',sorter: true, add: true ,edit:true, enumData: statusList},
         { name: 'remark', title: 'Remark', sorter: true, add: true ,edit:true },
       ]
@@ -328,17 +337,22 @@ class Appkey extends PureComponent {
           { name: 'targetSystemName', title: 'Target System Name', sorter: true, add: true, edit:true },
           { name: 'password', title: 'Password', sorter: true, edit:true },
           { name: 'newPassword', title: 'New Password', sorter: true, add: true },
-          { name: 'tokenExpireTime', title: 'Token Expire Time',rules:[], sorter: true, edit:true, disabledAct:'true' },
+          { name: 'tokenExpireTime',
+            title: 'Token Expire Time',
+            edit:true,
+            rules:[],
+            tag: 'commonSelect',
+            enumData: tokenExpires,
+            disabledAct:'true'
+          },
           {
             name: 'authType',
             title: 'Auth Type of Consumer',
-            columnHidden: false,
             tag: 'commonSelect',
-            tableName: 'org',
-            query: true,
             enumData: authTypes,
             edit:true,
-            disabledAct:'true'},
+            disabledAct:'true'
+          },
           { name: 'status', title: 'status', tag: 'commonSelect',sorter: true , enumData: statusList, edit:true,},
           { name: 'remark', title: 'Remark', sorter: true },
         ]
@@ -386,6 +400,10 @@ class Appkey extends PureComponent {
       {
         title: 'Target System Name',
         dataIndex: 'targetSystemName',
+        render: (text, record) =>{
+          const {newPassword} = record;
+          return newPassword?<span>{text}</span>:<Tag color="#87d068">{text}</Tag>;
+        },
       },
       {
         title: 'Auth Count',
