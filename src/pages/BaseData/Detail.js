@@ -19,12 +19,14 @@ class Detail extends PureComponent {
     const arr = [];
     const newApiServices = apiServices||[];
     // 获取未授权的Api列表
-    targetServices.forEach(value => {
-      const isIn = newApiServices.find(item => item[keyName] === value[keyName]);
-      if (!isIn) {
-        arr.push(value);
-      }
-    });
+    if(targetServices){
+      targetServices.forEach(value => {
+        const isIn = newApiServices.find(item => item[keyName] === value[keyName]);
+        if (!isIn) {
+          arr.push(value);
+        }
+      });
+    }
     const apiColumns = [
       {
         title: 'Api Id',
