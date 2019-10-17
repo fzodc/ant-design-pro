@@ -8,12 +8,18 @@ import { getUserId, getUserName} from '@/utils/authority';
 import OrgSelectView from "../ApiGateway/OrgSelectView";
 import Detail from "./Detail";
 import ApiTransfer from "./ApiTransfer";
+import {getItemValue2} from "../../utils/masterData";
 
 const FormItem = Form.Item;
 const {Option} = Select;
 const statusList = getItems('common', 'status');
 const authTypes = getItems('appkey', 'auth_type');
 const tokenExpires = getItems('appkey', 'token_expire');
+const ranges = getItems('appkey', 'range');
+const rangesFilter = ranges.map(item => ({
+  value: item.itemCode,
+  text: item.itemValue,
+}));
 /**
  * get form item array for query condition form and add(modify) form
  * @param currentProps
@@ -335,23 +341,36 @@ class Appkey extends PureComponent {
         columnDetails: [
           { name: 'appkey', title: 'App Key', sorter: true, add: true, edit:true },
           { name: 'targetSystemName', title: 'Target System Name', sorter: true, add: true, edit:true },
-          { name: 'password', title: 'Password', sorter: true, edit:true },
+          { name: 'password', title: 'Password', rules:[], edit:true },
           { name: 'newPassword', title: 'New Password', sorter: true, add: true },
+          {
+            name: 'range',
+            title: 'Appkey Range',
+            tag: 'commonSelect',
+            enumData: ranges,
+            sorter: true,
+            add: true
+          },
           { name: 'tokenExpireTime',
             title: 'Token Expire Time',
+            add:true,
             edit:true,
-            rules:[],
-            tag: 'commonSelect',
-            enumData: tokenExpires,
-            disabledAct:'true'
+            rules:[]
+          },
+          { name: 'authCount',
+            title: 'Auth Count',
+            add:true,
+            edit:true,
+            rules:[]
           },
           {
             name: 'authType',
             title: 'Auth Type of Consumer',
             tag: 'commonSelect',
             enumData: authTypes,
+            add:true,
             edit:true,
-            disabledAct:'true'
+            rules:[]
           },
           { name: 'status', title: 'status', tag: 'commonSelect',sorter: true , enumData: statusList, edit:true,},
           { name: 'remark', title: 'Remark', sorter: true },
@@ -410,6 +429,14 @@ class Appkey extends PureComponent {
         dataIndex: 'authCount',
       },
       {
+        title: 'Appkey Range',
+        dataIndex: 'range',
+        filters: rangesFilter,
+        render(val) {
+          return <span>{getItemValue2(ranges, val)}</span>
+        },
+      },
+      {
         name:'action',
         title:'Action',
         render: (text, record) => (
@@ -425,7 +452,7 @@ class Appkey extends PureComponent {
     const appkeyAdd = (
       <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(null, true, 0)}>New</Button>);
     const userAppkeyAdd = (
-      <Button icon="plus" type="danger" onClick={() => this.handleModalVisible(null, true, 1)}>New</Button>);
+      <Button icon="plus" type="danger" onClick={() => this.handleModalVisible(null, true, 1)}>Import</Button>);
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,

@@ -648,7 +648,7 @@ class WsdlList extends PureComponent {
 
             <Menu.Item key="handleModify">Modify</Menu.Item>
             <Menu.Item key="handleParse">Validate</Menu.Item>
-            { apiServices.length === 0 ? <Menu.Item key="handleApi">Generate Api</Menu.Item>: null}
+            { (!apiServices || apiServices.length === 0 )? <Menu.Item key="handleApi">Generate Api</Menu.Item>: null}
             <Menu.Item key="handleList">Action List</Menu.Item>
             {status === API_STATUS.ONLINE ? <Menu.Item key="handleOffline">Offline</Menu.Item>:null}
             {status === API_STATUS.OFFLINE ?  <Menu.Item key="handleDelete">Remove</Menu.Item>:null}
