@@ -344,8 +344,8 @@ class Appkey extends PureComponent {
           { name: 'password', title: 'Password', rules:[], edit:true },
           { name: 'newPassword', title: 'New Password', sorter: true, add: true },
           {
-            name: 'range',
-            title: 'Appkey Range',
+            name: 'authRange',
+            title: 'Auth Range',
             tag: 'commonSelect',
             enumData: ranges,
             sorter: true,
@@ -429,8 +429,8 @@ class Appkey extends PureComponent {
         dataIndex: 'authCount',
       },
       {
-        title: 'Appkey Range',
-        dataIndex: 'range',
+        title: 'Auth Range',
+        dataIndex: 'authRange',
         filters: rangesFilter,
         render(val) {
           return <span>{getItemValue2(ranges, val)}</span>
