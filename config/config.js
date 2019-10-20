@@ -87,7 +87,7 @@ export default {
   // },
   proxy: {
     '/server': {
-      target: 'http://10.19.18.49:10010/',
+      target: 'http://10.19.18.49:20010/',
       changeOrigin: true,
       pathRewrite: {'^/server/': '/'},
     },
