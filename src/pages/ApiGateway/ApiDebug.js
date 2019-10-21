@@ -208,13 +208,13 @@ class ApiDebug extends PureComponent {
 
               const newRequestHeaderSample = [{ key:'Content-Type', name: 'Content-Type', remark: 'application/json'}];
               requestHeaderSample.forEach((item) => {
-
+                // 过滤appkey参数
                 if (item.name !== 'AppKey') {
                   if (item.name === tokenKey) {
                     // eslint-disable-next-line no-param-reassign
                     item.remark = token;
                     newRequestHeaderSample.push(item);
-                  } else {
+                  } else if (item.name !== 'Content-Type') {
                     newRequestHeaderSample.push(item);
                   }
                 } else {
