@@ -163,7 +163,7 @@ class ApiDebug extends PureComponent {
           requestHeaderSample: {}
         });
         requestHeaderSample = requestHeaderSample.filter(item => item.name !== tokenKey);
-        const newRequestHeaderSample = [];
+        const newRequestHeaderSample = [{ key:'Content-Type', name: 'Content-Type', remark: 'application/json'}];
         // console.log("requestHeaderSample",requestHeaderSample);
         requestHeaderSample.forEach((item) => {
 
@@ -206,7 +206,7 @@ class ApiDebug extends PureComponent {
               const {token} = data;
               const requestHeaderSample = form.getFieldValue('requestHeaderSample');
 
-              const newRequestHeaderSample = [];
+              const newRequestHeaderSample = [{ key:'Content-Type', name: 'Content-Type', remark: 'application/json'}];
               requestHeaderSample.forEach((item) => {
 
                 if (item.name !== 'AppKey') {
