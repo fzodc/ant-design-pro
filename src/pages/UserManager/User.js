@@ -147,7 +147,9 @@ class User extends PureComponent {
             };
           }}
         >
-          {roleAuth}
+          <span id="QueryCommand">
+            {roleAuth}
+          </span>
         </BindDataQueryTable>
         <RoleTransfer
           title='Grant authorization'

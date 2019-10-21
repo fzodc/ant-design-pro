@@ -43,6 +43,14 @@ export async function tenantInfo(params) {
   });
 }
 
+export async function tenantView(params) {
+  return request(`${PREFIX_PATH}/baseInfo/tenant/view?userId=${params.userId}`);
+}
+
+export async function orgView(params) {
+  return request(`${PREFIX_PATH}/baseInfo/org/view?id=${params.id}`);
+}
+
 export async function save(params) {
   return request(`${PREFIX_PATH}/baseInfo/sysdata/${params.tableName}/save`, {
     method: 'POST',

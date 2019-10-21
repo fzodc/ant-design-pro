@@ -12,7 +12,6 @@ import GroupTreeSelectView from './GroupTreeSelectView';
 import { getPayloadForUpdate, conversionAttr, getApiFlowData } from './ApiCreate/util';
 import RadioView from './RadioView';
 import OrgSelectView from './OrgSelectView';
-import ApiFlow from '../Editor/GGEditor/ApiFlow';
 import { getUserId } from '@/utils/authority';
 import constants from '@/utils/constUtil';
 
@@ -754,11 +753,6 @@ class ApiUpdate extends PureComponent {
               {getFieldDecorator('members', {
                 initialValue: apiServiceBackendMembers,
               })(<TableForm />)}
-            </Card>
-          </TabPane>
-          <TabPane tab="Api Flow" key="flow">
-            <Card title="高级配置" bordered={false}>
-              <ApiFlow data={apiFlowData} />
             </Card>
           </TabPane>
         </Tabs>

@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { list, save, statusBatch, detail, token, del, config, tenantInfo } from '../services/uniCompService';
+import { list, save, statusBatch, detail, token, del, config, tenantInfo, tenantView, orgView } from '../services/uniCompService';
 import { conversion, conversionReq } from "../pages/util";
 
 export default {
@@ -115,6 +115,14 @@ export default {
         type: 'saveUser',
         payload: response
       });
+      if (callback) callback(response);
+    },
+    * tenantView({ payload, callback }, { call }) {
+      const response = yield call(tenantView, payload);
+      if (callback) callback(response);
+    },
+    * orgView({ payload, callback }, { call }) {
+      const response = yield call(orgView, payload);
       if (callback) callback(response);
     },
   },

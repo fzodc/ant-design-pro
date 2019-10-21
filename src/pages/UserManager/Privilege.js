@@ -174,7 +174,7 @@ class Privilege extends PureComponent {
     // console.log("---modalVisible＝＝＝＝3:",modalVisible);
     this.setState({modalVisible});
   }
-  
+
   handleRefreshData=()=>{
     // console.log("-----2222222---5");
     this.child.handleSearchDefault()
@@ -209,10 +209,12 @@ class Privilege extends PureComponent {
             };
           }}
         >
-          <QueryCommand>
-            <Divider type="vertical" />
-            <a onClick={() => this.handleRole()}>Role</a>
-          </QueryCommand>
+          <span id="QueryCommand">
+            <QueryCommand>
+              <Divider type="vertical" />
+              <a onClick={() => this.handleRole()}>Role</a>
+            </QueryCommand>
+          </span>
         </BindDataQueryTable>
         <RoleTransfer
           title='Grant authorization'

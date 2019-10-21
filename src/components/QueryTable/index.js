@@ -173,18 +173,20 @@ class QueryTable extends PureComponent {
 
     const { children } = this.props;
     QueryCommandChildren.splice(0, QueryCommandChildren.length);
+    console.log("QueryCommandChildren",children);
     React.Children.forEach(children, item => {
+      console.log("---item",item);
       if (!item) {
         return;
       }
       // eslint-disable-next-line
-      if (item.type.name === 'QueryCommand') {
+      if (item.props.id === 'QueryCommand') {
         QueryCommandChildren.push(item);
       } else {
         otherChildren.push(item);
       }
     });
-
+    console.log("querytable-----",QueryCommandChildren);
     this.handleColumn();
   }
 
@@ -277,6 +279,7 @@ class QueryTable extends PureComponent {
       columns.push(obj);
       return obj;
     });
+    console.log( "QueryCommandChildren-----",actions);
     if (actions) {
       if (actions.havePermissions) {
         const authQueryCommands = actions.commandAct ? QueryCommandChildren : [];

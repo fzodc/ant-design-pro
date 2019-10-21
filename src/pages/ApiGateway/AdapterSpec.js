@@ -152,10 +152,12 @@ class Adapter extends PureComponent {
             };
           }}
         >
-          <QueryCommand>
-            <Divider type="vertical" />
-            <a onClick={() => this.handleAttr()}>Attr</a>
-          </QueryCommand>
+          <span id="QueryCommand">
+            <QueryCommand>
+              <Divider type="vertical" />
+              <a onClick={() => this.handleAttr()}>Attr</a>
+            </QueryCommand>
+          </span>
         </BindDataQueryTable>
       </PageHeaderWrapper>
     );

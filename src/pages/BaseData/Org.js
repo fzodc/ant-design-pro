@@ -175,16 +175,18 @@ class Org extends PureComponent {
             };
           }}
         >
-          <QueryCommand>
-            <Divider type="vertical" />
-            <a onClick={() => this.handleUser()} title="Set Data Access Permission">
-              Access
-            </a>
-            <Divider type="vertical" />
-            <a onClick={() => this.handleList()} title="Appkey List">
-              Appkey
-            </a>
-          </QueryCommand>
+          <span id="QueryCommand">
+            <QueryCommand>
+              <Divider type="vertical" />
+              <a onClick={() => this.handleUser()} title="Set Data Access Permission">
+                Access
+              </a>
+              <Divider type="vertical" />
+              <a onClick={() => this.handleList()} title="Appkey List">
+                Appkey
+              </a>
+            </QueryCommand>
+          </span>
         </BindDataQueryTable>
         <UserTransfer
           title="授权"
