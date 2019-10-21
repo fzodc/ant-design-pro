@@ -345,7 +345,7 @@ class Appkey extends PureComponent {
           { name: 'newPassword', title: 'New Password', sorter: true, add: true },
           {
             name: 'authRange',
-            title: 'Auth Range',
+            title: 'Outbound Type',
             tag: 'commonSelect',
             enumData: ranges,
             sorter: true,
@@ -429,7 +429,7 @@ class Appkey extends PureComponent {
         dataIndex: 'authCount',
       },
       {
-        title: 'Auth Range',
+        title: 'Outbound Type',
         dataIndex: 'authRange',
         filters: rangesFilter,
         render(val) {
