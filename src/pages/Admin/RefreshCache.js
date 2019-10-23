@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import {connect} from 'dva';
 import {Alert, Button, Card} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import {getTenantId} from "../../utils/authority";
 
 
 @connect(({ adminModel, loading }) => ({
@@ -12,8 +13,11 @@ class RefreshCache extends PureComponent{
 
   handelRefreshCacth = () => {
     const {dispatch} = this.props;
+    const tenantId = getTenantId();
+    const payload = {tenantId};
     dispatch({
-      type:'adminModel/refreshCache'
+      type:'adminModel/refreshCache',
+      payload
     })
   }
 

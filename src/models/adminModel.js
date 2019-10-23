@@ -9,13 +9,13 @@ export default {
   },
 
   effects: {
-    * refreshCache(_, {call, put}) {
-      const response = yield call(refreshCache);
-      console.log(response);
+    * refreshCache({ payload,callback }, {call, put}) {
+      const response = yield call(refreshCache,payload);
       yield put({
         type: 'changeCacheStatus',
         payload: response,
       });
+      if (callback) callback(response);
     },
   },
 

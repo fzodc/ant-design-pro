@@ -83,9 +83,20 @@ const CreateForm = Form.create()(props => {
   const renderAutoForm = item => {
     switch (item.tag) {
       case 'commonSelect':
+        if(selectedRow || !item.addEnum){
+          return (
+            <Select style={{ width: '100%' }}>
+              {item.enumData.map(d => (
+                <Option key={`${item.javaCode}_${item.javaKey}_${d.itemCode}`} value={d.itemCode}>
+                  {d.itemValue}
+                </Option>
+              ))}
+            </Select>
+          );
+        }
         return (
           <Select style={{ width: '100%' }}>
-            {item.enumData.map(d => (
+            {item.addEnum.map(d => (
               <Option key={`${item.javaCode}_${item.javaKey}_${d.itemCode}`} value={d.itemCode}>
                 {d.itemValue}
               </Option>

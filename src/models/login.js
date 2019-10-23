@@ -23,8 +23,8 @@ export default {
       const status = response.code && response.code === '200' ? 'ok' : 'error';
       // Login successfully
       if (status === 'ok') {
-        const {id,username}=response.data;
-        const user={id,username};
+        const {id,username,tenantId}=response.data;
+        const user={id,username,tenantId};
         console.log("4:",user);
         setUser(user);
         console.log("3:",user);

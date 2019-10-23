@@ -15,6 +15,6 @@ export async function orgList(params) {
   return request(`${PREFIX_PATH}/baseInfo/sysdata/orgList?${stringify(params)}`);
 }
 
-export async function refreshCache() {
-  return request(`${PREFIX_PATH}/baseInfo/cache/refresh`);
+export async function refreshCache(params) {
+  return request(`${PREFIX_PATH}/baseInfo/cache/refresh/${params.tenantId}`);
 }

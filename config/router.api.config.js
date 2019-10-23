@@ -228,6 +228,16 @@ export default [
             name: 'tenantManager',
             component: './BaseData/TenantManager',
           },
+          {
+            path: '/baseData/gsix',
+            name: 'gsix',
+            component: './BaseData/TenantGsix',
+          },
+          {
+            path: '/baseData/orgGsix',
+            name: 'orgGsix',
+            component: './BaseData/OrgGsix',
+          },
         ],
       },
       // userManager

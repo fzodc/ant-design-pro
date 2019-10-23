@@ -67,6 +67,11 @@ export function getUserId() {
   const user = getUser().id;
   return user;
 }
+export function getTenantId() {
+  // return localStorage.getItem('antd-pro-authority') || ['admin', 'user'];
+  const user = getUser().tenantId;
+  return user;
+}
 export function getUserName() {
   // return localStorage.getItem('antd-pro-authority') || ['admin', 'user'];
   const name = getUser().username;
