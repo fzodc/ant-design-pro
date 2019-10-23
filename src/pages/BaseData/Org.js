@@ -37,8 +37,9 @@ class Org extends PureComponent {
           }
         : { havePermissions: false, haveAddPermissions: false };
 
-    const authTypes = getItems('org', 'auth_type');
+    // const authTypes = getItems('org', 'auth_type');
     const statusList = getItems('common', 'status');
+    const addStatusList = statusList.filter(item => item.itemCode !== 'D');
 
     const columnSchemas = {
       tableName: 'org',
@@ -61,6 +62,7 @@ class Org extends PureComponent {
           tag: 'commonSelect',
           tableName: 'org',
           enumData: statusList,
+          addEnum : addStatusList
         }, // 需要作为查询条件，新增时需要采集，需要使用绑定的下拉标签
         {
           name: 'remark',

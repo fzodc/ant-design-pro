@@ -97,11 +97,12 @@ class BindDataQueryTable extends PureComponent {
       payload:newPayload,
       callback: resp => {
         // console.log('resp=======', resp);
-        if (resp.code === '200') {
+        const {code,msg} = resp;
+        if (code === '200') {
           message.success('提交成功');
           callback2(addForm);
         } else {
-          message.error('提交失败');
+          message.error(`${msg}`);
         }
       },
     });

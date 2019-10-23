@@ -89,12 +89,13 @@ class ApiDebugMenu extends Component {
   addTag = (menuList,apiService,sign) =>{
 
     if( sign === 1 || menuList.length === 0 ){
-      const {apiServiceDoc} = apiService ||{};
+      const {apiServiceDoc,tenantId} = apiService ||{};
+      const urlSample =  apiService?`/${tenantId}${apiService.requestUrl}`:'';
       const userDebugId = 'u0';
       const newData = {
         debugName: '',
         requestBodySample: apiServiceDoc?apiServiceDoc.requestBodySample:'',
-        urlSample: apiService?apiService.requestUrl:'',
+        urlSample,
         responseHeaderSample:'',
         responseBodySample:'',
         userDebugId,
