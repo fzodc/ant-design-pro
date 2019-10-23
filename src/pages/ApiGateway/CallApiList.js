@@ -420,7 +420,7 @@ class TableList extends PureComponent {
   handleDetail = (flag, record) => {
     const { apiId } = record;
     router.push({
-      pathname: `/apiGateway/apiDetail`, // 通过url参数传递
+      pathname: `/apiGateway/callApiDetail`, // 通过url参数传递
       state: {
         // 通过对象传递
         apiId, // 如果相同则简写 apiId : apiId

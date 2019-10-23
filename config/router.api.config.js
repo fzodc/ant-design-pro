@@ -82,6 +82,12 @@ export default [
             component: './ApiGateway/ApiDetail',
           },
           {
+            path: '/apiGateway/callApiDetail',
+            name: 'callApiDetail',
+            hideInMenu: true,
+            component: './ApiGateway/CallApiDetail',
+          },
+          {
             path: '/apiGateway/apiDebug',
             name: 'apiDebug',
             component: './ApiGateway/ApiDebugMenu',
