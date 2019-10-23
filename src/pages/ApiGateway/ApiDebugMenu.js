@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
+import {connect} from "dva";
 import router from 'umi/router';
 import {message, Tabs, Modal} from 'antd';
 import {getUserId} from '@/utils/authority';
 
-import {connect} from "dva";
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import ApiDebug from "./ApiDebug";
 
