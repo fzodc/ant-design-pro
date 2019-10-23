@@ -29,6 +29,7 @@ export default {
   'menu.baseData.attrSpecFromAdapter': 'Attr Spec of a Adapter',
   'menu.baseData.tenant': 'Tenant',
   'menu.baseData.tenantManager': 'TenantManager',
+  'menu.baseData.gsix': 'Org View',
   'menu.apiGateway': 'Service Config',
   'menu.apiGateway.apiList': 'Api List',
   'menu.apiGateway.apiCreate': 'Create Api',
