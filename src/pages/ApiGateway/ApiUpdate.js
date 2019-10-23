@@ -293,6 +293,7 @@ class ApiUpdate extends PureComponent {
 
   render() {
     const {
+      form,
       form: { getFieldDecorator, getFieldValue },
       submitting,
       apiService,
@@ -304,7 +305,9 @@ class ApiUpdate extends PureComponent {
       apiService && apiService.apiServiceBackends
         ? apiService.apiServiceBackends.map(item => ({ ...item, key: item.key||item.backendId }))
         : [];
-    // // console.log("apiServiceBackendMembers:",apiServiceBackendMembers);
+    // console.log("apiServiceBackendMembers:",apiServiceBackendMembers);
+    const serviceType = form.getFieldValue("front.serviceType");
+    const display = serviceType !== '2' ? {display: 'none'} : null;
     return (
       <PageHeaderWrapper
         onBack={() => window.history.back()}
@@ -380,7 +383,7 @@ class ApiUpdate extends PureComponent {
                 lg={{ span: 8 }}
                 md={{ span: 12 }}
                 sm={24}
-                style={{ height: 80 }}
+                style={display}
               >
                 <Form.Item label={fieldLabels.front.actionName}>
                   {getFieldDecorator('front.actionName', {

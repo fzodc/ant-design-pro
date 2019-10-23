@@ -29,7 +29,12 @@ class Step4 extends React.PureComponent {
       });
     };
     const apiList = () => {
-      router.push('/apiGateway/apiList');
+      router.push({
+        pathname:'/apiGateway/apiList/list',
+        state :{
+          refresh : true // Api列表是否刷新
+        }
+      });
     };
     const information = (
       <div className={styles.information}>
