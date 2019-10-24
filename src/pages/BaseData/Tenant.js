@@ -30,8 +30,8 @@ class Tenant extends PureComponent {
     const commandAct = check(auth, 'Role');
 // 动作对象
     const actions = saveAct || commandAct ? {
-      title: 'action',
-      width: 130,
+      title: '  Action  |  Cache',
+      width: 200,
       saveAct,
       commandAct,
       havePermissions: true,
