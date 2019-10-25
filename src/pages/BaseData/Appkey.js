@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import {Divider, message, Card, Row, Col, Table, Button, Form, Modal, Input, Select, Drawer, Tag} from 'antd';
 import {connect} from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import {getItems} from '@/utils/masterData';
+import {getItems,getItemsToInt} from '@/utils/masterData';
 
 import { getUserId, getUserName} from '@/utils/authority';
 import OrgSelectView from "../ApiGateway/OrgSelectView";
@@ -15,7 +15,8 @@ const {Option} = Select;
 const statusList = getItems('common', 'status');
 const addStatusList = statusList.filter(item => item.itemCode !== 'D');
 const authTypes = getItems('appkey', 'auth_type');
-const tokenExpires = getItems('appkey', 'token_expire');
+const tokenExpires = getItemsToInt('appkey', 'token_expire');
+console.log("tokenE",tokenExpires);
 const ranges = getItems('appkey', 'range');
 const rangesFilter = ranges.map(item => ({
   value: item.itemCode,
@@ -108,7 +109,6 @@ const CreateForm = Form.create()(props => {
   if(selectedRow){
     addForms = editForms;
   }
-  console.log(addForms);
   return (
     <Modal
       title={modalTitle}
@@ -331,7 +331,8 @@ class Appkey extends PureComponent {
           edit:true,
           rules:[],
           tag: 'commonSelect',
-          enumData: tokenExpires},
+          enumData: tokenExpires
+        },
         {
           name: 'authType',
           title: 'Auth Type of Consumer',

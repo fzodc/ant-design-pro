@@ -29,6 +29,23 @@ export function getItems(javaCode, javaKey) {
   const allEnum = getAllEnumData();
   return allEnum?allEnum.filter(obj => obj.javaCode === javaCode && obj.javaKey === javaKey):[];
 }
+// itemCode转为int类型
+export function getItemsToInt(javaCode, javaKey) {
+  let allEnum = getAllEnumData();
+  allEnum = allEnum?allEnum.filter(obj => obj.javaCode === javaCode && obj.javaKey === javaKey):[];
+  const newAllEnum = [];
+  allEnum.forEach(val => {
+    const {id,itemCode,itemValue,javaCode:jCode,javaKey:jKey} = val;
+    const item = {};
+    item.id = id;
+    item.itemCode = parseInt(itemCode,10);
+    item.itemValue = itemValue;
+    item.javaCode = jCode;
+    item.javaKey = jKey;
+    newAllEnum.push(item);
+  });
+  return newAllEnum;
+}
 
 export function getItem(javaCode, javaKey, itemCode) {
   const rows = getItems(javaCode, javaKey);
