@@ -131,14 +131,8 @@ const columns = [
   {
     title: 'Request Url',
     dataIndex: 'url',
-    render: (value, row) => {
-      let {reqPath,url} = row;
-      reqPath = reqPath || '';
-      url = url || '';
-      const urlPath = `${url}${reqPath}`;
-      return (
-        <Ellipsis length={20} style={{overflow: "inherit"}}>{urlPath}</Ellipsis>
-      )
+    render: () => {
+      return "******"
     }
   }
 ];
@@ -589,7 +583,7 @@ class ApiDetail extends PureComponent {
                   {back.serviceTypeTitle}
                 </Description>
                 <Description term={fieldLabels.back.url}>
-                  <Ellipsis length={20} style={{overflow: "inherit"}}>{back.url}</Ellipsis>
+                  <Ellipsis length={20} style={{overflow: "inherit"}}>******</Ellipsis>
                 </Description>
                 <Description term={fieldLabels.back.reqPath}>
                   <Ellipsis length={20} style={{overflow: "inherit"}}>{back.reqPath}</Ellipsis>
@@ -620,9 +614,9 @@ class ApiDetail extends PureComponent {
                   display: back.authType === 'fixedToken' ? 'block' : 'none',
                 }}
               >
-                <Description term={fieldLabels.backAttr.tokenKey}>{back.tokenKey}</Description>
+                <Description term={fieldLabels.backAttr.tokenKey}>******</Description>
                 <Description term={fieldLabels.backAttr.tokenStr}>
-                  <Ellipsis length={80} tooltip style={{overflow: "inherit"}}>{back.tokenStr}</Ellipsis>
+                  <Ellipsis length={80} tooltip style={{overflow: "inherit"}}>******</Ellipsis>
                 </Description>
               </DescriptionList>
               <DescriptionList
