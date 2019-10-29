@@ -137,21 +137,6 @@ const columns = [
   }
 ];
 
-const columnsOrg = [
-  {
-    title: 'Api Id',
-    dataIndex: 'apiId',
-  },
-  {
-    title: 'appkey',
-    dataIndex: 'appkey',
-  },
-  {
-    title: 'Org Name',
-    dataIndex: 'orgName',
-  },
-];
-
 const columnsApi = [
   {
     title: '父节点',
@@ -211,17 +196,6 @@ const columnsCode = [
     dataIndex: 'remark',
   },
 ];
-const columnsLog = [
-  {
-    title: 'Log Name',
-    dataIndex: 'name',
-  },
-  {
-    title: 'Value',
-    dataIndex: 'remark',
-  },
-];
-
 // const tableData = [
 //   {
 //     backendId: '1',
@@ -530,8 +504,7 @@ class ApiDetail extends PureComponent {
       responseBodySpec,
       stateCodeSpec,
       busiCodeSpec,
-      apiAttr,
-      apiOrderExtAttr
+      apiAttr
     } = this.state;
     const {back} = data;
 
