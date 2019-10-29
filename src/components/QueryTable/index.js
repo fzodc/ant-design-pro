@@ -151,20 +151,26 @@ const CreateForm = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => cancelHandle()}
     >
-      {addForms.map(item => (
-        <Form layout="vertical">
-          <FormItem
-            style={{ margin: 0 }}
-            key={`addFormItem-${item.name}`}
-            label={item.title}
-          >
-            {form.getFieldDecorator(item.name, {
-            initialValue: selectedRow ? selectedRow[item.name] : item.defaultValue||'',
-            rules: item.rules ? [] : [{ required: true, message: `please enter ${item.title}` }],
-          })(renderAutoForm(item))}
-          </FormItem>
-        </Form>
-      ))}
+      {addForms.map(item =>{
+        let styleStr = {margin: 0};
+        if(item.addHidden){
+          styleStr = {margin: 0,display:'none'};
+        }
+        return (
+          <Form layout="vertical">
+            <FormItem
+              style={{ ...styleStr }}
+              key={`addFormItem-${item.name}`}
+              label={item.title}
+            >
+              {form.getFieldDecorator(item.name, {
+                initialValue: selectedRow ? selectedRow[item.name] : item.defaultValue||'',
+                rules: item.rules ? [] : [{ required: true, message: `please enter ${item.title}` }],
+              })(renderAutoForm(item))}
+            </FormItem>
+          </Form>
+        )
+      })}
     </Modal>
   );
 });

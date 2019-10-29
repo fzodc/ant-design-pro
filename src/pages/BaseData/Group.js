@@ -27,6 +27,7 @@ class Group extends PureComponent {
       userId,
       columnDetails: [
         { name: 'groupId', title: 'Group ID', add: true, disabledAct:'true' }, // 第一列需要作为查询条件，新增时不需要采集
+        { name: 'tenantId', title: 'Tenant ID', add: true,addHidden:true,rules:[], }, // 第一列需要作为查询条件，新增时不需要采集
         { name: 'groupName', title: 'Group Name', sorter: true, query: true, add: true }, //  需要排序，需要作为查询条件，新增时需要采集
         { name: 'parentGroupId', title: 'parent', add: true, tag:'groupTreeSelect', detail:false, columnHidden: true,rules:[],defaultValue:'0'},
         {
