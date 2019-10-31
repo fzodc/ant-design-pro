@@ -56,7 +56,7 @@ const menuOption = [['remove', 'Remove'], ['enable', 'Enable'], ['disable', 'Dis
 const QueryCommandChildren = [];
 const otherChildren = [];
 const CreateForm = Form.create()(props => {
-  const { selectedRow, modalVisible, form, handleAdd, handleModalVisible } = props;
+  const { selectedRow, modalVisible, form, handleAdd, handleModalVisible,getTenantId,tenantId,techChange,techType } = props;
   // console.log('1 selectedRow in CreateForm :', selectedRow);
   const {
     columnSchemas: { key },
@@ -80,12 +80,18 @@ const CreateForm = Form.create()(props => {
     form.resetFields();
     handleModalVisible(row, flag);
   };
-  const renderAutoForm = item => {
+  // 租户编号修改则rang信息修改
+  const addTenant = (e) =>{
+    getTenantId(e);
+    const rang = null;
+    form.setFieldsValue({rang})
+  };
+  const renderAutoForm = (item) => {
     switch (item.tag) {
       case 'commonSelect':
         if(selectedRow || !item.addEnum){
           return (
-            <Select style={{ width: '100%' }}>
+            <Select style={{ width: '100%' }} onChange={techChange}>
               {item.enumData.map(d => (
                 <Option key={`${item.javaCode}_${item.javaKey}_${d.itemCode}`} value={d.itemCode}>
                   {d.itemValue}
@@ -95,7 +101,7 @@ const CreateForm = Form.create()(props => {
           );
         }
         return (
-          <Select style={{ width: '100%' }}>
+          <Select style={{ width: '100%' }} onChange={techChange}>
             {item.addEnum.map(d => (
               <Option key={`${item.javaCode}_${item.javaKey}_${d.itemCode}`} value={d.itemCode}>
                 {d.itemValue}
@@ -120,9 +126,9 @@ const CreateForm = Form.create()(props => {
       case 'AdapterSelectView':
         return <AdapterSelectView style={{ width: '100%' }} showSearch optionFilterProp="children" />;
       case 'OrgSelectView':
-        return <OrgSelectView style={{ width: '100%' }} userId={item.tagAttr.userId} orgType={item.tagAttr.orgType} sign="1" />;
+        return <OrgSelectView style={{ width: '100%' }} userId={item.tagAttr.userId} orgType={item.tagAttr.orgType} sign="1" filterTenant={tenantId} />;
       case 'TenantSelectView':
-        return <TenantSelectView style={{ width: '100%' }} />;
+        return <TenantSelectView style={{ width: '100%' }} onChange={addTenant} />;
       case 'textArea':
         return <TextArea rows={item.rows} />;
       case 'inputNumber':
@@ -153,7 +159,17 @@ const CreateForm = Form.create()(props => {
     >
       {addForms.map(item =>{
         let styleStr = {margin: 0};
-        if(item.addHidden){
+        // 新增信息某菜单是否隐藏
+        if(!selectedRow && item.addHidden){
+          styleStr = {margin: 0,display:'none'};
+        }
+        if(techType === 'Plugin' && (item.name === 'reqPath' || item.name === 'code')){
+          styleStr = {margin: 0,display:'none'};
+        }
+        if(techType === 'BeanShell' && (item.name === 'url')){
+          styleStr = {margin: 0,display:'none'};
+        }
+        if(techType === 'DynaToken' && (item.name === 'url' || item.name === 'reqPath' ||item.name === 'code')){
           styleStr = {margin: 0,display:'none'};
         }
         return (
@@ -183,6 +199,9 @@ class QueryTable extends PureComponent {
     selectedRows: [],
     selectedRow: {},
     formValues: {},
+    tenantId : '', // 用于查询过滤的租户号
+    addTenant : '', // 用于新增过滤的租户号
+    techType : ''
   };
 
   componentDidMount() {
@@ -550,6 +569,27 @@ class QueryTable extends PureComponent {
     });
   };
 
+  getTenantId = e => {
+    console.log("oooo",e);
+    this.setState({tenantId:e});
+    const {form} = this.props;
+    const rang = null;
+    form.setFieldsValue({ "searchForm.rang" : rang }); // rang搜索框修改
+  }
+
+  addTenantId = e => {
+    console.log("mmmm",e);
+    this.setState({addTenant:e});
+    const {form} = this.props;
+    const rang = null;
+    form.setFieldsValue({rang});
+  }
+
+  techChange = e =>{
+    console.log("xxx",e);
+    this.setState({techType:e});
+  }
+
   renderForm() {
     const { expandForm } = this.state;
     return expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
@@ -564,6 +604,7 @@ class QueryTable extends PureComponent {
       0,
       queryForms && queryForms.length > 1 ? 2 : queryForms.length
     );
+
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -586,7 +627,7 @@ class QueryTable extends PureComponent {
                       placeholder="please enter"
                     />
                   ) : item.tag === 'TenantSelectView' ?(
-                    <TenantSelectView />
+                    <TenantSelectView onChange={this.getTenantId}  />
                   ) : (
                     <Input key={`ele-${item.name}`} placeholder="please enter" />
                   )
@@ -613,6 +654,7 @@ class QueryTable extends PureComponent {
   }
 
   renderTForm = (queryForms, currentForm) => {
+    const {tenantId} = this.state;
     const { getFieldDecorator } = currentForm;
     return (
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -634,8 +676,10 @@ class QueryTable extends PureComponent {
                     style={{ width: '100%' }}
                     placeholder="please enter"
                   />
+                ) : item.tag === 'OrgSelectView' ?(
+                  <OrgSelectView userId={item.tagAttr.userId} orgType={item.tagAttr.orgType} sign="1" filterTenant={tenantId} />
                 ) : item.tag === 'TenantSelectView' ?(
-                  <TenantSelectView />
+                  <TenantSelectView onChange={this.getTenantId}  />
                 ) : (
                   <Input key={`ele-${item.name}`} placeholder="please enter" />
                 )
@@ -675,7 +719,7 @@ class QueryTable extends PureComponent {
   render() {
     const { data, loading, columnSchemas, onRow, size } = this.props;
     const { key,actions } = columnSchemas;
-    const { selectedRow, selectedRows, modalVisible,drawerVisible } = this.state;
+    const { selectedRow, selectedRows, modalVisible,drawerVisible,addTenant,techType } = this.state;
     // console.log("-----:",actions,actions&&!actions.haveAddPermissions);
     const menu = (
       <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
@@ -723,6 +767,10 @@ class QueryTable extends PureComponent {
           modalVisible={modalVisible}
           selectedRow={selectedRow}
           columnSchemas={columnSchemas}
+          getTenantId={this.addTenantId}
+          tenantId={addTenant}
+          techChange={this.techChange}
+          techType={techType}
         />
         <Drawer
           width={640}

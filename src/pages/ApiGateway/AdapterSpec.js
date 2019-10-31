@@ -34,6 +34,10 @@ class Adapter extends PureComponent {
     const userId = getUserId();
     const orgType = "0,1";
     const tagAttr ={ userId,orgType };
+    let queryHidden = false;
+    if( userId === 4 || userId === 22){
+      queryHidden = true;
+    }
 
     const commandAct = check(auth,'Properties');
 // 动作对象
@@ -47,6 +51,7 @@ class Adapter extends PureComponent {
     }:{havePermissions:false,
       haveAddPermissions:false,};
 
+
     const columnSchemas = {
       tableName: 'adapter_spec',
       key: 'id',
@@ -54,6 +59,23 @@ class Adapter extends PureComponent {
       relationKey: 'adapterSpecId',
       columnDetails: [
         { name: 'id', title: 'Adapter ID', columnHidden: true, add: true, disabledAct:'true' },
+        {
+          name: 'tenantId',
+          title: 'Tenant Name',
+          columnHidden: true,
+          query: queryHidden,
+          add: true,
+          tag: 'TenantSelectView',
+        },
+        {
+          name: 'rang',
+          title: 'Rang',
+          columnHidden: true,
+          query: true,
+          add: true,
+          tag: 'OrgSelectView',
+          tagAttr
+        },
         { name: 'name', title: 'Adapter Name', sorter: true, query: true, add: true, detailFlag:true },
         {
           name: 'pointType',
@@ -71,16 +93,7 @@ class Adapter extends PureComponent {
           query: true,
           add: true,
           tag: 'commonSelect',
-          enumData: techTypeList,
-        },
-        {
-          name: 'rang',
-          title: 'Rang',
-          columnHidden: true,
-          query: false,
-          add: true,
-          tag: 'OrgSelectView',
-          tagAttr
+          enumData: techTypeList
         },
         {
           name: 'orgName',
@@ -91,7 +104,15 @@ class Adapter extends PureComponent {
         },
         { name: 'url', title: 'Adapter URL', showLen:15,query: false, add: true ,rules:[]},
         { name: 'reqPath', title: 'Adapter Path', showLen:15,query: false, add: true ,rules:[]},
-        { name: 'code', title: 'Adapter Java Code', showLen:15, tag:'textArea',rows:5,query: false, add: true ,rules:[]},
+        { name: 'code',
+          title: 'Adapter Java Code',
+          showLen:15,
+          tag:'textArea',
+          rows:5,
+          query: false,
+          add: true ,
+          rules:[]
+        },
         {
           name: 'status',
           title: 'Status',
@@ -100,6 +121,8 @@ class Adapter extends PureComponent {
           add: true,
           tag: 'commonSelect',
           enumData: statusList,
+          addHidden:true,
+          rules:[]
         },
         { name: 'remark', title: 'remark',tag:'textArea',columnHidden: true, add: true,rows:3,rules:[] },
       ],

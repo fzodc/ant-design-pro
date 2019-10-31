@@ -18,16 +18,15 @@ class OrgSelectView extends PureComponent {
   };
 
   getOption(sign) {
-    const { orgList,field } = this.props;
-    return this.getOptionWhithList(orgList,sign,field);
+    const { orgList,field,filterTenant } = this.props;
+    return this.getOptionWhithList(orgList,sign,field,filterTenant);
   }
 
-  getOptionWhithList = (list,sign,field) => {
+  getOptionWhithList = (list,sign,field,filterTenant) => {
 
     let newList = list;
-
+    // 是否需要common
     if(sign){
-
       const comItem ={
         id : 0,
         orgName : "Common"
@@ -46,6 +45,10 @@ class OrgSelectView extends PureComponent {
     if(field){
       newField = field;
     }
+    // 是否过滤租户下的org信息
+    if(filterTenant){
+      newList = newList.filter(item=>item.tenantId === filterTenant || item.id === 0);
+    }
     return newList.map(item => (
       <Option key={item.id} value={item[newField]}>
         {item.orgName}-{item.orgCode}
@@ -60,9 +63,9 @@ class OrgSelectView extends PureComponent {
 
   render() {
     // const value = this.conversionObject();
-    const { value,sign,isDisable, } = this.props;
+    const { value,sign,isDisable } = this.props;
     const disable = isDisable?'disabled':'';
-    // console.log("xxoo",newValue);
+    // console.log("xxoo",filterTenant);
     return (
       <Select style={{ width: '100%' }} value={value} onSelect={this.selectChangeItem} disabled={disable}>
         {this.getOption(sign)}

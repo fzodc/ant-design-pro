@@ -148,7 +148,7 @@ export default {
       };
     },
     saveTenant(state, action) {
-      const tenantList = action.payload ? action.payload.data.records : [];
+      const tenantList = action.payload ? action.payload.data : [];
       return {
         ...state,
         tenantList

@@ -505,7 +505,7 @@ class ApiUpdate extends PureComponent {
                       <Radio value="noneAuth">No authentication</Radio>
                       <Radio value="basicAuth">Basic authentication</Radio>
                       <Radio value="fixedToken">fixed token authentication</Radio>
-                      <Radio value="dyncToken">dynamic token authentication</Radio>
+                      {/*<Radio value="dyncToken">dynamic token authentication</Radio>*/}
                     </Radio.Group>
                   )}
                 </Form.Item>
