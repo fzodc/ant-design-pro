@@ -149,6 +149,16 @@ const CreateForm = Form.create()(props => {
     });
   // console.log('addForm:', addForms);
   const modalTitle = selectedRow ? 'update' : 'new';
+  let newTechType = '';
+  if(selectedRow){
+    const {techType:type} = selectedRow || {techType:''};
+    if(type){
+      newTechType = type;
+    }
+  }
+  if(techType){
+    newTechType = techType;
+  }
 
   return (
     <Modal
@@ -163,13 +173,13 @@ const CreateForm = Form.create()(props => {
         if(!selectedRow && item.addHidden){
           styleStr = {margin: 0,display:'none'};
         }
-        if(techType === 'Plugin' && (item.name === 'reqPath' || item.name === 'code')){
+        if(newTechType === 'Plugin' && (item.name === 'reqPath' || item.name === 'code')){
           styleStr = {margin: 0,display:'none'};
         }
-        if(techType === 'BeanShell' && (item.name === 'url')){
+        if(newTechType === 'BeanShell' && (item.name === 'url')){
           styleStr = {margin: 0,display:'none'};
         }
-        if(techType === 'DynaToken' && (item.name === 'url' || item.name === 'reqPath' ||item.name === 'code')){
+        if(newTechType === 'DynaToken' && (item.name === 'url' || item.name === 'reqPath' ||item.name === 'code')){
           styleStr = {margin: 0,display:'none'};
         }
         return (
@@ -201,7 +211,7 @@ class QueryTable extends PureComponent {
     formValues: {},
     tenantId : '', // 用于查询过滤的租户号
     addTenant : '', // 用于新增过滤的租户号
-    techType : ''
+    techType : '' // 用于新增时候的判断类型
   };
 
   componentDidMount() {
@@ -552,6 +562,7 @@ class QueryTable extends PureComponent {
     this.setState({
       modalVisible: !!flag,
       selectedRow: row,
+      techType:null
     });
   };
 
@@ -570,7 +581,6 @@ class QueryTable extends PureComponent {
   };
 
   getTenantId = e => {
-    console.log("oooo",e);
     this.setState({tenantId:e});
     const {form} = this.props;
     const rang = null;
@@ -578,7 +588,6 @@ class QueryTable extends PureComponent {
   }
 
   addTenantId = e => {
-    console.log("mmmm",e);
     this.setState({addTenant:e});
     const {form} = this.props;
     const rang = null;
