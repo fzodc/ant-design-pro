@@ -9,6 +9,7 @@ import { getItems } from '@/utils/masterData';
 
 import Authorized from '@/utils/Authorized';
 import { getAuth, getUserId } from '@/utils/authority';
+import {getUserName} from "../../utils/authority";
 
 const { check } = Authorized;
 
@@ -32,10 +33,11 @@ class Adapter extends PureComponent {
     const saveAct = check(auth,'Modify'); // 检查某个功能权的权限，如果有权限，返回第二个参数的值作为展现内容
     // 获取userId
     const userId = getUserId();
+    const userName = getUserName();
     const orgType = "0,1";
     const tagAttr ={ userId,orgType };
     let queryHidden = false;
-    if( userId === 4 || userId === 22){
+    if(userName === 'super_admin' ||userName=== 'super_manager'){
       queryHidden = true;
     }
 

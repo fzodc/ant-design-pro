@@ -29,7 +29,7 @@ import TenantSelectView from "../UserManager/TenantSelectView";
 
 import styles from './ApiList.less';
 import {getItems,getItemValue2} from '@/utils/masterData';
-import {getUserId,getToken} from "../../utils/authority";
+import {getUserId, getToken, getUserName} from "../../utils/authority";
 import constants from '@/utils/constUtil';
 
 const { PREFIX_PATH,TOKEN_PREFIX,ACT,API_STATUS,WS } = constants;
@@ -686,8 +686,9 @@ class WsdlList extends PureComponent {
       form: { getFieldDecorator },
     } = this.props;
     const userId = getUserId();
+    const userName = getUserName();
     let tenantStr = '';
-    if( userId === 4 || userId === 22){
+    if(userName === 'super_admin' ||userName=== 'super_manager'){
       tenantStr = (<Col md={8} sm={24}><FormItem label="Tenant">{getFieldDecorator('tenantId', {})(<TenantSelectView userId={userId} />)}</FormItem></Col>);
     }
     return (

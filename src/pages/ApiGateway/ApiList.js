@@ -34,6 +34,7 @@ import GroupMutiTreeSelectView from "./GroupMutiTreeSelectView";
 import WsdlSelectView from "./WsdlSelectView";
 import AppkeyTransfer from "./AppkeyTransfer";
 import TenantSelectView from "../UserManager/TenantSelectView";
+import {getUserName} from "../../utils/authority";
 
 const { check } = Authorized;
 
@@ -603,11 +604,12 @@ class TableList extends PureComponent {
       location
     } = this.props;
     const userId = getUserId();
+    const userName = getUserName();
     const {state} = location;
     const {wsdlId} = state || {wsdlId: ''};
     const {selectedRows} = this.state;
     let tenantStr = '';
-    if( userId === 4 || userId === 22){
+    if(userName === 'super_admin' ||userName=== 'super_manager'){
       tenantStr = (<Col md={8} sm={24}><FormItem label="Tenant">{getFieldDecorator('tenantId', {})(<TenantSelectView userId={userId} />)}</FormItem></Col>);
     }
     return (
@@ -663,10 +665,11 @@ class TableList extends PureComponent {
       location
     } = this.props;
     const userId = getUserId();
+    const userName = getUserName();
     const {state} = location;
     const {wsdlId} = state || {wsdlId: ''};
     let tenantStr = '';
-    if( userId === 4 || userId === 22){
+    if(userName === 'super_admin' ||userName=== 'super_manager'){
       tenantStr = (<Col md={8} sm={24}><FormItem label="Tenant">{getFieldDecorator('tenantId', {})(<TenantSelectView userId={userId} />)}</FormItem></Col>);
     }
     return (

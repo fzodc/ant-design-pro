@@ -10,7 +10,7 @@ import RoleTransfer from "./RoleTransfer";
 
 import Authorized from '@/utils/Authorized';
 import { getAuth } from '@/utils/authority';
-import {getUserId} from "../../utils/authority";
+import {getUserId, getUserName} from "../../utils/authority";
 
 const { check } = Authorized;
 
@@ -35,7 +35,8 @@ class User extends PureComponent {
     const saveAct = check(auth,'Modify'); // 检查某个功能权的权限，如果有权限，返回第二个参数的值作为展现内容
     const commandAct = check(auth,'Role');
     const userId = getUserId();
-    const isSuper = !!(userId ===4 ||userId === 22);
+    const userName = getUserName();
+    const isSuper = !!(userName === 'super_admin' ||userName=== 'super_manager');
 // 动作对象
     const actions=saveAct||commandAct?{
       title:'action',
