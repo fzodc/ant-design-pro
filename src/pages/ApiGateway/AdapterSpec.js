@@ -64,6 +64,7 @@ class Adapter extends PureComponent {
           title: 'Tenant Name',
           columnHidden: true,
           query: queryHidden,
+          editHidden:!queryHidden,
           add: true,
           tag: 'TenantSelectView',
         },

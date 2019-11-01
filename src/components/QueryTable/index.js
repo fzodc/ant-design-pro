@@ -86,6 +86,16 @@ const CreateForm = Form.create()(props => {
     const rang = null;
     form.setFieldsValue({rang})
   };
+  let newTenantId = '';
+  if(selectedRow){
+    const {tenantId:tid} = selectedRow || {tenantId:''};
+    if(tid){
+      newTenantId = tid;
+    }
+  }
+  if(techType){
+    newTechType = techType;
+  }
   const renderAutoForm = (item) => {
     switch (item.tag) {
       case 'commonSelect':
@@ -126,7 +136,7 @@ const CreateForm = Form.create()(props => {
       case 'AdapterSelectView':
         return <AdapterSelectView style={{ width: '100%' }} showSearch optionFilterProp="children" />;
       case 'OrgSelectView':
-        return <OrgSelectView style={{ width: '100%' }} userId={item.tagAttr.userId} orgType={item.tagAttr.orgType} sign="1" filterTenant={tenantId} />;
+        return <OrgSelectView style={{ width: '100%' }} userId={item.tagAttr.userId} orgType={item.tagAttr.orgType} sign="1" filterTenant={newTenantId} />;
       case 'TenantSelectView':
         return <TenantSelectView style={{ width: '100%' }} onChange={addTenant} />;
       case 'textArea':
@@ -170,7 +180,7 @@ const CreateForm = Form.create()(props => {
       {addForms.map(item =>{
         let styleStr = {margin: 0};
         // 新增信息某菜单是否隐藏
-        if(!selectedRow && item.addHidden){
+        if(!selectedRow && item.addHidden || item.editHidden){
           styleStr = {margin: 0,display:'none'};
         }
         if(newTechType === 'Plugin' && (item.name === 'reqPath' || item.name === 'code')){
@@ -562,7 +572,8 @@ class QueryTable extends PureComponent {
     this.setState({
       modalVisible: !!flag,
       selectedRow: row,
-      techType:null
+      techType:null,
+      addTenant:null
     });
   };
 
@@ -613,7 +624,7 @@ class QueryTable extends PureComponent {
       0,
       queryForms && queryForms.length > 1 ? 2 : queryForms.length
     );
-
+    const {tenantId} = this.state;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -635,6 +646,8 @@ class QueryTable extends PureComponent {
                       style={{ width: '100%' }}
                       placeholder="please enter"
                     />
+                  ) : item.tag === 'OrgSelectView' ?(
+                    <OrgSelectView userId={item.tagAttr.userId} orgType={item.tagAttr.orgType} sign="1" filterTenant={tenantId} />
                   ) : item.tag === 'TenantSelectView' ?(
                     <TenantSelectView onChange={this.getTenantId}  />
                   ) : (
