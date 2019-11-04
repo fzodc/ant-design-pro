@@ -226,6 +226,8 @@ class TableList extends PureComponent {
       this.handleStatusClick(ACT.OFFLINE, record);
     } else if (key === 'handleDelete') {
       this.handleStatusClick(ACT.DEL, record);
+    } else if (key === 'handleDown'){
+      this.handleDown(record);
     }
   };
 
@@ -240,6 +242,7 @@ class TableList extends PureComponent {
             <Menu.Item key="handleUpdateDoc">API doc</Menu.Item>
             <Menu.Item key="handleDebug">Debug</Menu.Item>
             <Menu.Item key="handleLog">Set Log</Menu.Item>
+            <Menu.Item key="handleDown">Download</Menu.Item>
             {status === API_STATUS.ONLINE ? <Menu.Item key="handleOffline">Offline</Menu.Item> : null}
             {status === API_STATUS.OFFLINE ? <Menu.Item key="handleDelete">Remove</Menu.Item> : null}
           </Menu>
@@ -370,6 +373,15 @@ class TableList extends PureComponent {
         this.respDeal(resp, dispatch);
       },
     });
+  };
+
+  handleDown = (record) => {
+    const {apiId} = record;
+    const oa = document.createElement('a');
+    oa.href = `/server/baseInfo/statement/api?apiId=${apiId}`;
+    oa.setAttribute('target', '_blank');
+    document.body.appendChild(oa);
+    oa.click();
   };
   // handleMenuClick = e => {
   //   const { dispatch } = this.props;
