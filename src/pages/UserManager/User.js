@@ -10,7 +10,7 @@ import RoleTransfer from "./RoleTransfer";
 
 import Authorized from '@/utils/Authorized';
 import { getAuth } from '@/utils/authority';
-import {getUserId, getUserName} from "../../utils/authority";
+import {getToken, getUserId, getUserName} from "../../utils/authority";
 
 const { check } = Authorized;
 
@@ -40,7 +40,7 @@ class User extends PureComponent {
 // 动作对象
     const actions=saveAct||commandAct?{
       title:'action',
-      width:130,
+      width:200,
       saveAct,
       commandAct,
       havePermissions:true,
@@ -121,6 +121,31 @@ class User extends PureComponent {
     this.child = ref
   }
 
+  handleDown = () => {
+    const {selectedRow}=this.state;
+    const {id} = selectedRow;
+    const token = getToken();
+    const url= `/server/baseInfo/statement/user?userId=${id}`;
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.setRequestHeader("Content-type","application/json");
+    xhr.setRequestHeader("Authorization",`Bearer ${token}`);
+    xhr.send();
+    xhr.responseType = "blob";  // 返回类型blob
+    xhr.onload = function() {   // 定义请求完成的处理函数，请求前也可以增加加载框/禁用下载按钮逻辑
+      const blob = this.response;
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);  // 转换为base64，可以直接放入a标签href
+      reader.onload =function (e) {
+        // 转换完成，创建一个a标签用于下载
+        const a = document.createElement('a');
+        a.download = `user_config.sql`;
+        a.href = e.target.result;
+        document.body.appendChild(a);  // 修复firefox中无法触发click
+        a.click();
+      }
+    }
+  };
 
   render() {
     const {modalVisible,selectedRow,columnSchemas}=this.state;
@@ -130,6 +155,8 @@ class User extends PureComponent {
       <QueryCommand>
         <Divider type="vertical" />
         <a onClick={() => this.handleRole()}>Role</a>
+        <Divider type="vertical" />
+        <a onClick={() => this.handleDown()}>Download</a>
       </QueryCommand>
     ):'';
     return (

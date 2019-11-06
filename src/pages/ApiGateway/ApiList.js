@@ -34,7 +34,7 @@ import GroupMutiTreeSelectView from "./GroupMutiTreeSelectView";
 import WsdlSelectView from "./WsdlSelectView";
 import AppkeyTransfer from "./AppkeyTransfer";
 import TenantSelectView from "../UserManager/TenantSelectView";
-import {getUserName} from "../../utils/authority";
+import {getToken, getUserName} from "../../utils/authority";
 
 const { check } = Authorized;
 
@@ -376,12 +376,35 @@ class TableList extends PureComponent {
   };
 
   handleDown = (record) => {
-    const {apiId} = record;
-    const oa = document.createElement('a');
-    oa.href = `/server/baseInfo/statement/api?apiId=${apiId}`;
-    oa.setAttribute('target', '_blank');
-    document.body.appendChild(oa);
-    oa.click();
+    // const {apiId} = record;
+    // const oa = document.createElement('a');
+    // oa.href = `/server/baseInfo/statement/api?apiId=${apiId}`;
+    // oa.setAttribute('target', '_blank');
+    // document.body.appendChild(oa);
+    // oa.click();
+    const {apiId,name} = record;
+    const token = getToken();
+    const url=`/server/baseInfo/statement/api?apiId=${apiId}`;
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.setRequestHeader("Content-type","application/json");
+    xhr.setRequestHeader("Authorization",`Bearer ${token}`);
+    xhr.send();
+    xhr.responseType = "blob";  // 返回类型blob
+    xhr.onload = function() {   // 定义请求完成的处理函数，请求前也可以增加加载框/禁用下载按钮逻辑
+        const blob = this.response;
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);  // 转换为base64，可以直接放入a标签href
+        reader.onload =function (e) {
+          // 转换完成，创建一个a标签用于下载
+          const a = document.createElement('a');
+          a.download = `${name}_api_config.sql`;
+          a.href = e.target.result;
+          document.body.appendChild(a);  // 修复firefox中无法触发click
+          a.click();
+        }
+    }
+
   };
   // handleMenuClick = e => {
   //   const { dispatch } = this.props;

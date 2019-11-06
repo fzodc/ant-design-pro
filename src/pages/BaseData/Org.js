@@ -9,6 +9,7 @@ import UserTransfer from './UserTransfer';
 
 import Authorized from '@/utils/Authorized';
 import {getAuth, getUserId, getUserName} from '@/utils/authority';
+import {getToken} from "../../utils/authority";
 
 const { check } = Authorized;
 
@@ -29,7 +30,7 @@ class Org extends PureComponent {
       saveAct || commandAct
         ? {
             title: 'action',
-            width: 200,
+            width: 300,
             saveAct,
             commandAct,
             havePermissions: true,
@@ -119,7 +120,6 @@ class Org extends PureComponent {
 
   handleUser = () => {
     const { selectedRow } = this.state;
-    console.log('112213', selectedRow);
     if (selectedRow && selectedRow.orgType !== '2') {
       // message.success(selectedRow.username);
       this.setState({
@@ -130,7 +130,7 @@ class Org extends PureComponent {
     }
   };
 
-  handleList = ( record ) =>{
+  handleList = ( ) =>{
     const { selectedRow } = this.state;
     const { id,orgCode } = selectedRow;
     router.push({
@@ -142,6 +142,33 @@ class Org extends PureComponent {
       },
     });
   }
+
+
+  handleDown = () => {
+    const {selectedRow}=this.state;
+    const {id} = selectedRow;
+    const token = getToken();
+    const url= `/server/baseInfo/statement/org?orgId=${id}`;
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.setRequestHeader("Content-type","application/json");
+    xhr.setRequestHeader("Authorization",`Bearer ${token}`);
+    xhr.send();
+    xhr.responseType = "blob";  // 返回类型blob
+    xhr.onload = function() {   // 定义请求完成的处理函数，请求前也可以增加加载框/禁用下载按钮逻辑
+      const blob = this.response;
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);  // 转换为base64，可以直接放入a标签href
+      reader.onload =function (e) {
+        // 转换完成，创建一个a标签用于下载
+        const a = document.createElement('a');
+        a.download = `user_config.sql`;
+        a.href = e.target.result;
+        document.body.appendChild(a);  // 修复firefox中无法触发click
+        a.click();
+      }
+    }
+  };
 
   handleVisible = modalVisible => {
     // console.log("---modalVisible＝＝＝＝3:",modalVisible);
@@ -186,6 +213,10 @@ class Org extends PureComponent {
               <Divider type="vertical" />
               <a onClick={() => this.handleList()} title="Appkey List">
                 Appkey
+              </a>
+              <Divider type="vertical" />
+              <a onClick={() => this.handleDown()} title="Download Org Config Sql">
+                Download
               </a>
             </QueryCommand>
           </span>
