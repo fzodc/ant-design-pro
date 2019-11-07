@@ -97,9 +97,6 @@ const CreateForm = Form.create()(props => {
       }
     }
   }
-  if(techType){
-    newTechType = techType;
-  }
   const renderAutoForm = (item) => {
     switch (item.tag) {
       case 'commonSelect':
