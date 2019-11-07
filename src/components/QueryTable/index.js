@@ -88,9 +88,13 @@ const CreateForm = Form.create()(props => {
   };
   let newTenantId = '';
   if(selectedRow){
-    const {tenantId:tid} = selectedRow || {tenantId:''};
-    if(tid){
-      newTenantId = tid;
+    if(tenantId){
+      newTenantId = tenantId;
+    }else{
+      const {tenantId:tid} = selectedRow || {tenantId:''};
+      if(tid){
+        newTenantId = tid;
+      }
     }
   }
   if(techType){
