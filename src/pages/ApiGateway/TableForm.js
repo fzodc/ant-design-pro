@@ -1,5 +1,5 @@
 import React, {Fragment, PureComponent} from 'react';
-import {Button, Divider, Input, message, Popconfirm, Select, Table, Tag,Row,Col,Icon} from 'antd';
+import {Button, Divider, Input, message, Popconfirm, Select, Table, Tag,Row,Col} from 'antd';
 import { connect } from 'dva';
 import isEqual from 'lodash/isEqual';
 import styles from './style.less';
@@ -187,15 +187,19 @@ class TableForm extends PureComponent {
   }
 
 
-  handleAdapterFieldChange(e, adapterSpecName, record) {
+  handleAdapterFieldChange(e, adapterSpecName, record, techType) {
     const {key}=record;
     const { data } = this.state;
+    const {tableChange} = this.props;
     const newData = data.map(item => ({ ...item }));
     const target = this.getRowByKey(key, newData);
     if (target) {
+      // 如果选择的是动态token把落地方的类型修改下
+      tableChange(techType,record.backendType);
+
       const originTarget=this.originData.find(item=>item.key===record.key&&e===item.adapterSpecId);// 获取数据库中的数据
       const originTargetAttr=originTarget?originTarget.adapterAttrs:[];
-      console.log("===== origin in handleAdapterFieldChange:",record.key,originTarget,originTargetAttr)
+      console.log(e,adapterSpecName,record,"===== origin in handleAdapterFieldChange:",record.key,originTarget,originTargetAttr)
       target.adapterSpecId = e;
       target.adapterSpecName = adapterSpecName;
       if(originTargetAttr && originTargetAttr.length>0){
@@ -428,7 +432,7 @@ class TableForm extends PureComponent {
                 value={text}
                 record={record}
                 style={{ width: 300 }}
-                onMyChange={(e,adapterSpecName) => this.handleAdapterFieldChange(e, adapterSpecName,record)}
+                onMyChange={(e,adapterSpecName,techType) => this.handleAdapterFieldChange(e, adapterSpecName,record,techType)}
               />
 
             );
