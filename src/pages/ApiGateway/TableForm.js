@@ -198,7 +198,7 @@ class TableForm extends PureComponent {
       console.log("===== origin in handleAdapterFieldChange:",record.key,originTarget,originTargetAttr)
       target.adapterSpecId = e;
       target.adapterSpecName = adapterSpecName;
-      if(originTargetAttr.length>0){
+      if(originTargetAttr && originTargetAttr.length>0){
         target.adapterAttrs=originTargetAttr;// 如果切换到数据库中的adatper，则还原adapter属性为数据库的数据
         this.setState({ data: newData });
         console.log("=====in changeAdapter:",record.key,originTarget,originTargetAttr)

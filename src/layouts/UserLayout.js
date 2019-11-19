@@ -63,10 +63,10 @@ class UserLayout extends Component {
               <div className={styles.header}>
                 <Link to="/">
                   <img alt="logo" className={styles.logo} src={logo} />
-                  <span className={styles.title}>O2P Lite</span>
+                  <span className={styles.title}>API Gateway</span>
                 </Link>
               </div>
-              <div className={styles.desc}>O2P Lite 能力开放平台、最具影响力的 Api Gateway.</div>
+              <div className={styles.desc}>能力开放平台、最具影响力的 Api Gateway.</div>
             </div>
             {children}
           </div>

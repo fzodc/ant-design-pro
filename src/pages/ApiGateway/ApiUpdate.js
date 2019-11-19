@@ -305,7 +305,7 @@ class ApiUpdate extends PureComponent {
       apiService && apiService.apiServiceBackends
         ? apiService.apiServiceBackends.map(item => ({ ...item, key: item.key||item.backendId }))
         : [];
-    // console.log("apiServiceBackendMembers:",apiServiceBackendMembers);
+    console.log("apiServiceBackendMembers:",apiServiceBackendMembers);
     const serviceType = form.getFieldValue("front.serviceType");
     const display = serviceType !== '2' ? {display: 'none'} : null;
     return (
