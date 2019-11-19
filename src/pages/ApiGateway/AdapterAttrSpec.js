@@ -15,7 +15,16 @@ const columnSchemas = {
     { name: 'attrSpecId', title: 'ID', add: true, disabledAct:'true' },
     { name: 'attrSpecCode', title: 'Attr Code', sorter: false, query: true, add: true,detailFlag:true },
     { name: 'attrSpecName', title: 'Attr Name', sorter: false, query: true, add: true },
-    { name: 'defaultValue', title: 'Default Value', sorter: false, add: true ,rules:[],showLen:22},
+    {
+      name: 'defaultValue',
+      title: 'Default Value',
+      sorter: false,
+      add: true ,
+      rules:[],
+      tag:'textArea',
+      showLen:22,
+      rows: 5,
+    },
     {
       name: 'status',
       title: 'Status',
