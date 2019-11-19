@@ -291,6 +291,18 @@ class ApiUpdate extends PureComponent {
     }
   };
 
+  tableChange = (techType,backendType) =>{
+    const { form } = this.props;
+    const backAuthType = form.getFieldValue('backAttr.authType');
+    console.log("tableChange",techType,backendType);
+    // 如果选择的是动态token把落地方的类型修改下
+    if(techType === 'DynaToken' && backendType === 'in'){
+      form.setFieldsValue({'backAttr.authType':'dyncToken'});
+    }else if(backAuthType === 'dyncToken'){
+        form.setFieldsValue({'backAttr.authType':''});
+    }
+  }
+
   render() {
     const {
       form,
@@ -499,13 +511,13 @@ class ApiUpdate extends PureComponent {
               >
                 <Form.Item label={fieldLabels.back.authType}>
                   {getFieldDecorator('backAttr.authType', {
-                    rules: [{ required: true, message: `please choose${fieldLabels.backAttr.authType}` }],
+                    rules: [{ required: true, message: `please choose ${fieldLabels.back.authType}` }],
                   })(
                     <Radio.Group>
                       <Radio value="noneAuth">No authentication</Radio>
                       <Radio value="basicAuth">Basic authentication</Radio>
                       <Radio value="fixedToken">fixed token authentication</Radio>
-                      {/*<Radio value="dyncToken">dynamic token authentication</Radio>*/}
+                      <Radio value="dyncToken">dynamic token authentication</Radio>
                     </Radio.Group>
                   )}
                 </Form.Item>
@@ -581,11 +593,11 @@ class ApiUpdate extends PureComponent {
                 </Form.Item>
               </Col>
             </Row>
-            <Row
+            {/*<Row
               gutter={16}
               style={{
                 background: '#fff7e6',
-                display: getFieldValue('backAttr.authType') === 'dyncToken' ? 'block' : 'none',
+                display: getFieldValue('backAttr.authType') === 'dyncToken' ? 'none' : 'none',
               }}
             >
               <Col lg={6} md={12} sm={24} style={{ height: 80 }}>
@@ -636,7 +648,7 @@ class ApiUpdate extends PureComponent {
                   })(<Input />)}
                 </Form.Item>
               </Col>
-            </Row>
+            </Row>*/}
             <Row gutter={16}>
               {/*
               <Col lg={6} md={12} sm={24} style={{ height: 80 }}>
@@ -755,7 +767,7 @@ class ApiUpdate extends PureComponent {
             <Card bordered={false}>
               {getFieldDecorator('members', {
                 initialValue: apiServiceBackendMembers,
-              })(<TableForm />)}
+              })(<TableForm tableChange={this.tableChange} />)}
             </Card>
           </TabPane>
         </Tabs>

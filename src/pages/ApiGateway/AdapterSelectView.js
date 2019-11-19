@@ -87,7 +87,8 @@ class AdapterSelectView extends PureComponent {
     const { onMyChange } = this.props;
     if(onMyChange){
       const cur=adapter.find(obj=>obj.id===item);
-      onMyChange(item,cur.name);
+      console.log("select",cur.techType);
+      onMyChange(item,cur.name,cur.techType);
     }
   };
 
