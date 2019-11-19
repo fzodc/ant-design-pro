@@ -130,7 +130,7 @@ export default {
         pathPrefix:'/rest/',
         apiServiceBackends:[{
           serviceType:'2',
-          socketTimeout: 20000,
+          socketTimeout: 30000,
           connectTimeout: 30000,
           serviceSeq:1,
           backendType:CALL_POINT,

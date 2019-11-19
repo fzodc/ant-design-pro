@@ -139,7 +139,7 @@ class WsdlApi extends PureComponent {
             </Form.Item>
             <Form.Item {...formItemLayout} label="socket timeout（ms）">
               {getFieldDecorator('apiServiceBackend.socketTimeout', {
-                initialValue: '20000',
+                initialValue: '30000',
                 rules: [
                   { required: true, message: 'socket timeout（ms）' },
                   {
