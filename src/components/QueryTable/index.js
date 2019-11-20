@@ -189,10 +189,10 @@ const CreateForm = Form.create()(props => {
         if(newTechType === 'Plugin' && (item.name === 'reqPath' || item.name === 'code')){
           styleStr = {margin: 0,display:'none'};
         }
-        if(newTechType === 'BeanShell' && (item.name === 'url')){
+        if(newTechType === 'BeanShell' && (item.name === 'url'|| item.name === 'reqPath' )){
           styleStr = {margin: 0,display:'none'};
         }
-        if(newTechType === 'DynaToken' && (item.name === 'url' || item.name === 'reqPath' ||item.name === 'code')){
+        if(newTechType === 'DynaToken' && (item.name === 'code')){
           styleStr = {margin: 0,display:'none'};
         }
         return (
