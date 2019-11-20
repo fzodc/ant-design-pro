@@ -47,6 +47,55 @@ class TenantGsix extends PureComponent {
     const nodes = [];//  size是图形的大小
     const edges = [];
     if(tenantList) {
+      tenantList.forEach((item,index) => {
+        const node = {id: `${item.orgId}`, shape: 'circle', label: item.orgName};
+        if(nodes){
+          const sameNode = nodes.filter(val => val.id === node.id);
+          // 相同的节点就不插入
+          if(sameNode.length === 0){
+            nodes.push(node);
+          }
+        }else{
+          nodes.push(node);
+        }
+        const {callSystemId} = item;
+        let other = null;
+        let color = 'blue';
+        if(callSystemId){
+          other = {id: `${item.callSystemId}`, shape: 'circle', label:`${item.callSystemName}`};
+        }else{
+          other = {id: `u${index}`, shape: 'circle', label:`${item.callSystemName}-${item.appkey}`};
+          color = 'red';
+        }
+        const sameNode = nodes.filter(val => val.id === other.id);
+        if(sameNode.length === 0){
+          nodes.push(other);
+        }
+        const edge = {source: `${item.orgId}`, target: `${other.id}`,color};
+        edges.push(edge);
+      });
+    }
+    const data = {
+      nodes,
+      edges
+    };
+    console.log(data);
+    if(nodes.length === 0){
+      return "";
+    }
+    return (
+      <Gsix
+        data={data}
+        onDetail={this.onDetail}
+      />
+    );
+  }
+
+  getPayloadGix1 = () =>{
+    const {tenantList} = this.state;
+    const nodes = [];//  size是图形的大小
+    const edges = [];
+    if(tenantList) {
       tenantList.forEach(item => {
         const node = {id: `${item.id}`, shape: 'circle', label: item.orgName};
         if(nodes){
