@@ -66,11 +66,11 @@ export function getPayloadForUpdate(oldApiService,values,userId) {
     newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'tokenStr'));
     newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs, backAttr, 'tokenKey'));
   }
-  else if(backAttr.authType==='dyncToken'){
-    newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'tokenUser'));
-    newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'tokenPassword'));
-    newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'tokenUrl'));
-  }
+  // else if(backAttr.authType==='dyncToken'){
+  //   newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'tokenUser'));
+  //   newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'tokenPassword'));
+  //   newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'tokenUrl'));
+  // }
   if(backAttr.ssl==='open'){
     newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'trustStore'));
     newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'trustStorePassword'));

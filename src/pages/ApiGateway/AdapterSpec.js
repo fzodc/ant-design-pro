@@ -37,8 +37,10 @@ class Adapter extends PureComponent {
     const orgType = "0,1";
     const tagAttr ={ userId,orgType };
     let queryHidden = false;
+    let ruleAttr = [];
     if(userName === 'super_admin' ||userName=== 'super_manager'){
       queryHidden = true;
+      ruleAttr = [{required: true}];
     }
 
     const commandAct = check(auth,'Properties');
@@ -53,7 +55,6 @@ class Adapter extends PureComponent {
     }:{havePermissions:false,
       haveAddPermissions:false,};
 
-
     const columnSchemas = {
       tableName: 'adapter_spec',
       key: 'id',
@@ -67,6 +68,7 @@ class Adapter extends PureComponent {
           columnHidden: true,
           query: queryHidden,
           editHidden:!queryHidden,
+          rules:ruleAttr,
           add: true,
           tag: 'TenantSelectView',
         },

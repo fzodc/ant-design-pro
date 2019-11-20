@@ -96,6 +96,8 @@ const CreateForm = Form.create()(props => {
         newTenantId = tid;
       }
     }
+  }else if(tenantId){
+    newTenantId = tenantId;
   }
   const renderAutoForm = (item) => {
     switch (item.tag) {
