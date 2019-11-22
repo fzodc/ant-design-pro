@@ -1,7 +1,8 @@
-import React, {PureComponent} from 'react';
-import {Divider, message, Card, Row, Col, Table, Button, Form, Modal, Input, Select, Drawer, Tag} from 'antd';
+import React, {PureComponent,Fragment} from 'react';
+import {Divider, message, Card, Row, Col, Table, Button, Form, Modal, Input, Select, Drawer, Tag, Dropdown, Menu, Icon} from 'antd';
 import {connect} from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import Ellipsis from '@/components/Ellipsis';
 import {getItems,getItemsToInt} from '@/utils/masterData';
 
 import { getUserId, getUserName} from '@/utils/authority';
@@ -36,7 +37,7 @@ const getFormItemArray = (currentProps, type) => {
 };
 // 定义编辑页面
 const CreateForm = Form.create()(props => {
-  const { selectedRow, modalVisible, form, handleAdd, handleModalVisible } = props;
+  const { selectedRow, modalVisible, form, handleAdd, handleModalVisible,authType,authChange } = props;
   // console.log('1 selectedRow in CreateForm :', selectedRow);
   const {
     columnSchemas: { key },
@@ -66,7 +67,7 @@ const CreateForm = Form.create()(props => {
       case 'commonSelect':
         if(selectedRow || !item.addEnum) {
           return (
-            <Select style={{width: '100%'}} disabled={item.disabled}>
+            <Select style={{width: '100%'}} disabled={item.disabled} onChange={authChange}>
               {item.enumData.map(d => (
                 <Option key={`${item.javaCode}_${item.javaKey}_${d.itemCode}`} value={d.itemCode}>
                   {d.itemValue}
@@ -76,7 +77,7 @@ const CreateForm = Form.create()(props => {
           );
         }
         return (
-          <Select style={{width: '100%'}} disabled={item.disabled}>
+          <Select style={{width: '100%'}} disabled={item.disabled} onChange={authChange}>
             {item.addEnum.map(d => (
               <Option key={`${item.javaCode}_${item.javaKey}_${d.itemCode}`} value={d.itemCode}>
                 {d.itemValue}
@@ -109,6 +110,18 @@ const CreateForm = Form.create()(props => {
   if(selectedRow){
     addForms = editForms;
   }
+
+  let newAuthType = '';
+  if(selectedRow){
+    const {authType:type} = selectedRow || {authType:''};
+    if(type){
+      newAuthType = type;
+    }
+  }
+  if(authType){
+    newAuthType = authType;
+  }
+  console.log("newAuthType",newAuthType);
   return (
     <Modal
       title={modalTitle}
@@ -117,20 +130,36 @@ const CreateForm = Form.create()(props => {
       onCancel={() => cancelHandle()}
     >
       <div>
-        {addForms.map(item => (
-          <FormItem
-            key={`addFormItem-${item.name}`}
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 12 }}
-            label={item.title}
-          >
-            {form.getFieldDecorator(item.name, {
-              /* eslint-disable no-nested-ternary */
-              initialValue: selectedRow?(item.prefix&&selectedRow[item.name]?(selectedRow[item.name]).replace(item.prefix,""):selectedRow[item.name]) : item.defaultValue||'',
-              rules: item.rules ? [] : [{ required: true, message: `please enter ${item.title}` }],
-            })(renderAutoForm(item))}
-          </FormItem>
-        ))}
+        {addForms.map(item => {
+          let styleStr = {};
+          // 新增信息某菜单是否隐藏
+          if((newAuthType === '0'||newAuthType === '2') && item.name === 'tokenExpireTime'){
+            styleStr = {display:'none'};
+          }
+          if(newAuthType === '2' && item.name === 'tokenExpireTime'){
+            styleStr = {display:'none'};
+          }
+          if( newAuthType === '2' && item.name === 'tokenExpire'){
+            styleStr = {display:'block'};
+          }else if(item.name === 'tokenExpire'){
+            styleStr = {display:'none'};
+          }
+          return (
+            <FormItem
+              style={{...styleStr}}
+              key={`addFormItem-${item.name}`}
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 12 }}
+              label={item.title}
+            >
+              {form.getFieldDecorator(item.name, {
+                /* eslint-disable no-nested-ternary */
+                initialValue: selectedRow?(item.prefix&&selectedRow[item.name]?(selectedRow[item.name]).replace(item.prefix,""):selectedRow[item.name]) : item.defaultValue||'',
+                rules: item.rules ? [] : [{ required: true, message: `please enter ${item.title}` }],
+              })(renderAutoForm(item))}
+            </FormItem>
+          )
+        })}
       </div>
     </Modal>
   );
@@ -154,7 +183,8 @@ class Appkey extends PureComponent {
     orgId : '',
     orgCode:'',
     drawerVisible:false,
-    transferVisible : false
+    transferVisible : false,
+    authType : '' // 用于新增时候的判断类型-授权类型
   }
 
   componentDidMount() {
@@ -185,7 +215,12 @@ class Appkey extends PureComponent {
       },
       callback:resp=>{
         const {appkeyInbounds,appkeyOutbounds,orgCode,apiServices} = resp;
-        this.setState({orgId:id,orgCode,appkeyInbounds,appkeyOutbounds,apiServices});
+        const newInbounds = appkeyInbounds.map(item => {
+          /* eslint no-underscore-dangle:0 */
+          const origin = {...item,tokenExpire:item.tokenExpireTime};
+          return origin;
+        });
+        this.setState({orgId:id,orgCode,appkeyInbounds:newInbounds,appkeyOutbounds,apiServices});
       }
     });
   }
@@ -237,7 +272,8 @@ class Appkey extends PureComponent {
     this.setState({
       modalVisible: flag,
       selectedRow: row,
-      sign
+      sign,
+      authType:null,
     });
   };
 
@@ -304,6 +340,37 @@ class Appkey extends PureComponent {
     this.getOrgDetail(orgId);
   }
 
+  moreHandle = (key, record) => {
+    if (key === 'handleModalVisible') {
+      this.handleModalVisible(record, true , 0);
+    }
+    else if (key === 'handleDel') {
+      this.handleDel(record, 3);
+    }
+  };
+
+  renderMoreBtn = props => {
+    const {current} = props;
+    return (
+      <Dropdown
+        overlay={
+          <Menu onClick={({key}) => this.moreHandle(key, current)}>
+            <Menu.Item key="handleModalVisible">Modify</Menu.Item>
+            <Menu.Item key="handleDel">Del</Menu.Item>
+          </Menu>
+        }
+      >
+        <a>
+          More <Icon type="down" />
+        </a>
+      </Dropdown>
+    );
+  };
+
+  authChange = e =>{
+    this.setState({authType:e});
+  }
+
   render() {
     const {
       modalVisible,
@@ -315,6 +382,7 @@ class Appkey extends PureComponent {
       appkeyInbounds,
       appkeyOutbounds,
       sign,
+      authType
     } = this.state;
     const userId = getUserId();
     let columnSchemas = {
@@ -325,14 +393,6 @@ class Appkey extends PureComponent {
         { name: 'callerName', title: 'Caller Name', sorter: true, add: true ,edit:true },
         { name: 'password', title: 'Password', sorter: true },
         { name: 'newPassword', title: 'New Password', sorter: true, add: true ,edit:true },
-        { name: 'tokenExpireTime',
-          title: 'Token Expire Time',
-          add: true,
-          edit:true,
-          rules:[],
-          tag: 'commonSelect',
-          enumData: tokenExpires
-        },
         {
           name: 'authType',
           title: 'Auth Type of Consumer',
@@ -344,12 +404,25 @@ class Appkey extends PureComponent {
           query: true,
           enumData: authTypes
         },
+        { name: 'tokenExpireTime',
+          title: 'Token Expire Time',
+          add: true,
+          edit:true,
+          rules:[],
+          tag: 'commonSelect',
+          enumData: tokenExpires
+        },
+        { name: 'tokenExpire',
+          title: 'Expire Time（Minute）',
+          add: true,
+          edit:true,
+          rules:[],
+        },
         {
           name: 'status',
           title: 'status',
           tag: 'commonSelect',
           sorter: true,
-          add: true ,
           edit:true,
           enumData: statusList,
           addEnum:addStatusList
@@ -371,6 +444,15 @@ class Appkey extends PureComponent {
             add: true
           },
           { name: 'appkey', title: 'App Key', sorter: true, add: true, edit:true },
+          {
+            name: 'authType',
+            title: 'Auth Type of Consumer',
+            tag: 'commonSelect',
+            enumData: authTypes,
+            add:true,
+            edit:true,
+            rules:[]
+          },
           { name: 'targetSystemName', title: 'Target System Name', sorter: true, add: true, edit:true },
           { name: 'password', title: 'Password', rules:[], edit:true },
           { name: 'newPassword', title: 'New Password', sorter: true, add: true },
@@ -386,15 +468,6 @@ class Appkey extends PureComponent {
             edit:true,
             rules:[]
           },
-          {
-            name: 'authType',
-            title: 'Auth Type of Consumer',
-            tag: 'commonSelect',
-            enumData: authTypes,
-            add:true,
-            edit:true,
-            rules:[]
-          },
           { name: 'status', title: 'status', tag: 'commonSelect',sorter: true , enumData: statusList, edit:true,},
           { name: 'remark', title: 'Remark', sorter: true },
         ]
@@ -402,7 +475,7 @@ class Appkey extends PureComponent {
     }
     const appkeyColumns = [
       {
-        title: 'appkey',
+        title: 'Appkey',
         dataIndex: 'appkey',
         render: (text, record) =>{
           return <a onClick={() => this.handleDrawerVisible(record,true)}>{text}</a>;
@@ -413,6 +486,13 @@ class Appkey extends PureComponent {
         dataIndex: 'callerName',
       },
       {
+        title: 'Auth Secret',
+        dataIndex: 'authSecret',
+        render(val) {
+          return <Ellipsis length={20} tooltip>{val}</Ellipsis>;
+        },
+      },
+      {
         title: 'Auth Ratio',
         dataIndex: 'authRatio',
       },
@@ -420,13 +500,13 @@ class Appkey extends PureComponent {
         name:'action',
         title:'Action',
         render: (text, record) => (
-          <span>
-            <a onClick={()=>this.handleAccess(true,record)}>Access</a>
+          <Fragment>
+            <span>
+              <a onClick={()=>this.handleAccess(true,record)}>Access</a>
+            </span>
             <Divider type="vertical" />
-            <a onClick={()=>this.handleModalVisible(record, true , 0)}>Modify</a>
-            <Divider type="vertical" />
-            <a onClick={()=>this.handleDel(record, 3)}>Del</a>
-          </span>
+            {this.renderMoreBtn({current: record})}
+          </Fragment>
         ),
       }
     ];
@@ -523,6 +603,8 @@ class Appkey extends PureComponent {
           selectedRow={selectedRow}
           renderAutoForm
           columnSchemas={columnSchemas}
+          authChange={this.authChange}
+          authType={authType}
         />
         <Drawer
           height={400}

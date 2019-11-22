@@ -8,8 +8,8 @@ const FooterView = () => (
     <GlobalFooter
       links={[
         {
-          key: 'API Gateway Portal',
-          title: 'API Gateway Portal',
+          key: 'Veris Gateway Portal',
+          title: 'Veris Gateway Portal',
           href: 'http://10.19.18.49:8010',
           blankTarget: true,
         },
@@ -20,8 +20,8 @@ const FooterView = () => (
           blankTarget: true,
         },
         {
-          key: 'API Gateway Config',
-          title: 'API Gateway Config',
+          key: 'Veris Gateway Config',
+          title: 'Veris Gateway Config',
           href: 'http://10.19.18.49:8000',
           blankTarget: true,
         },

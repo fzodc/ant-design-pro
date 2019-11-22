@@ -1,6 +1,6 @@
 export default {
   'app.user.sys_user.id':'用户编号',
-  'app.user.sys_user.username':'用户名',
+  'app.user.sys_user.username':'用户名/微服务名',
   'app.user.sys_user.utype':'账号类型',
   'app.user.sys_user.password':'密码',
   'app.user.sys_user.email':'电子邮箱',
@@ -13,4 +13,6 @@ export default {
   'app.user.sys_user.tenantName':'租户名',
   'app.user.sys_role.id':'关系编号',
   'app.user.sys_role.sysUserRoles':'此用户的角色列表',
+  'app.user.sys_user.org':'接入方名称',
+  'app.user.sys_user.expireTime':'令牌时间(分钟)',
 }

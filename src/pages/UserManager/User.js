@@ -48,6 +48,9 @@ class User extends PureComponent {
     }:{havePermissions:false,
       haveAddPermissions:false,};
 
+    const orgType = "0,1";
+    const tagAttr ={ userId,orgType };
+
     const columnSchemas = {
       tableName: 'sys_user',
       key: 'id',
@@ -67,6 +70,22 @@ class User extends PureComponent {
           enumData: utypeList,
         },
         { name: 'roleName', title: formatMessage({'id':'app.user.sys_user.roleName'})},
+        {
+          name: 'orgId',
+          title: formatMessage({'id':'app.user.sys_user.org'}),
+          tag: 'OrgSelectView',
+          add: true,
+          tagAttr,
+          rules:[],
+          columnHidden: true,
+        },
+        {
+          name: 'tokenExpireTime',
+          title: formatMessage({'id':'app.user.sys_user.expireTime'}),
+          add: true,
+          rules:[],
+          columnHidden: true,
+        },
         { name: 'password', title: formatMessage({'id':'app.user.sys_user.password'}),tag:'passwordTag', add: true, columnHidden: true,detail:false },
         { name: 'email', title: formatMessage({'id':'app.user.sys_user.email'}), query: false, add: true ,rules:[]},
         { name: 'tel', title: formatMessage({'id':'app.user.sys_user.tel'}), query: false, add: true ,rules:[]},

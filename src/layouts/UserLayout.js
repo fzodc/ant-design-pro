@@ -63,7 +63,7 @@ class UserLayout extends Component {
               <div className={styles.header}>
                 <Link to="/">
                   <img alt="logo" className={styles.logo} src={logo} />
-                  <span className={styles.title}>API Gateway</span>
+                  <span className={styles.title}>Veris Gateway</span>
                 </Link>
               </div>
               <div className={styles.desc}>能力开放平台、最具影响力的 Api Gateway.</div>
