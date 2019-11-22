@@ -138,7 +138,10 @@ const CreateForm = Form.create()(props => {
           }
           if(newAuthType === '2' && item.name === 'tokenExpireTime'){
             styleStr = {display:'none'};
-          }else if( item.name === 'tokenExpire'){
+          }
+          if( newAuthType === '2' && item.name === 'tokenExpire'){
+            styleStr = {display:'block'};
+          }else if(item.name === 'tokenExpire'){
             styleStr = {display:'none'};
           }
           return (
@@ -212,7 +215,12 @@ class Appkey extends PureComponent {
       },
       callback:resp=>{
         const {appkeyInbounds,appkeyOutbounds,orgCode,apiServices} = resp;
-        this.setState({orgId:id,orgCode,appkeyInbounds,appkeyOutbounds,apiServices});
+        const newInbounds = appkeyInbounds.map(item => {
+          /* eslint no-underscore-dangle:0 */
+          const origin = {...item,tokenExpire:item.tokenExpireTime};
+          return origin;
+        });
+        this.setState({orgId:id,orgCode,appkeyInbounds:newInbounds,appkeyOutbounds,apiServices});
       }
     });
   }
@@ -436,6 +444,15 @@ class Appkey extends PureComponent {
             add: true
           },
           { name: 'appkey', title: 'App Key', sorter: true, add: true, edit:true },
+          {
+            name: 'authType',
+            title: 'Auth Type of Consumer',
+            tag: 'commonSelect',
+            enumData: authTypes,
+            add:true,
+            edit:true,
+            rules:[]
+          },
           { name: 'targetSystemName', title: 'Target System Name', sorter: true, add: true, edit:true },
           { name: 'password', title: 'Password', rules:[], edit:true },
           { name: 'newPassword', title: 'New Password', sorter: true, add: true },
@@ -447,15 +464,6 @@ class Appkey extends PureComponent {
           },
           { name: 'authCount',
             title: 'Auth Count',
-            add:true,
-            edit:true,
-            rules:[]
-          },
-          {
-            name: 'authType',
-            title: 'Auth Type of Consumer',
-            tag: 'commonSelect',
-            enumData: authTypes,
             add:true,
             edit:true,
             rules:[]

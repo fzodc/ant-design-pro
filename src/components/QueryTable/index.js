@@ -163,16 +163,22 @@ const CreateForm = Form.create()(props => {
   // console.log('addForm:', addForms);
   const modalTitle = selectedRow ? 'update' : 'new';
   let newTechType = '';
+  let newUserType = '';
   if(selectedRow){
     const {techType:type} = selectedRow || {techType:''};
+    const {utype} = selectedRow || {utype:''};
     if(type){
       newTechType = type;
+    }
+    if(utype){
+      newUserType = utype;
     }
   }
   if(techType){
     newTechType = techType;
+    newUserType = techType;
   }
-
+  console.log(selectedRow,newUserType);
   return (
     <Modal
       title={modalTitle}
@@ -193,6 +199,9 @@ const CreateForm = Form.create()(props => {
           styleStr = {margin: 0,display:'none'};
         }
         if(newTechType === 'DynaToken' && (item.name === 'code')){
+          styleStr = {margin: 0,display:'none'};
+        }
+        if(newUserType === 'web' && (item.name === 'orgId'||item.name === 'tokenExpireTime')){
           styleStr = {margin: 0,display:'none'};
         }
         return (
@@ -609,7 +618,6 @@ class QueryTable extends PureComponent {
   }
 
   techChange = e =>{
-    console.log("xxx",e);
     this.setState({techType:e});
   }
 

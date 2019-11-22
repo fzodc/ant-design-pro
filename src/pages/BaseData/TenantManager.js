@@ -232,7 +232,6 @@ class TenantManager extends PureComponent {
       {dataIndex: 'tenantName', title: 'Tenant Name'},
       {dataIndex: 'tenantCode', title: 'Tenant Code'},
       {dataIndex: 'tenantUser', title: 'Tenant User'},
-      {dataIndex: 'userName', title: 'User Name'},
       {dataIndex: 'orgCode', title: 'Org Code'},
       {dataIndex: 'systemName', title: 'System Name'},
       {

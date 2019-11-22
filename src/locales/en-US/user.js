@@ -1,6 +1,6 @@
 export default {
   'app.user.sys_user.id':'User ID',
-  'app.user.sys_user.username':'User Name',
+  'app.user.sys_user.username':'User Name/Micros Name(spring.application.name)',
   'app.user.sys_user.utype':'Account Type',
   'app.user.sys_user.password':'Password',
   'app.user.sys_user.email':'Email',
@@ -13,4 +13,6 @@ export default {
   'app.user.sys_user.roleId':'Role Id',
   'app.user.sys_role.id':'Relation Id',
   'app.user.sys_role.sysUserRoles':'Role List Of This User',
+  'app.user.sys_user.org':'Org',
+  'app.user.sys_user.expireTime':'Expire Time(Minute)',
 }
