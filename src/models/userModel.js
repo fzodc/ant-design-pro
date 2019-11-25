@@ -32,8 +32,8 @@ export default {
           })
         : oriUserList;
 
-      const formmatUserList = userList.map(item => ({ ...item, userId: item.id }));
-
+      let formmatUserList = userList.map(item => ({ ...item, userId: item.id }));
+      formmatUserList = formmatUserList.filter(item => item.utype === 'web');
       return {
         ...state,
         userList: formmatUserList,
