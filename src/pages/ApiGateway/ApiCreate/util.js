@@ -58,6 +58,7 @@ export function getPayloadForUpdate(oldApiService,values,userId) {
   const oldApiServiceBackendAttrs=oldApiServiceBackend.apiServiceBackendAttrs||[];
   newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'authType'));
   newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'ssl'));
+  newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'isFormEncoded'));
   if(backAttr.authType==='basicAuth'){
     newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'userName'));
     newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'userPassword'));
@@ -78,7 +79,6 @@ export function getPayloadForUpdate(oldApiService,values,userId) {
     newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'keyStorePassword'));
     newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'isNotValidCert'));
     newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'privateKeyName'));
-    newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'isFormEncoded'));
   }
   const removeAttrList=removeAttr(oldApiServiceBackendAttrs,newApiServiceBackendAttrs);
   newApiServiceBackendAttrs.push(...removeAttrList);
