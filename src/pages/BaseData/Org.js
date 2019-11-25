@@ -84,15 +84,10 @@ class Org extends PureComponent {
           columnDetails: [
             { name: 'id', title: 'User Id' },
             { name: 'username', title: 'User Name' },
-            { name: 'password', title: 'Pass Word'},
-            {
-              name: 'utype',
-              title:'Account Type',
-              tag: 'commonSelect',
-              enumData: utypeList,
-            },
-            { name: 'status', title:'Status'},
-            { name: 'tokenTexpireTtime' , title:'Token Expire Time'},
+            { name: 'password', title: 'Pass Word' },
+            { name: 'utype', title:'Account Type' },
+            { name: 'status', title:'Status' },
+            { name: 'tokenExpireTime' , title:'Token Expire Time'},
           ],
         },
         {
