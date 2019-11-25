@@ -41,6 +41,7 @@ class Org extends PureComponent {
     // const authTypes = getItems('org', 'auth_type');
     const statusList = getItems('common', 'status');
     const addStatusList = statusList.filter(item => item.itemCode !== 'D');
+    const utypeList = getItems('sysUser', 'utype');// 账户类型
 
     const columnSchemas = {
       tableName: 'org',
@@ -84,7 +85,12 @@ class Org extends PureComponent {
             { name: 'id', title: 'User Id' },
             { name: 'username', title: 'User Name' },
             { name: 'password', title: 'Pass Word'},
-            { name: 'utype', title:'Utype'},
+            {
+              name: 'utype',
+              title:'Account Type',
+              tag: 'commonSelect',
+              enumData: utypeList,
+            },
             { name: 'status', title:'Status'},
             { name: 'tokenTexpireTtime' , title:'Token Expire Time'},
           ],
