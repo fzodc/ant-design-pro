@@ -451,8 +451,8 @@ class ApiUpdate extends PureComponent {
                     rules: [{ required: true, message: `please choose ${fieldLabels.back.callType}` }],
                   })(
                     <Radio.Group>
-                      <Radio value="2">No authentication</Radio>
-                      <Radio value="1">Basic authentication</Radio>
+                      <Radio value="2">External Service</Radio>
+                      <Radio value="1">Internal MicroService</Radio>
                     </Radio.Group>
                   )}
                 </Form.Item>

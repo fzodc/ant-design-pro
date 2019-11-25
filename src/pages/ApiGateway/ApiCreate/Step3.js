@@ -70,8 +70,8 @@ class Step3 extends React.PureComponent {
             rules: [{ required: true, message: `please choose 调用范围` }],
           })(
             <Radio.Group>
-              <Radio value="2">No authentication</Radio>
-              <Radio value="1">Basic authentication</Radio>
+              <Radio value="2">External Service</Radio>
+              <Radio value="1">Internal MicroService</Radio>
             </Radio.Group>
           )}
         </Form.Item>
