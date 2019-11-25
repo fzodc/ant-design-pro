@@ -49,7 +49,7 @@ class Org extends PureComponent {
       reCallDetail: true,
       columnDetails: [
         { name: 'id', title: 'ID', columnHidden: false, add: true, disabledAct: 'trgit config --global user.name "tortoiseYY"ue' }, // 第一列需要作为查询条件，新增时不需要采集
-        { name: 'orgCode', title: 'Code',detailFlag:1 }, // 第二列需要作为查询条件，新增时需要采集
+        { name: 'orgCode', title: 'Code',detailFlag:1 }, // 第二列需要作为查询条件，新增时需要采集1
         { name: 'orgName', title: 'Name', sorter: true, query: true, add: true }, //  需要排序，需要作为查询条件，新增时需要采集
         { name: 'createTime', title: 'Create Date', format: 'YYYY-MM-DD HH:mm:ss' }, // 返回是日期类型，需要转换
         { name: 'tel', title: 'tel', columnHidden: true, add: true, rules: [] },
