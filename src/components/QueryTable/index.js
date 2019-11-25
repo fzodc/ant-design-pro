@@ -439,6 +439,9 @@ class QueryTable extends PureComponent {
         onSearch(values);
       }
     });
+    this.setState({
+      selectedRows: [],
+    });
   };
 
   handleTableChange = (pagination, filtersArg, sorter) => {
@@ -468,6 +471,9 @@ class QueryTable extends PureComponent {
     if (onSearch) {
       onSearch(params);
     }
+    this.setState({
+      selectedRows: [],
+    });
   };
 
   handleCallback = addForm => {
