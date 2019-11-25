@@ -537,7 +537,6 @@ class ApiUpdate extends PureComponent {
               >
                 <Form.Item label={fieldLabels.backAttr.isFormEncoded}>
                   {getFieldDecorator('backAttr.isFormEncoded', {
-                    initialValue:'N',
                     rules: [
                       {
                         required: true,
