@@ -70,8 +70,8 @@ class Step3 extends React.PureComponent {
             rules: [{ required: true, message: `please choose 调用类型` }],
           })(
             <Radio.Group>
-              <Radio value="2">External Service</Radio>
-              <Radio value="1">Internal MicroService</Radio>
+              <Radio value="1">External Service</Radio>
+              <Radio value="2">Internal MicroService</Radio>
             </Radio.Group>
           )}
         </Form.Item>

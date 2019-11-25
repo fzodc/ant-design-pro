@@ -139,7 +139,11 @@ class ApiUpdate extends PureComponent {
             if (key === 'front') {
               innerObj[innerKey] = data[innerKey] || null;
             } else if (key === 'backAttr') {
-              innerObj[innerKey] = conversionAttrObj[innerKey] || null;
+              if(innerKey === 'isFormEncoded'){
+                innerObj[innerKey] = conversionAttrObj[innerKey] || 'N';
+              }else{
+                innerObj[innerKey] = conversionAttrObj[innerKey] || null;
+              }
             } else {
               innerObj[innerKey] = apiServiceBackend[innerKey] || null;
             }
@@ -437,8 +441,8 @@ class ApiUpdate extends PureComponent {
                     rules: [{ required: true, message: `please choose ${fieldLabels.back.callType}` }],
                   })(
                     <Radio.Group>
-                      <Radio value={2}>External Service</Radio>
-                      <Radio value={1}>Internal MicroService</Radio>
+                      <Radio value={1}>External Service</Radio>
+                      <Radio value={2}>Internal MicroService</Radio>
                     </Radio.Group>
                   )}
                 </Form.Item>
@@ -533,6 +537,7 @@ class ApiUpdate extends PureComponent {
               >
                 <Form.Item label={fieldLabels.backAttr.isFormEncoded}>
                   {getFieldDecorator('backAttr.isFormEncoded', {
+                    initialValue:'N',
                     rules: [
                       {
                         required: true,
