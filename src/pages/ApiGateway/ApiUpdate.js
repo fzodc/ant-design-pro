@@ -35,7 +35,7 @@ const fieldLabels = {
     serviceType: 'service type',
     url: 'url',
     reqPath: 'path',
-    // protocol: '协议 ',
+    // protocol: '协议',
     reqMethod: 'request method',
     connectTimeout: 'connect timeout（ms）',
     socketTimeout: 'socket timeout（ms）',
