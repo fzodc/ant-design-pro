@@ -87,7 +87,7 @@ class Org extends PureComponent {
             { name: 'password', title: 'Pass Word' },
             { name: 'utype', title:'Account Type' },
             { name: 'status', title:'Status' },
-            { name: 'tokenExpireTime' , title:'Token Expire Time'},
+            { name: 'tokenExpireTime' , title:'Expire Time (Minute)'},
           ],
         },
         {
