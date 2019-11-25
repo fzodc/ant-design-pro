@@ -26,7 +26,7 @@ const fieldLabels = {
     name: 'name',
     serviceType: 'service type',
     requestUrl: 'request url',
-    // protocol: '协议',
+    // protocol: '协议 ',
     reqMethod: 'request method',
     apiType: 'api range',
     actionName:'action name'
