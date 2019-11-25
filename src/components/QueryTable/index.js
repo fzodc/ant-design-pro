@@ -178,7 +178,6 @@ const CreateForm = Form.create()(props => {
     newTechType = techType;
     newUserType = techType;
   }
-  console.log(selectedRow,newUserType);
   return (
     <Modal
       title={modalTitle}

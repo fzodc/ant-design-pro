@@ -38,6 +38,7 @@ const fieldLabels = {
   },
   back: {
     serviceType: 'Service Type',
+    callType: 'Call Type',
     url: 'url',
     reqPath: 'Request Path',
     protocol: 'protocol',
@@ -46,6 +47,7 @@ const fieldLabels = {
     socketTimeout: 'Socket Timeout（ms）',
     orgId: 'Org',
     authType: 'Auth type',
+    ssl: 'SSL',
   },
   backAttr: {
     userName: 'user Name',
@@ -59,7 +61,10 @@ const fieldLabels = {
     trustStorePassword: 'trustStore Password',
     keyStore: 'keyStore path',
     keyStorePassword: 'keyStore Password',
-    ssl: 'SSL证书校验',
+    ssl: 'SSL',
+    isNotValidCert: 'Is Not Valid Cert',
+    privateKeyName: 'Private Key Name',
+    isFormEncoded: 'Is Form Encoded',
   },
   doc: {
     protocol: 'protocol',
@@ -358,6 +363,7 @@ class ApiDetail extends PureComponent {
     data.serviceTypeTitle = data.serviceType
       ? getItemValue('apiService', 'service_type', data.serviceType)
       : null;
+    data.callTypeTitle = data.callType ? getItemValue('apiService', 'api_type', data.callType) : null;
     data.reqMethodTitle = data.reqMethod
       ? getItemValue('common', 'req_method', data.reqMethod)
       : null;
@@ -385,7 +391,9 @@ class ApiDetail extends PureComponent {
     apiServiceBackendFormat.authTypeTitle = apiServiceBackendFormat.authType
       ? getItemValue('apiServiceBackendAttr', 'auth_type', apiServiceBackendFormat.authType)
       : null;
-    apiServiceBackendFormat.sslTitle = apiServiceBackendFormat.ssl === 1 ? '开' : '关';
+    apiServiceBackendFormat.sslTitle = apiServiceBackendFormat.ssl === 'open' ? '开' : '关';
+    apiServiceBackendFormat.isNotValidCert = apiServiceBackendFormat.isNotValidCert === 'Y' ? 'Yes' : 'No';
+    apiServiceBackendFormat.isFormEncoded = apiServiceBackendFormat.isFormEncoded === 'Y' ? 'Yes' : 'No';
     apiServiceBackendFormat.orgIdTitle = apiServiceBackendFormat.orgId
       ? getName(orgList, apiServiceBackendFormat.orgId, 'id', 'orgName')
       : null;
@@ -586,6 +594,9 @@ class ApiDetail extends PureComponent {
                 <Description term={fieldLabels.back.serviceType}>
                   {back.serviceTypeTitle}
                 </Description>
+                <Description term={fieldLabels.back.callType}>
+                  {back.callTypeTitle}
+                </Description>
                 <Description term={fieldLabels.back.url}>
                   <Ellipsis length={30} tooltip style={{overflow: "inherit"}}>{back.url}</Ellipsis>
                 </Description>
@@ -598,8 +609,8 @@ class ApiDetail extends PureComponent {
                   {back.connectTimeout}
                 </Description>
                 <Description term={fieldLabels.back.orgId}>{back.orgIdTitle}</Description>
-                <Description term={fieldLabels.backAttr.ssl}>{back.sslTitle}</Description>
                 <Description term={fieldLabels.back.authType}>{back.authTypeTitle}</Description>
+                <Description term={fieldLabels.backAttr.ssl}>{back.sslTitle}</Description>
               </DescriptionList>
               <DescriptionList
                 style={{
@@ -631,6 +642,19 @@ class ApiDetail extends PureComponent {
                   {back.tokenPassword}
                 </Description>
                 <Description term={fieldLabels.backAttr.tokenUrl}>{back.tokenUrl}</Description>
+              </DescriptionList>
+              <DescriptionList
+                style={{
+                  display: back.ssl === 'open' ? 'block' : 'none',
+                }}
+              >
+                <Description term={fieldLabels.backAttr.trustStore}>{back.trustStore}</Description>
+                <Description term={fieldLabels.backAttr.trustStorePassword}>{back.trustStorePassword}</Description>
+                <Description term={fieldLabels.backAttr.keyStore}>{back.keyStore}</Description>
+                <Description term={fieldLabels.backAttr.keyStorePassword}>{back.keyStorePassword}</Description>
+                <Description term={fieldLabels.backAttr.isNotValidCert}>{back.isNotValidCert}</Description>
+                <Description term={fieldLabels.backAttr.privateKeyName}>{back.privateKeyName}</Description>
+                <Description term={fieldLabels.backAttr.isFormEncoded}>{back.isFormEncoded}</Description>
               </DescriptionList>
             </Card>
             <Tabs defaultActiveKey="table" onChange={this.changeTab}>

@@ -133,6 +133,7 @@ export default {
           serviceSeq:1,
           backendType:CALL_POINT,
         },],
+        callType:'2'
       };
       return {
         ...state,
