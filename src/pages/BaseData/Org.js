@@ -41,7 +41,7 @@ class Org extends PureComponent {
     // const authTypes = getItems('org', 'auth_type');
     const statusList = getItems('common', 'status');
     const addStatusList = statusList.filter(item => item.itemCode !== 'D');
-    const utypeList = getItems('sysUser', 'utype');// 账户类型
+    const utypeList = getItems('sysUser', 'utype');// 账户类型1
 
     const columnSchemas = {
       tableName: 'org',
