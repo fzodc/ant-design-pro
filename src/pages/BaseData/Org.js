@@ -78,7 +78,7 @@ class Org extends PureComponent {
       ],
       relations: [
         {
-          name: 'sysUserOrgs',
+          name: 'sysUsers',
           key: 'id',
           title: "Access User List",
           columnDetails: [

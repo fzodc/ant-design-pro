@@ -56,8 +56,8 @@ const fieldLabels = {
     keyStore: 'keyStore path',
     keyStorePassword: 'keyStore Password',
     ssl: 'SSL',
-    isNotValidCert: 'Is Not Valid Cert',
-    privateKeyName: 'Private Key Name',
+    isNotValidCert: 'Ignore Cert（TrustStore）',
+    privateKeyName: 'Private Key Name（KeyStore）',
     isFormEncoded: 'Is Form Encoded',
   },
 };
@@ -321,9 +321,9 @@ class ApiUpdate extends PureComponent {
       apiService && apiService.apiServiceBackends
         ? apiService.apiServiceBackends.map(item => ({ ...item, key: item.key||item.backendId }))
         : [];
-    const apiServiceBackendObj = conversionAttr(apiServiceBackendMembers);
+    const apiServiceBackendObj = (apiServiceBackendMembers && apiServiceBackendMembers[0])||{};
     const {callType} = apiServiceBackendObj || {callType:'1'};
-    console.log(apiServiceBackendMembers);
+    console.log("xxxoo",apiServiceBackendObj,callType);
     const serviceType = form.getFieldValue("front.serviceType");
     const display = serviceType !== '2' ? {display: 'none'} : null;
     return (
@@ -432,10 +432,15 @@ class ApiUpdate extends PureComponent {
           <Form layout="vertical" hideRequiredMark>
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24} style={{ height: 80 }}>
-                <Form.Item label={fieldLabels.back.serviceType}>
-                  {getFieldDecorator('back.serviceType', {
-                    rules: [{ required: true, message: 'please choose后端服务类型' }],
-                  })(<SelectView javaCode="apiServiceBackend" javaKey="service_type" />)}
+                <Form.Item label={fieldLabels.back.callType}>
+                  {getFieldDecorator('back.callType', {
+                    rules: [{ required: true, message: `please choose ${fieldLabels.back.callType}` }],
+                  })(
+                    <Radio.Group>
+                      <Radio value={2}>External Service</Radio>
+                      <Radio value={1}>Internal MicroService</Radio>
+                    </Radio.Group>
+                  )}
                 </Form.Item>
               </Col>
               <Col
@@ -445,16 +450,10 @@ class ApiUpdate extends PureComponent {
                 sm={24}
                 style={{ height: 80 }}
               >
-                <Form.Item label={fieldLabels.back.callType}>
-                  {getFieldDecorator('back.callType', {
-                    initialValue:callType,
-                    rules: [{ required: true, message: `please choose ${fieldLabels.back.callType}` }],
-                  })(
-                    <Radio.Group>
-                      <Radio value="2">External Service</Radio>
-                      <Radio value="1">Internal MicroService</Radio>
-                    </Radio.Group>
-                  )}
+                <Form.Item label={fieldLabels.back.serviceType}>
+                  {getFieldDecorator('back.serviceType', {
+                    rules: [{ required: true, message: 'please choose后端服务类型' }],
+                  })(<SelectView javaCode="apiServiceBackend" javaKey="service_type" />)}
                 </Form.Item>
               </Col>
               <Col
@@ -523,6 +522,29 @@ class ApiUpdate extends PureComponent {
                   {getFieldDecorator('back.socketTimeout', {
                     rules: [{ required: true, message: '后端服务请求超时' }],
                   })(<Input placeholder="please enter后端服务请求超时（ms）" />)}
+                </Form.Item>
+              </Col>
+              <Col
+                xl={{ span: 6, offset: 2 }}
+                lg={{ span: 10 }}
+                md={{ span: 24 }}
+                sm={24}
+                style={{ height: 80 }}
+              >
+                <Form.Item label={fieldLabels.backAttr.isFormEncoded}>
+                  {getFieldDecorator('backAttr.isFormEncoded', {
+                    rules: [
+                      {
+                        required: true,
+                        message: `please choose${fieldLabels.backAttr.isFormEncoded}`,
+                      },
+                    ],
+                  })(
+                    <Radio.Group defaultValue="N">
+                      <Radio value="Y">Yes</Radio>
+                      <Radio value="N">No</Radio>
+                    </Radio.Group>
+                  )}
                 </Form.Item>
               </Col>
             </Row>
@@ -808,44 +830,13 @@ class ApiUpdate extends PureComponent {
                       },
                     ],
                   })(
-                    <Radio.Group>
+                    <Radio.Group defaultValue="N">
                       <Radio value="Y">Yes</Radio>
                       <Radio value="N">No</Radio>
                     </Radio.Group>
                   )}
                 </Form.Item>
               </Col>
-              <Col
-                xl={{ span: 12 }}
-                lg={{ span: 12 }}
-                md={{ span: 12 }}
-                sm={24}
-                style={{ height: 80 }}
-              >
-                <Form.Item label={fieldLabels.backAttr.isFormEncoded}>
-                  {getFieldDecorator('backAttr.isFormEncoded', {
-                    rules: [
-                      {
-                        required: getFieldValue('backAttr.ssl') === 'open',
-                        message: `please choose${fieldLabels.backAttr.isFormEncoded}`,
-                      },
-                    ],
-                  })(
-                    <Radio.Group>
-                      <Radio value="Y">Yes</Radio>
-                      <Radio value="N">No</Radio>
-                    </Radio.Group>
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row
-              gutter={16}
-              style={{
-                background: '#fff7e6',
-                display: getFieldValue('backAttr.ssl') === 'open' ? 'block' : 'none',
-              }}
-            >
               <Col
                 xl={{ span: 12 }}
                 lg={{ span: 12 }}

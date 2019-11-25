@@ -64,10 +64,10 @@ class Step3 extends React.PureComponent {
           {apiService.requestUrl}
         </Form.Item>
         <Divider style={{ margin: '24px 0' }} />
-        <Form.Item {...formItemLayout} label="调用范围">
+        <Form.Item {...formItemLayout} label="调用类型">
           {getFieldDecorator('callType', {
             initialValue:apiService.callType,
-            rules: [{ required: true, message: `please choose 调用范围` }],
+            rules: [{ required: true, message: `please choose 调用类型` }],
           })(
             <Radio.Group>
               <Radio value="2">External Service</Radio>

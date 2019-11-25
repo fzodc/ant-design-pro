@@ -363,7 +363,7 @@ class ApiDetail extends PureComponent {
     data.serviceTypeTitle = data.serviceType
       ? getItemValue('apiService', 'service_type', data.serviceType)
       : null;
-    data.callTypeTitle = data.callType ? getItemValue('apiService', 'api_type', data.callType) : null;
+    data.callTypeTitle = data.callType ? getItemValue('apiServiceBackend', 'call_type', data.callType) : null;
     data.reqMethodTitle = data.reqMethod
       ? getItemValue('common', 'req_method', data.reqMethod)
       : null;
@@ -591,11 +591,11 @@ class ApiDetail extends PureComponent {
             <div style={{height:16}}>&nbsp;</div>
             <Card title="落地方服务信息" className={styles.card} bordered={false}>
               <DescriptionList size="large" title="" style={{marginBottom: 0}}>
-                <Description term={fieldLabels.back.serviceType}>
-                  {back.serviceTypeTitle}
-                </Description>
                 <Description term={fieldLabels.back.callType}>
                   {back.callTypeTitle}
+                </Description>
+                <Description term={fieldLabels.back.serviceType}>
+                  {back.serviceTypeTitle}
                 </Description>
                 <Description term={fieldLabels.back.url}>
                   <Ellipsis length={30} tooltip style={{overflow: "inherit"}}>{back.url}</Ellipsis>
@@ -609,6 +609,7 @@ class ApiDetail extends PureComponent {
                   {back.connectTimeout}
                 </Description>
                 <Description term={fieldLabels.back.orgId}>{back.orgIdTitle}</Description>
+                <Description term={fieldLabels.backAttr.isFormEncoded}>{back.isFormEncoded}</Description>
                 <Description term={fieldLabels.back.authType}>{back.authTypeTitle}</Description>
                 <Description term={fieldLabels.backAttr.ssl}>{back.sslTitle}</Description>
               </DescriptionList>
@@ -654,7 +655,6 @@ class ApiDetail extends PureComponent {
                 <Description term={fieldLabels.backAttr.keyStorePassword}>{back.keyStorePassword}</Description>
                 <Description term={fieldLabels.backAttr.isNotValidCert}>{back.isNotValidCert}</Description>
                 <Description term={fieldLabels.backAttr.privateKeyName}>{back.privateKeyName}</Description>
-                <Description term={fieldLabels.backAttr.isFormEncoded}>{back.isFormEncoded}</Description>
               </DescriptionList>
             </Card>
             <Tabs defaultActiveKey="table" onChange={this.changeTab}>
