@@ -76,6 +76,9 @@ export function getPayloadForUpdate(oldApiService,values,userId) {
     newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'trustStorePassword'));
     newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'keyStore'));
     newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'keyStorePassword'));
+    newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'isNotValidCert'));
+    newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'privateKeyName'));
+    newApiServiceBackendAttrs.push(doAttr(oldApiServiceBackendAttrs,backAttr,'isFormEncoded'));
   }
   const removeAttrList=removeAttr(oldApiServiceBackendAttrs,newApiServiceBackendAttrs);
   newApiServiceBackendAttrs.push(...removeAttrList);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Input, Button, Divider } from 'antd';
+import { Form, Input, Button, Divider,Radio } from 'antd';
 import router from 'umi/router';
 import styles from './style.less';
 import { getPayload } from './util';
@@ -64,6 +64,17 @@ class Step3 extends React.PureComponent {
           {apiService.requestUrl}
         </Form.Item>
         <Divider style={{ margin: '24px 0' }} />
+        <Form.Item {...formItemLayout} label="调用类型">
+          {getFieldDecorator('callType', {
+            initialValue:apiService.callType,
+            rules: [{ required: true, message: `please choose 调用类型` }],
+          })(
+            <Radio.Group>
+              <Radio value="2">External Service</Radio>
+              <Radio value="1">Internal MicroService</Radio>
+            </Radio.Group>
+          )}
+        </Form.Item>
         <Form.Item {...formItemLayout} label="服务提供者">
           {getFieldDecorator('orgId', {
             rules: [{ required: true, message: 'please choose服务提供者' }],

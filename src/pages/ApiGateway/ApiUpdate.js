@@ -26,7 +26,7 @@ const fieldLabels = {
     name: 'name',
     serviceType: 'service type',
     requestUrl: 'request url',
-    // protocol: '协议',
+    // protocol: '协议 ',
     reqMethod: 'request method',
     apiType: 'api range',
     actionName:'action name'
@@ -35,12 +35,13 @@ const fieldLabels = {
     serviceType: 'service type',
     url: 'url',
     reqPath: 'path',
-    // protocol: '协议',
+    // protocol: '协议 ',
     reqMethod: 'request method',
     connectTimeout: 'connect timeout（ms）',
     socketTimeout: 'socket timeout（ms）',
     orgId: 'provider',
     authType: 'secret',
+    callType: 'call type',
   },
   backAttr: {
     userName: 'user Name',
@@ -55,6 +56,9 @@ const fieldLabels = {
     keyStore: 'keyStore path',
     keyStorePassword: 'keyStore Password',
     ssl: 'SSL',
+    isNotValidCert: 'Ignore Cert（TrustStore）',
+    privateKeyName: 'Private Key Name（KeyStore）',
+    isFormEncoded: 'Is Form Encoded',
   },
 };
 
@@ -317,7 +321,9 @@ class ApiUpdate extends PureComponent {
       apiService && apiService.apiServiceBackends
         ? apiService.apiServiceBackends.map(item => ({ ...item, key: item.key||item.backendId }))
         : [];
-    console.log("apiServiceBackendMembers:",apiServiceBackendMembers);
+    const apiServiceBackendObj = (apiServiceBackendMembers && apiServiceBackendMembers[0])||{};
+    const {callType} = apiServiceBackendObj || {callType:'1'};
+    console.log("xxxoo",apiServiceBackendObj,callType);
     const serviceType = form.getFieldValue("front.serviceType");
     const display = serviceType !== '2' ? {display: 'none'} : null;
     return (
@@ -426,10 +432,15 @@ class ApiUpdate extends PureComponent {
           <Form layout="vertical" hideRequiredMark>
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24} style={{ height: 80 }}>
-                <Form.Item label={fieldLabels.back.serviceType}>
-                  {getFieldDecorator('back.serviceType', {
-                    rules: [{ required: true, message: 'please choose后端服务类型' }],
-                  })(<SelectView javaCode="apiServiceBackend" javaKey="service_type" />)}
+                <Form.Item label={fieldLabels.back.callType}>
+                  {getFieldDecorator('back.callType', {
+                    rules: [{ required: true, message: `please choose ${fieldLabels.back.callType}` }],
+                  })(
+                    <Radio.Group>
+                      <Radio value={2}>External Service</Radio>
+                      <Radio value={1}>Internal MicroService</Radio>
+                    </Radio.Group>
+                  )}
                 </Form.Item>
               </Col>
               <Col
@@ -439,10 +450,10 @@ class ApiUpdate extends PureComponent {
                 sm={24}
                 style={{ height: 80 }}
               >
-                <Form.Item label={fieldLabels.back.url}>
-                  {getFieldDecorator('back.url', {
-                    rules: [{ required: true, message: 'please enter后端请求地址' }],
-                  })(<Input placeholder="please enter后端请求地址" />)}
+                <Form.Item label={fieldLabels.back.serviceType}>
+                  {getFieldDecorator('back.serviceType', {
+                    rules: [{ required: true, message: 'please choose后端服务类型' }],
+                  })(<SelectView javaCode="apiServiceBackend" javaKey="service_type" />)}
                 </Form.Item>
               </Col>
               <Col
@@ -452,19 +463,19 @@ class ApiUpdate extends PureComponent {
                 sm={24}
                 style={{ height: 80 }}
               >
-                <Form.Item label={fieldLabels.back.reqPath}>
-                  {getFieldDecorator('back.reqPath', {
-                    rules: [],
-                  })(<Input placeholder="please enter后端请求路径" />)}
+                <Form.Item label={fieldLabels.back.reqMethod}>
+                  {getFieldDecorator('back.reqMethod', {
+                    rules: [{ required: true, message: 'please chooseHTTP Method' }],
+                  })(<SelectView javaCode="common" javaKey="req_method" />)}
                 </Form.Item>
               </Col>
             </Row>
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24} style={{ height: 80 }}>
-                <Form.Item label={fieldLabels.back.reqMethod}>
-                  {getFieldDecorator('back.reqMethod', {
-                    rules: [{ required: true, message: 'please chooseHTTP Method' }],
-                  })(<SelectView javaCode="common" javaKey="req_method" />)}
+                <Form.Item label={fieldLabels.back.url}>
+                  {getFieldDecorator('back.url', {
+                    rules: [{ required: true, message: 'please enter后端请求地址' }],
+                  })(<Input placeholder="please enter后端请求地址" />)}
                 </Form.Item>
               </Col>
               <Col
@@ -474,6 +485,26 @@ class ApiUpdate extends PureComponent {
                 sm={24}
                 style={{ height: 80 }}
               >
+                <Form.Item label={fieldLabels.back.reqPath}>
+                  {getFieldDecorator('back.reqPath', {
+                    rules: [],
+                  })(<Input placeholder="please enter后端请求路径" />)}
+                </Form.Item>
+              </Col>
+              <Col
+                xl={{ span: 8, offset: 2 }}
+                lg={{ span: 10 }}
+                md={{ span: 24 }}
+                sm={24}
+                style={{ height: 80 }}
+              >
+                <Form.Item label={fieldLabels.back.orgId}>
+                  {getFieldDecorator('back.orgId', {
+                    rules: [{ required: true, message: `please choose${fieldLabels.back.orgId}` }],
+                  })(<OrgSelectView orgType="0,1" userId={userId} />)}
+                </Form.Item>
+              </Col>
+              <Col lg={6} md={12} sm={24} style={{ height: 80 }}>
                 <Form.Item label={fieldLabels.back.connectTimeout}>
                   {getFieldDecorator('back.connectTimeout', {
                     rules: [{ required: true, message: '后端服务连接超时' }],
@@ -481,7 +512,7 @@ class ApiUpdate extends PureComponent {
                 </Form.Item>
               </Col>
               <Col
-                xl={{ span: 8, offset: 2 }}
+                xl={{ span: 6, offset: 2 }}
                 lg={{ span: 10 }}
                 md={{ span: 24 }}
                 sm={24}
@@ -493,17 +524,33 @@ class ApiUpdate extends PureComponent {
                   })(<Input placeholder="please enter后端服务请求超时（ms）" />)}
                 </Form.Item>
               </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col lg={6} md={12} sm={24} style={{ height: 80 }}>
-                <Form.Item label={fieldLabels.back.orgId}>
-                  {getFieldDecorator('back.orgId', {
-                    rules: [{ required: true, message: `please choose${fieldLabels.back.orgId}` }],
-                  })(<OrgSelectView orgType="0,1" userId={userId} />)}
+              <Col
+                xl={{ span: 6, offset: 2 }}
+                lg={{ span: 10 }}
+                md={{ span: 24 }}
+                sm={24}
+                style={{ height: 80 }}
+              >
+                <Form.Item label={fieldLabels.backAttr.isFormEncoded}>
+                  {getFieldDecorator('backAttr.isFormEncoded', {
+                    rules: [
+                      {
+                        required: true,
+                        message: `please choose${fieldLabels.backAttr.isFormEncoded}`,
+                      },
+                    ],
+                  })(
+                    <Radio.Group defaultValue="N">
+                      <Radio value="Y">Yes</Radio>
+                      <Radio value="N">No</Radio>
+                    </Radio.Group>
+                  )}
                 </Form.Item>
               </Col>
+            </Row>
+            <Row gutter={16}>
               <Col
-                xl={{ span: 16, offset: 2 }}
+                xl={{ span: 16 }}
                 lg={{ span: 18 }}
                 md={{ span: 24 }}
                 sm={24}
@@ -756,6 +803,50 @@ class ApiUpdate extends PureComponent {
                         message: `please choose${fieldLabels.backAttr.trustStorePassword}`,
                       },
                     ],
+                  })(<Input />)}
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row
+              gutter={16}
+              style={{
+                background: '#fff7e6',
+                display: getFieldValue('backAttr.ssl') === 'open' ? 'block' : 'none',
+              }}
+            >
+              <Col
+                xl={{ span: 12 }}
+                lg={{ span: 12 }}
+                md={{ span: 12 }}
+                sm={24}
+                style={{ height: 80 }}
+              >
+                <Form.Item label={fieldLabels.backAttr.isNotValidCert}>
+                  {getFieldDecorator('backAttr.isNotValidCert', {
+                    rules: [
+                      {
+                        required: getFieldValue('backAttr.ssl') === 'open',
+                        message: `please choose${fieldLabels.backAttr.isNotValidCert}`,
+                      },
+                    ],
+                  })(
+                    <Radio.Group defaultValue="N">
+                      <Radio value="Y">Yes</Radio>
+                      <Radio value="N">No</Radio>
+                    </Radio.Group>
+                  )}
+                </Form.Item>
+              </Col>
+              <Col
+                xl={{ span: 12 }}
+                lg={{ span: 12 }}
+                md={{ span: 12 }}
+                sm={24}
+                style={{ height: 80 }}
+              >
+                <Form.Item label={fieldLabels.backAttr.privateKeyName}>
+                  {getFieldDecorator('backAttr.privateKeyName', {
+                    rules: [],
                   })(<Input />)}
                 </Form.Item>
               </Col>

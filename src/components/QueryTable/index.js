@@ -178,7 +178,6 @@ const CreateForm = Form.create()(props => {
     newTechType = techType;
     newUserType = techType;
   }
-  console.log(selectedRow,newUserType);
   return (
     <Modal
       title={modalTitle}
@@ -440,6 +439,9 @@ class QueryTable extends PureComponent {
         onSearch(values);
       }
     });
+    this.setState({
+      selectedRows: [],
+    });
   };
 
   handleTableChange = (pagination, filtersArg, sorter) => {
@@ -469,6 +471,9 @@ class QueryTable extends PureComponent {
     if (onSearch) {
       onSearch(params);
     }
+    this.setState({
+      selectedRows: [],
+    });
   };
 
   handleCallback = addForm => {
