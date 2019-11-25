@@ -811,7 +811,7 @@ class QueryTable extends PureComponent {
           techType={techType}
         />
         <Drawer
-          width={640}
+          width={840}
           placement="right"
           closable
           onClose={this.onDrawerClose}
