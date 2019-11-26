@@ -58,6 +58,7 @@ class AdapterAttrTableForm extends PureComponent {
         this.cacheOriginData[key] = { ...target };
       }
       target.editable = !target.editable;
+      target.act = 'A';
       newAttrData[key]=target;
       console.log("------toggleEditable2:",target)
       this.setState({ data: newAttrData });
@@ -204,7 +205,7 @@ class AdapterAttrTableForm extends PureComponent {
     const { loading, data } = this.state;
     const { record } = this.props;
     const { url,reqPath } = record;
-    const reqPathNew = reqPath?reqPath:"";
+    const reqPathNew = reqPath || "";
     const reqUrl = `${url}${reqPathNew}`;
     const title = () => reqUrl;
     return (

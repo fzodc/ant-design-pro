@@ -227,6 +227,7 @@ class TableForm extends PureComponent {
                 "attrValue": item.defaultValue||'',
                 "attrSpecCode": item.attrSpecCode,
                 "attrSpecName": item.attrSpecName,
+                "act":"N"
               })):[];
               target.adapterAttrs=adapterAttrs;
               // 覆盖当前节点的url和reqPath
@@ -337,6 +338,32 @@ class TableForm extends PureComponent {
         loading: false,
       });
     }, 500);
+  }
+
+  saveAllRow(e, key) {
+    e.persist();
+    this.setState({
+      loading: true,
+    });
+    setTimeout(() => {
+      const {onChange} = this.props;
+      const {data} = this.state;
+      const newData = data.map(item => ({ ...item }));
+      const target = this.getRowByKey(key, newData);
+      const {adapterAttrs} = target;
+      const newAdapterAttrs = adapterAttrs.map( item =>{
+          const newItem = {...item,act:'A'};
+          return newItem;
+        }
+      );
+      target.adapterAttrs = newAdapterAttrs;
+      console.log("saveall",adapterAttrs,newAdapterAttrs,newData);
+      this.setState({data:newData});
+      onChange(newData);
+      this.setState({
+        loading: false,
+      });
+    },500);
   }
 
   cancel(e, key) {
@@ -530,6 +557,8 @@ class TableForm extends PureComponent {
               <Popconfirm title="Do you remove？" onConfirm={() => this.remove(record.key)}>
                 <a>Remove</a>
               </Popconfirm>
+              <Divider type="vertical" />
+              <a onClick={e => this.saveAllRow(e, record.key)}>Save All Attr</a>
             </span>
           );
         },
