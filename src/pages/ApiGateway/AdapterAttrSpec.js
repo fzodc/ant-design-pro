@@ -50,6 +50,8 @@ export default (props) => {
         add: true,
         tag: 'commonSelect',
         enumData: statusList,
+        addHidden:true,
+        rules:[]
       }, // 需要作为查询条件，新增时需要采集，需要使用绑定的下拉标签
     ]
   };
