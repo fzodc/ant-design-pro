@@ -30,7 +30,7 @@ class Configuration extends PureComponent {
         {name: 'publicGatewayUrl', title: formatMessage({'id':'app.configuration.env.publicGatewayUrl'}), add: true, detailFlag: 1},
         {name: 'privateGatewayUrl', title: formatMessage({'id':'app.configuration.env.privateGatewayUrl'}), add: true,},
         {name: 'agentUrl', title: formatMessage({'id':'app.configuration.env.agentUrl'}), add: true,},
-        {name: 'status', title: formatMessage({'id':'app.configuration.env.status'}), tag:'Common Select', add: true, enumData: statusList, query: true,},
+        {name: 'status', title: formatMessage({'id':'app.configuration.env.status'}), tag:'commonSelect', add: true,addHidden:true,rules:[], enumData: statusList, query: true,},
         {name: 'fileServerUrl', title: formatMessage({'id':'app.configuration.env.fileServerUrl'}), add: true,},
         {name: 'ifSelected', title: formatMessage({'id':'app.configuration.env.ifSelected'}), tag:'commonSelect', add: true,enumData: selectList},
       ]
