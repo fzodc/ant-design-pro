@@ -267,7 +267,7 @@ class QueryTable extends PureComponent {
 
   handleRenderColumn = (val,record,columnDetail)=>{
     let a=val;
-    if (columnDetail.enumData != null) {
+    if (columnDetail.enumData != null && columnDetail.tag != null) {
       const item = columnDetail.enumData.find(d => d.itemCode === val);
       const itemValue = item ? item.itemValue : '';
       a = itemValue;

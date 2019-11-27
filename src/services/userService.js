@@ -21,6 +21,16 @@ export async function queryCurrent() {
   return request(`${PREFIX_PATH}/baseInfo/sysUser/currentUser`);
 }
 
+export async function list(params) {
+  return request(`${PREFIX_PATH}/baseInfo/sysdata/${params.tableName}/list`, {
+    method: 'POST',
+    data: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
 // export async function fakeRegister(params) {
 //   return request(`/baseInfo/sys/register`, {
 //     method: 'POST',

@@ -12,6 +12,7 @@ import {getUserId} from '@/utils/authority';
 import DescriptionList from '@/components/DescriptionList';
 import {getGroupName, getItemValue, getName} from '@/utils/masterData';
 import constants from '@/utils/constUtil';
+import {getEnvUrl} from "../../utils/authority";
 
 const {CALL_POINT} = constants;
 
@@ -454,7 +455,8 @@ class ApiDetail extends PureComponent {
     // 定义接口文档协议说明
     const protocol = `${data.serviceTypeTitle}   ${data.reqMethod.toUpperCase()}`;
     const urlSample = apiServiceDoc.urlSample ? apiServiceDoc.urlSample : '';
-    const url = getItemValue('env', 'localhost', 'angentHost') + urlSample;
+    const url = getEnvUrl() + urlSample;
+    console.log("getEnvUrl",getEnvUrl());
     const apiAttr = [
       {name: fieldLabels.doc.protocol, remark: protocol},
       {name: fieldLabels.doc.encodeFormat, remark: 'UTF8'},

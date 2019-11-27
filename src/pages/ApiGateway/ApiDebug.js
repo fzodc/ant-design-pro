@@ -8,6 +8,7 @@ import styles from './style.less';
 import {getPayloadForApiDebug, getPayloadForReq} from './ApiCreate/util';
 import {getItemValue} from '@/utils/masterData';
 import {getUserId} from '@/utils/authority';
+import {getEnvUrl} from "../../utils/authority";
 
 const {Option} = Select;
 
@@ -80,7 +81,7 @@ class ApiDebug extends PureComponent {
       const requestHeaderSample = this.convertDocObj(apiServiceDoc, requestHeaderFlag);
       const {requestBodySample, responseBodySample, userDebugId, debugName, urlSample, responseHeaderSample} = apiServiceDoc;
       // const responseHeaderSample = this.convertDocObj(apiServiceDoc, responseHeaderFlag);
-      // const urlSamplePre = getItemValue('env', 'localhost', 'angentHost');
+      // const urlSamplePre = getEnvUrl();
       // const urlSample = apiServiceDoc.urlSample ? apiServiceDoc.urlSample : `${urlSamplePre}${apiServiceDoc.urlSample}`;
       form.setFieldsValue({
         userDebugId,
@@ -336,7 +337,7 @@ class ApiDebug extends PureComponent {
         console.log("form", error, value);
       } else {
 
-        const urlSamplePre = getItemValue('env', 'localhost', 'angentHost');
+        const urlSamplePre = getEnvUrl();
         const apiInfo = getPayloadForReq(urlSamplePre, values);
         // console.log("send----",apiInfo);
         const reqMethod = apiService && apiService.reqMethod ? apiService.reqMethod : 'get';

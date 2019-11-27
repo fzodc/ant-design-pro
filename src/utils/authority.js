@@ -90,3 +90,11 @@ export function setToken(token) {
 export function getToken() {
   return sessionStorage.getItem('token');
 }
+
+export function setEnvUrl(url) {
+  return sessionStorage.setItem('envUrl', url);
+}
+
+export function getEnvUrl() {
+  return sessionStorage.getItem('envUrl');
+}

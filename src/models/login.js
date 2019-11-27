@@ -1,9 +1,10 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
-import { fakeAccountLogin } from '@/services/userService';
-import { setAuthority, setUser } from '@/utils/authority';
+import { list,fakeAccountLogin } from '@/services/userService';
+import { setAuthority, setUser,setEnvUrl } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
+
 
 export default {
   namespace: 'login',
@@ -33,8 +34,18 @@ export default {
         let url="/user/loading";
         const params = getPageQuery();
         console.log("1:",params);
-
-
+        const newPayload = {
+          data: {info: {pageNo: 1, pageSize: 10}},
+          info: {pageNo: 1, pageSize: 10},
+          method: "post",
+          tableName: "env",
+        };
+        // 存储网关serviceAgent地址
+        const envResponse = yield call(list, newPayload);
+        yield put({
+          type: 'saveEnv',
+          payload: envResponse
+        });
         const { redirect } = params;
         console.log(redirect);
         if (redirect) {
@@ -94,5 +105,12 @@ export default {
         type: loginType,
       };
     },
+    saveEnv(state, action) {
+      const envList = action.payload ? action.payload.data.records : [];
+      console.log("saveEnv",envList.filter(item=> item.ifSelected === "1")[0]);
+      const envObj = envList.filter(item=> item.ifSelected === "1")[0] || {};
+      const {privateGatewayUrl} = envObj || {};
+      setEnvUrl(privateGatewayUrl);
+    }
   },
 };
