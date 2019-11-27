@@ -15,7 +15,6 @@ class Group extends PureComponent {
   componentWillMount() {
 
     const statusList = getItems('common', 'status'); // 状态主数据
-    const addStatusList = statusList.filter(item => item.itemCode !== 'D');
     const userId = getUserId();
     const orgType = "0,1";
     const tagAttr ={ userId,orgType };
@@ -39,7 +38,8 @@ class Group extends PureComponent {
           tag: 'commonSelect',
           tableName: 'group',
           enumData: statusList,
-          addEnum : addStatusList
+          addHidden:true,
+          rules:[]
         }, // 需要作为查询条件，新增时需要采集，需要使用绑定的下拉标签
         { name: 'groupDesc', title: 'Group Desc',tag:'textArea',columnHidden: true, add: true,rows:3,rules:[] },
         { name: 'org', title: 'Org Name',tag:'OrgSelectView',columnHidden: true, add: true,rows:3,tagAttr },

@@ -97,7 +97,7 @@ class Adapter extends PureComponent {
           columnHidden: false,
           query: true,
           add: true,
-          tag: 'commonSelect',
+          tag: 'changeCommonSelect',
           enumData: techTypeList
         },
         {

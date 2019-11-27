@@ -14,7 +14,6 @@ import {getItemValue2} from "../../utils/masterData";
 const FormItem = Form.Item;
 const {Option} = Select;
 const statusList = getItems('common', 'status');
-const addStatusList = statusList.filter(item => item.itemCode !== 'D');
 const authTypes = getItems('appkey', 'auth_type');
 const tokenExpires = getItemsToInt('appkey', 'token_expire');
 console.log("tokenE",tokenExpires);
@@ -65,20 +64,9 @@ const CreateForm = Form.create()(props => {
   const renderAutoForm = (item) => {
     switch (item.tag) {
       case 'commonSelect':
-        if(selectedRow || !item.addEnum) {
-          return (
-            <Select style={{width: '100%'}} disabled={item.disabled} onChange={authChange}>
-              {item.enumData.map(d => (
-                <Option key={`${item.javaCode}_${item.javaKey}_${d.itemCode}`} value={d.itemCode}>
-                  {d.itemValue}
-                </Option>
-              ))}
-            </Select>
-          );
-        }
         return (
           <Select style={{width: '100%'}} disabled={item.disabled} onChange={authChange}>
-            {item.addEnum.map(d => (
+            {item.enumData.map(d => (
               <Option key={`${item.javaCode}_${item.javaKey}_${d.itemCode}`} value={d.itemCode}>
                 {d.itemValue}
               </Option>
@@ -424,8 +412,7 @@ class Appkey extends PureComponent {
           tag: 'commonSelect',
           sorter: true,
           edit:true,
-          enumData: statusList,
-          addEnum:addStatusList
+          enumData: statusList
         },
         { name: 'remark', title: 'Remark', sorter: true, add: true ,edit:true },
       ]
