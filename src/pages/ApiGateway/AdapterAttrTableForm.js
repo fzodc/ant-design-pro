@@ -1,5 +1,5 @@
 import React, {Fragment, PureComponent} from 'react';
-import {Divider, Input, message, Table} from 'antd';
+import {Divider, Input, message, Table, Popconfirm} from 'antd';
 import isEqual from 'lodash/isEqual';
 import styles from './style.less';
 
@@ -136,6 +136,14 @@ class AdapterAttrTableForm extends PureComponent {
     this.clickedCancel = false;
   }
 
+  remove(e, key) {
+    const { data } = this.state;
+    const newData= data.filter(item => item.key !== key);
+    const { onMyChange } = this.props;
+    this.setState({ data: newData });
+    onMyChange(newData);
+  }
+
 
   render() {
     /*
@@ -158,21 +166,28 @@ class AdapterAttrTableForm extends PureComponent {
         }
       },
       {
+        title: 'Default Attr Value',
+        dataIndex: 'defaultValue',
+        key: 'defaultValue',
+        width:'20%'
+      },
+      {
         title: 'Attr Value',
         dataIndex: 'attrValue',
         key: 'attrValue',
         render: (text, record) => {
+          const newText = text||'';
           if (record.editable) {
             return (
               <Input
-                value={text}
+                value={newText}
                 onChange={e => this.handleFieldChange(e, 'attrValue', record)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="Attribute Value of Adapter"
               />
             );
           }
-          return (`${text}`);
+          return (`${newText}`);
         },
       },
       {
@@ -197,6 +212,10 @@ class AdapterAttrTableForm extends PureComponent {
           return (
             <span>
               <a onClick={e => this.toggleEditable(e, record.key)}>Edit</a>
+              <Divider type="vertical" />
+              <Popconfirm title="Do you delete this row?？" onConfirm={(e) => this.remove(e,record.key)}>
+                <a>Del</a>
+              </Popconfirm>
             </span>
           );
         },
@@ -216,7 +235,6 @@ class AdapterAttrTableForm extends PureComponent {
           columns={columns}
           dataSource={data}
           pagination={false}
-          showHeader={false}
           size='small'
           rowClassName={records => (records.editable ? styles.editable : '')}
         />

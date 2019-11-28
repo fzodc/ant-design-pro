@@ -224,7 +224,8 @@ class TableForm extends PureComponent {
               const adapterAttrs=adapterAttrSpecs?adapterAttrSpecs.map(item=>({
                 "backendId": target.backendId,
                 "attrSpecId": item.attrSpecId,
-                "attrValue": item.defaultValue||'',
+                "defaultValue": item.defaultValue||'',
+                "attrValue": '',
                 "attrSpecCode": item.attrSpecCode,
                 "attrSpecName": item.attrSpecName,
                 "act":"N"
@@ -352,7 +353,10 @@ class TableForm extends PureComponent {
       const target = this.getRowByKey(key, newData);
       const {adapterAttrs} = target;
       const newAdapterAttrs = adapterAttrs.map( item =>{
-          const newItem = {...item,act:'A'};
+          let newItem = {...item,act:'A'};
+          if(!item.attrValue){
+            newItem = {...item,attrValue:'',act:'A'};
+          }
           return newItem;
         }
       );
