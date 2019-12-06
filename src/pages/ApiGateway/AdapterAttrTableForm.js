@@ -73,6 +73,7 @@ class AdapterAttrTableForm extends PureComponent {
   }
 
   handleFieldChange(e, fieldName, record) {
+
     const {key}=record;
     const { data } = this.state;
     const newData = data.map(item => ({ ...item }));
