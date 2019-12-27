@@ -369,7 +369,6 @@ class ApiDetail extends PureComponent {
       : null;
     data.apiTypeTitle = data.apiType ? getItemValue('apiService', 'api_type', data.apiType) : null;
     data.statusTitle = data.status ? getItemValue('apiService', 'status', data.status) : null;
-
     // 落地方服务信息数组转为对象
     const apiServiceBackend = data.apiServiceBackends.find(obj => obj.backendType === CALL_POINT);
     const {apiServiceBackendAttrs} = apiServiceBackend;
