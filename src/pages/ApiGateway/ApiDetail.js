@@ -364,7 +364,6 @@ class ApiDetail extends PureComponent {
     data.serviceTypeTitle = data.serviceType
       ? getItemValue('apiService', 'service_type', data.serviceType)
       : null;
-    data.callTypeTitle = data.callType ? getItemValue('apiServiceBackend', 'call_type', data.callType) : null;
     data.reqMethodTitle = data.reqMethod
       ? getItemValue('common', 'req_method', data.reqMethod)
       : null;
@@ -386,6 +385,9 @@ class ApiDetail extends PureComponent {
     apiServiceBackendFormat.reqMethodTitle = apiServiceBackendFormat.reqMethod
       ? getItemValue('common', 'req_method', apiServiceBackendFormat.reqMethod)
       : null;
+    console.log("apiServiceBackendFormat.callType",apiServiceBackendFormat.callType);
+    apiServiceBackendFormat.callTypeTitle = apiServiceBackendFormat.callType ? getItemValue('apiServiceBackend', 'call_type', apiServiceBackendFormat.callType.toString()) : null;
+    console.log("apiServiceBackendFormat.callTypeTitle",apiServiceBackendFormat.callTypeTitle);
     apiServiceBackendFormat.apiTypeTitle = apiServiceBackendFormat.apiType
       ? getItemValue('apiService', 'api_type', apiServiceBackendFormat.apiType)
       : null;
