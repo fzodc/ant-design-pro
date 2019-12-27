@@ -5,7 +5,7 @@ export const clearCache = () => {
 };
 
 export function setAllEnumData() {
-  // localStorage.removeItem("allEnum")
+  localStorage.removeItem("allEnum")
   const promise = allEnumList();
   promise.then(
     response => {
