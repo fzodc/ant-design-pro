@@ -21,4 +21,5 @@ export default {
   'app.configuration.env.createTime':'CreateTime',
   'app.configuration.env.resourceId':'Resource Id',
   'app.configuration.env.remark':'Remark',
+  'app.configuration.env.groupName':'Group Name',
 };

@@ -23,6 +23,7 @@ class Configuration extends PureComponent {
       userId,
       columnDetails: [
         {name: 'resourceId', title: formatMessage({'id':'app.configuration.env.resourceId'}), add: true,query: true},
+        {name: 'groupName', title: formatMessage({'id':'app.configuration.env.groupName'}), add: true, rules:[] },
         {name: 'remark', title: formatMessage({'id':'app.configuration.env.remark'}), add: true },
         {name: 'createTime', title: formatMessage({'id':'app.configuration.env.createTime'})},
         {
