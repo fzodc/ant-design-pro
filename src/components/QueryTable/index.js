@@ -30,6 +30,7 @@ import GroupTreeSelectView from '@/pages/ApiGateway/GroupTreeSelectView';
 import AdapterSelectView from '@/pages/ApiGateway/AdapterSelectView';
 import OrgSelectView from "../../pages/ApiGateway/OrgSelectView";
 import TenantSelectView from "../../pages/UserManager/TenantSelectView";
+import ResourceSelectView from "../../pages/ResourcesDistribute/ResourceSelectView";
 
 const { Option } = Select;
 const { TextArea, Password } = Input;
@@ -131,6 +132,8 @@ const CreateForm = Form.create()(props => {
             ))}
           </RadioGroup>
         );
+      case 'resourceSelect':
+        return <ResourceSelectView style={{ width: '100%' }} userId={item.tagAttr.userId} />;
       case 'groupTreeSelect':
         return <GroupTreeSelectView style={{ width: '100%' }} />;
       case 'privilegeTreeSelect':
@@ -362,7 +365,7 @@ class QueryTable extends PureComponent {
       }
     } else {
       columns.push({
-        title: '操作',
+        title: 'Action',
         width: 130,
         render: (text, row) => (
           <Fragment>

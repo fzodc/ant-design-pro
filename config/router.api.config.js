@@ -305,6 +305,16 @@ export default [
             path: '/resourcesDistribute/configuration',
             name: 'configuration',
             component: './ResourcesDistribute/Configuration',
+          },
+          {
+            path: '/resourcesDistribute/authResource',
+            name: 'authResource',
+            component: './ResourcesDistribute/AuthResource',
+          },
+          {
+            path: '/resourcesDistribute/authClient',
+            name: 'authClient',
+            component: './ResourcesDistribute/AuthClient',
           }
         ],
       },

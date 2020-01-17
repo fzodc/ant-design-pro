@@ -14,6 +14,8 @@ export default {
   'menu.admin.refreshCache': 'Refresh Cache',
   'menu.resourcesDistribute': 'Resources Distribute',
   'menu.resourcesDistribute.configuration': 'Configuration',
+  'menu.resourcesDistribute.authResource':'Auth Resource',
+  'menu.resourcesDistribute.authClient':'Auth Client',
   'menu.test': 'Test Page',
   'menu.test.test1': 'Test Page1',
   'menu.test.test2': 'Test Page2',

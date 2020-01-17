@@ -118,7 +118,64 @@ const configlist = {
         ]
     }
 }
-const configlistDataResource = configlist.data.records
+
+
+const resourcelist = {
+  "code": "200",
+  "msg": null,
+  "data": {
+    "records": [
+      {
+        id:1,
+        resourceId:'FS',
+        createTime:'2020',
+        remark:'123'
+      }
+    ]
+  }
+};
+
+const clientlist = {
+  "code": "200",
+  "msg": null,
+  "data": {
+    "records": [
+      {
+        id: 1,
+        clientId: 'Agent',
+        resourceIds: 'baseInfo,logServer',
+        clientSecret:'2020',
+        scope: 'InnerMS',
+        authorizedGrantTypes: 'client',
+        webServerRedirectUri: 'SUCCESS',
+        authorities: 'user',
+        accessTokenValidity: '120',
+        refreshTokenValidity: '',
+        additionalInformation: '',
+        autoapprove: '',
+        createTime: '2020',
+      },
+      {
+        id: 2,
+        clientId: 'FS1',
+        resourceIds: 'FS',
+        clientSecret:'2020',
+        scope: 'agent_url0',
+        authorizedGrantTypes: 'env_name0',
+        webServerRedirectUri: 'SUCCESS',
+        authorities: 'manager',
+        accessTokenValidity: '60',
+        refreshTokenValidity: '',
+        additionalInformation: '',
+        autoapprove: '',
+        createTime: '2020',
+      },
+    ]
+  }
+}
+const configlistDataResource = configlist.data.records;
+const clientlistDataResource = clientlist.data.records;
+const resourcelistDataResource = resourcelist.data.records;
 
 export function configlistFunc(req, res, b) {
     const result = {
@@ -129,12 +186,47 @@ export function configlistFunc(req, res, b) {
         }
 
     }
-    
+
     if (res && res.json) {
         return res.json(result);
     }
     return result;
 }
+
+
+export function clientlistFunc(req, res, b) {
+  const result = {
+    "code": "200",
+    "msg": null,
+    "data": {
+      "records": clientlistDataResource
+    }
+
+  }
+
+  if (res && res.json) {
+    return res.json(result);
+  }
+  return result;
+}
+
+export function resourcelistFunc(req, res, b) {
+    const result = {
+        "code": "200",
+        "msg": null,
+        "data": {
+            "records": resourcelistDataResource
+        }
+
+    }
+    if (res && res.json) {
+        return res.json(result);
+    }
+    return result;
+}
+
 export default {
     'GET /baseInfo/sysdata/configList': configlistFunc,
+    'POST /baseInfo/auth/clientList': clientlistFunc,
+    'POST /baseInfo/auth/resourceList': resourcelistFunc,
 }

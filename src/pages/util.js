@@ -18,6 +18,24 @@ export function conversion(responseData) {
   return retData;
 }
 
+
+export function conversionList(responseData) {
+  let retData = responseData;
+  if (!responseData) {
+    retData = {
+      list: [],
+      pagination: {},
+    };
+  } else if (responseData.records) {
+    retData = mapKeys(responseData, (value, key) => {
+      if (key === 'records') return 'list';
+      return key;
+    });
+  }
+  retData.pagination={total:retData.total,pageSize:retData.size,pageNo:retData.pages,current:retData.current}
+  return retData;
+}
+
 export function conversionWsdl(responseData) {
   let retData = responseData;
   if (!responseData) {
@@ -43,6 +61,38 @@ export function conversionReq(requestData) {
     info.pageSize = pageSize || 10;
   }
   return { tableName, userName,userId,apiId, option, data: { info } };
+}
+
+export function conversionInfo(requestData) {
+  const {data,id,option,userId} = requestData;
+  const {info} = data;
+  const newData = {...info,id};
+  const condition = {option,userId};
+  return { data:newData,condition};
+}
+
+export function conversionClientInfo(requestData) {
+  const {data,id,option,userId} = requestData;
+  const {info} = data;
+  const {resourceIds} = info;
+  const newResourceIds = resourceIds.toString();
+  const newData = {...info,id,resourceIds:newResourceIds};
+  const condition = {option,userId};
+  return { data:newData,condition};
+}
+
+export function conversionReqNoInfo(requestData) {
+  let { tableName, userName,userId,apiId, option, pageSize, pageNo,...info } = requestData;
+  if (!option) {
+    pageNo = pageNo || 1;
+    pageSize = pageSize || 10;
+  }
+  return { condition:{tableName, userName,userId,apiId, option,pageNo,pageSize},data: {...info }};
+}
+
+export function conversionDel(requestData) {
+  const { ids,option } = requestData;
+  return { condition:{option},data:ids };
 }
 
 // source: http://stackoverflow.com/questions/7390426/better-way-to-get-type-of-a-javascript-variable/7390612#7390612
