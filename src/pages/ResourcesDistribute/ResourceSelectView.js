@@ -57,7 +57,13 @@ class ResourceSelectView extends PureComponent {
         </Select>
       );
     }
-    const multValues = value.split(',');
+    const isArray = Array.isArray(value);
+    let multValues = null;
+    if(!isArray){
+      multValues = value.split(',');
+    }else{
+      multValues = value;
+    }
     return (
       <Select mode="multiple" value={multValues} onSelect={this.selectChangeItem} style={style} {...restProps}>
         {this.getOption()}
