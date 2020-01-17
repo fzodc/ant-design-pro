@@ -55,7 +55,7 @@ export async function statusBatch(params) {
 }
 
 export async function statusBatchResource(params) {
-  return request(`${PREFIX_PATH}/auth/resource/operation`, {
+  return request(`${PREFIX_PATH}/auth/oauthResource/operation`, {
     method: 'POST',
     data: {
       ...params,
