@@ -25,7 +25,7 @@ class Configuration extends PureComponent {
         {name: 'resourceId', title: formatMessage({'id':'app.configuration.env.resourceId'}), add: true,query: true},
         {name: 'groupName', title: formatMessage({'id':'app.configuration.env.groupName'}), add: true, rules:[] },
         {name: 'remark', title: formatMessage({'id':'app.configuration.env.remark'}), add: true, rules:[] },
-        {name: 'createTime', title: formatMessage({'id':'app.configuration.env.createTime'})},
+        {name: 'createTime', title: formatMessage({'id':'app.configuration.env.createTime'}),format: 'YYYY-MM-DD HH:mm:ss' },
         {
           name: 'status',
           title: formatMessage({'id':'app.configuration.env.status'}) ,
