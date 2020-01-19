@@ -35,7 +35,7 @@ class Configuration extends PureComponent {
         {name: 'refreshTokenValidity', title: formatMessage({'id':'app.configuration.env.refreshTokenValidity'}) , columnHidden: true,add: true, rules:[]},
         {name: 'additionalInformation', title: formatMessage({'id':'app.configuration.env.additionalInformation'}),  columnHidden: true, add: true, rules:[]},
         {name: 'autoapprove', title: formatMessage({'id':'app.configuration.env.autoapprove'}) ,columnHidden: true, rules:[]},
-        {name: 'createTime', title: formatMessage({'id':'app.configuration.env.createTime'})}
+        {name: 'createTime', title: formatMessage({'id':'app.configuration.env.createTime'}),format: 'YYYY-MM-DD HH:mm:ss' }
       ]
     };
 
