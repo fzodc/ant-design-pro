@@ -14,6 +14,7 @@ class Configuration extends PureComponent {
   // render之前调用接口得到响应结果存在state的list中
   componentWillMount() {
     const selectList = getItems('configuration', 'authorized_grant_types');// 选择
+    const scopeList = getItems('configuration', 'scope');// 选择
 
     const userId = getUserId();
     const tagAttr ={ userId };
@@ -27,7 +28,7 @@ class Configuration extends PureComponent {
         {name: 'clientId', title: formatMessage({'id':'app.configuration.env.clientId'}), add: true},
         {name: 'resourceIds', title: formatMessage({'id':'app.configuration.env.resourceIds'}), add: true, query: true, tag:'resourceSelect', tagAttr, rules:[]},
         {name: 'clientSecret', title: formatMessage({'id':'app.configuration.env.clientSecret'}), add: true, detailFlag: 1},
-        {name: 'scope', title: formatMessage({'id':'app.configuration.env.scope'}), add: true,query:true},
+        {name: 'scope', title: formatMessage({'id':'app.configuration.env.scope'}), add: true,query:true,tag:'commonSelect',enumData: scopeList},
         {name: 'authorizedGrantTypes', title: formatMessage({'id':'app.configuration.env.authorizedGrantTypes'}), add: true,tag:'commonSelect',enumData: selectList},
         {name: 'accessTokenValidity', title: formatMessage({'id':'app.configuration.env.accessTokenValidity'}) ,add: true},
         {name: 'webServerRedirectUri', title: formatMessage({'id':'app.configuration.env.webServerRedirectUri'}), columnHidden: true,  add: true, rules:[]},
