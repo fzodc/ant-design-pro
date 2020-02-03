@@ -16,7 +16,7 @@ class AuthDataQueryTable extends PureComponent {
   };
 
   componentWillMount() {
-    console.log('============1componentWillMount========', this.props);
+    // console.log('============1componentWillMount========', this.props);
     const {
       resourceModel: { data },
     } = this.props;
@@ -50,7 +50,7 @@ class AuthDataQueryTable extends PureComponent {
   };
 
   handleSearchDefault = () => {
-    console.log('-------------------222222222');
+    // console.log('-------------------222222222');
     const {
       columnSchemas: { tableName },
     } = this.props;
@@ -72,7 +72,7 @@ class AuthDataQueryTable extends PureComponent {
     if(masterRecord&&relationKeyForMasterTable&&masterTableKey){
       newParams[relationKeyForMasterTable]=masterRecord[masterTableKey];
     }
-    console.log('binddata', newParams);
+    // console.log('binddata', newParams);
     dispatch({
       type: 'resourceModel/list',
       payload: newParams,

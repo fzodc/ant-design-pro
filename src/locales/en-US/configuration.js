@@ -22,4 +22,6 @@ export default {
   'app.configuration.env.resourceId':'Resource Id',
   'app.configuration.env.remark':'Remark',
   'app.configuration.env.groupName':'Group Name',
+  'validation.configuration.env.accessTokenValidity':'Access Token Validity must be greater than 0',
+  'validation.configuration.env.refreshTokenValidity':'Refresh Token Validity must be greater than 0'
 };

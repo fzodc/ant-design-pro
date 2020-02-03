@@ -25,15 +25,47 @@ class Configuration extends PureComponent {
       name: 'id',
       userId,
       columnDetails: [
-        {name: 'clientId', title: formatMessage({'id':'app.configuration.env.clientId'}), add: true},
-        {name: 'resourceIds', title: formatMessage({'id':'app.configuration.env.resourceIds'}), add: true, query: true, tag:'resourceSelect', tagAttr, rules:[]},
+        {name: 'clientId', title: formatMessage({'id':'app.configuration.env.clientId'}), add: true,query: true},
+        {
+          name: 'resourceIds',
+          title: formatMessage({'id':'app.configuration.env.resourceIds'}),
+          add: true,
+          tag:'resourceSelect',
+          tagAttr,
+          rules:[],
+        },
         {name: 'clientSecret', title: formatMessage({'id':'app.configuration.env.clientSecret'}), add: true, detailFlag: 1},
         {name: 'scope', title: formatMessage({'id':'app.configuration.env.scope'}), add: true,query:true,tag:'commonSelect',enumData: scopeList},
         {name: 'authorizedGrantTypes', title: formatMessage({'id':'app.configuration.env.authorizedGrantTypes'}), add: true,tag:'commonSelect',enumData: selectList},
-        {name: 'accessTokenValidity', title: formatMessage({'id':'app.configuration.env.accessTokenValidity'}) ,add: true},
+        {
+          name: 'accessTokenValidity',
+          title: formatMessage({'id':'app.configuration.env.accessTokenValidity'}) ,
+          add: true,
+          rules:[
+            {
+              required: true,
+              message:formatMessage({'id':'validation.configuration.env.accessTokenValidity'})
+            },
+            {
+              pattern: /^[0-9]*[1-9][0-9]*$/,
+              message:formatMessage({'id':'validation.configuration.env.accessTokenValidity'})
+            }
+          ]
+        },
         {name: 'webServerRedirectUri', title: formatMessage({'id':'app.configuration.env.webServerRedirectUri'}), columnHidden: true,  add: true, rules:[]},
         {name: 'authorities', title: formatMessage({'id':'app.configuration.env.authorities'}), add: true, rules:[]},
-        {name: 'refreshTokenValidity', title: formatMessage({'id':'app.configuration.env.refreshTokenValidity'}) , columnHidden: true,add: true, rules:[]},
+        {
+          name: 'refreshTokenValidity',
+          title: formatMessage({'id':'app.configuration.env.refreshTokenValidity'}) ,
+          columnHidden: true,
+          add: true,
+          rules:[
+            {
+              pattern: /^[0-9]*[1-9][0-9]*$/,
+              message:formatMessage({'id':'validation.configuration.env.refreshTokenValidity'})
+            }
+          ]
+        },
         {name: 'additionalInformation', title: formatMessage({'id':'app.configuration.env.additionalInformation'}),  columnHidden: true, add: true, rules:[]},
         {name: 'autoapprove', title: formatMessage({'id':'app.configuration.env.autoapprove'}) ,columnHidden: true, rules:[]},
         {name: 'createTime', title: formatMessage({'id':'app.configuration.env.createTime'}),format: 'YYYY-MM-DD HH:mm:ss' }

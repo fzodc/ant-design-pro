@@ -213,8 +213,8 @@ const CreateForm = Form.create()(props => {
               label={item.title}
             >
               {form.getFieldDecorator(item.name, {
-                initialValue: selectedRow ? selectedRow[item.name] : item.defaultValue||'',
-                rules: item.rules ? [] : [{ required: true, message: `please enter ${item.title}` }],
+                initialValue: selectedRow ? selectedRow[item.name] : (item.defaultValue||''),
+                rules: item.rules ? item.rules : [  { required: true, message: `please enter ${item.title}` }],
               })(renderAutoForm(item))}
             </FormItem>
           </Form>

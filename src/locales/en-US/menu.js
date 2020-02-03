@@ -29,6 +29,7 @@ export default {
   'menu.baseData.group': 'Group',
   'menu.baseData.appkey': 'Appkey',
   'menu.baseData.attrSpecFromAdapter': 'Attr Spec of a Adapter',
+  'menu.baseData.attrSpec':'Attr Spec',
   'menu.baseData.tenant': 'Tenant',
   'menu.baseData.tenantManager': 'TenantManager',
   'menu.baseData.gsix': 'Org View',

@@ -47,6 +47,11 @@ const constants = {
     S: 'S',
     D: 'D',
   },
+  LOGIN:{
+    CLIENTID:'baseUI',
+    CLIENTSECRET:'2020',
+    GRANTTYPE:'password'
+  }
 };
 
 

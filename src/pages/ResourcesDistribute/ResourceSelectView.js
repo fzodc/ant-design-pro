@@ -10,6 +10,10 @@ const { Option } = Select;
 }))
 class ResourceSelectView extends PureComponent {
 
+  state = {
+    selectValue:null
+  }
+
   componentDidMount = () => {
     const { dispatch } = this.props;
     const userId = getUserId();
@@ -19,6 +23,14 @@ class ResourceSelectView extends PureComponent {
       payload
     });
   };
+
+  componentWillReceiveProps(nextProps) {
+    const { value } = this.props;
+    console.log("componentWillReceiveProps",value,":::",nextProps.value);
+    if (value !== nextProps.value) {
+      this.setState({selectValue:nextProps.value});
+    }
+  }
 
   getOption() {
     const { resourceList } = this.props;
@@ -45,24 +57,28 @@ class ResourceSelectView extends PureComponent {
     onChange(item);
   };
 
+
+
   render() {
     // const value = this.conversionObject();
-    const { value,style, ...restProps} = this.props;
+    const { style, ...restProps} = this.props;
+    const {selectValue} = this.state;
     // defaultValue 格式  [{'a1','a2'}]
-    console.log("resourceS",value);
-    if(value === '' || value === null){
+    if(selectValue === '' || selectValue === null || selectValue === undefined){
+      console.log("resourceS-1",selectValue);
       return (
         <Select mode="multiple" onSelect={this.selectChangeItem} style={style} {...restProps}>
           {this.getOption()}
         </Select>
       );
     }
-    const isArray = Array.isArray(value);
+    console.log("resourceS-2",selectValue);
+    const isArray = Array.isArray(selectValue);
     let multValues = null;
     if(!isArray){
-      multValues = value.split(',');
+      multValues = selectValue.split(',');
     }else{
-      multValues = value;
+      multValues = selectValue;
     }
     return (
       <Select mode="multiple" value={multValues} onSelect={this.selectChangeItem} style={style} {...restProps}>

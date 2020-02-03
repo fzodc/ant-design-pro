@@ -4,8 +4,9 @@ import { list,fakeAccountLogin } from '@/services/userService';
 import { setAuthority, setUser,setEnvUrl } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
+import constants from '@/utils/constUtil';
 
-
+const { LOGIN } = constants;
 export default {
   namespace: 'login',
 
@@ -15,7 +16,13 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
+      const newPayload = {
+        ...payload,
+        clientId:LOGIN.CLIENTID,
+        clientSecret:LOGIN.CLIENTSECRET,
+        grantType:LOGIN.GRANTTYPE,
+      };
+      const response = yield call(fakeAccountLogin, newPayload);
       yield put({
         type: 'changeLoginStatus',
         payload: response,
@@ -34,19 +41,19 @@ export default {
         let url="/user/loading";
         const params = getPageQuery();
         console.log("1:",params);
-        const newPayload = {
+        const newTwoPayload = {
           data: {info: {pageNo: 1, pageSize: 10}},
           info: {pageNo: 1, pageSize: 10},
           method: "post",
           tableName: "env",
         };
         // 存储网关serviceAgent地址
-        const envResponse = yield call(list, newPayload);
+        const envResponse = yield call(list, newTwoPayload);
         yield put({
           type: 'saveEnv',
           payload: envResponse
         });
-        const { redirect } = params;
+        const { redirect } = params|| {};
         console.log(redirect);
         if (redirect) {
           url+=`?redirect=${redirect}`;
