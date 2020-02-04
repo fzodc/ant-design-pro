@@ -168,7 +168,7 @@ class ApiDebug extends PureComponent {
         // console.log("requestHeaderSample",requestHeaderSample);
         requestHeaderSample.forEach((item) => {
 
-          if (item.name !== 'AppKey') {
+          if (item.name !== 'AppKey' && item.name !== 'Content-Type') {
             newRequestHeaderSample.push(item);
           } else {
             // eslint-disable-next-line no-param-reassign
