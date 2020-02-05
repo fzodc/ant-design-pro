@@ -167,8 +167,8 @@ class ApiDebug extends PureComponent {
         const newRequestHeaderSample = [{ key:'Content-Type', name: 'Content-Type', remark: 'application/json'}];
         // console.log("requestHeaderSample",requestHeaderSample);
         requestHeaderSample.forEach((item) => {
-          if (item.key !== 'AppKey') {
-            if( item.key !== 'Content-Type' ){
+          if (item.name !== 'AppKey') {
+            if( item.name !== 'Content-Type' ){
               newRequestHeaderSample.push(item);
             }
           } else {
@@ -177,7 +177,7 @@ class ApiDebug extends PureComponent {
             newRequestHeaderSample.push(item);
           }
         });
-        const appKeyAttr = newRequestHeaderSample.filter(item => item.key === 'AppKey');
+        const appKeyAttr = newRequestHeaderSample.filter(item => item.name === 'AppKey');
         if (!appKeyAttr || appKeyAttr.length === 0) {
           newRequestHeaderSample.push({
             key:'AppKey',
