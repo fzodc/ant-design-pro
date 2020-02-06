@@ -4,7 +4,7 @@ import constants from '@/utils/constUtil';
 const {PREFIX_PATH} = constants;
 
 export async function fakeAccountLogin(params) {
-  return request(`${PREFIX_PATH}/auth/token`, {
+  return request(`${PREFIX_PATH}/auth/login`, {
     method: 'POST',
     data: params,
   });
