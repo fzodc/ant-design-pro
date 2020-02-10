@@ -1,5 +1,6 @@
 const constants = {
   PREFIX_PATH: '/server', // '/server'为后台真实服务器，''为模拟服务
+  REAL_PATH: 'http://10.19.18.49:20010', // 真实URL地址
   DEBUG: true,
   GLOBAL_COLLAPSE: true, // true侧边栏默认折叠
   SUCCESS_CODE: '200',
