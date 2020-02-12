@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[49],{IOUL:function(e,a,n){"use strict";n.r(a);var t=n("uqIC"),c=n.n(t),i=n("zHco"),o=n("iFb4");a["default"]=function(){return c.a.createElement(i["a"],null,c.a.createElement(o["a"],{javaCode:"apiService",javaKey:"api_type"}))}}}]);
