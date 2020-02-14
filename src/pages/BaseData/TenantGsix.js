@@ -58,21 +58,24 @@ class TenantGsix extends PureComponent {
         }else{
           nodes.push(node);
         }
-        const {callSystemId} = item;
+        const {callSystemId,callSystemName,appkey} = item;
         let other = null;
         let color = 'blue';
         if(callSystemId){
           other = {id: `${item.callSystemId}`, shape: 'circle', label:`${item.callSystemName}`};
-        }else{
+        }
+        if(callSystemName || appkey){
           other = {id: `u${index}`, shape: 'circle', label:`${item.callSystemName}-${item.appkey}`};
           color = 'red';
         }
-        const sameNode = nodes.filter(val => val.id === other.id);
-        if(sameNode.length === 0){
-          nodes.push(other);
+        if(other){
+          const sameNode = nodes.filter(val => val.id === other.id);
+          if(sameNode.length === 0){
+            nodes.push(other);
+          }
+          const edge = {source: `${item.orgId}`, target: `${other.id}`,color};
+          edges.push(edge);
         }
-        const edge = {source: `${item.orgId}`, target: `${other.id}`,color};
-        edges.push(edge);
       });
     }
     const data = {
