@@ -85,3 +85,13 @@ export async function del(params){
   });
 }
 
+export async function decrySecret(params){
+  return request(`${PREFIX_PATH}/auth/client/decrySecret`, {
+    method: 'POST',
+    data: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+

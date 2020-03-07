@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { list, save, statusBatch, detail, token, del, config, tenantInfo, tenantView, orgView } from '../services/uniCompService';
+import { list, save, statusBatch, detail, token, del, config, tenantInfo, tenantView, orgView, decrySecret } from '../services/uniCompService';
 import { conversion, conversionReq } from "../pages/util";
 
 export default {
@@ -125,6 +125,10 @@ export default {
       const response = yield call(orgView, payload);
       if (callback) callback(response);
     },
+    * decrySecret({ payload, callback }, { call }) {
+      const response = yield call(decrySecret, payload);
+      if (callback) callback(response);
+    }
   },
 
   reducers: {
