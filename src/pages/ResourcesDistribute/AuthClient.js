@@ -173,7 +173,7 @@ class Configuration extends PureComponent {
           }}
         >
           <span id="QueryCommand">
-             {roleAuth}
+            {roleAuth}
           </span>
         </AuthDataQueryTable>
       </PageHeaderWrapper>
