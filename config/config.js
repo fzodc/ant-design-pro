@@ -139,7 +139,6 @@ export default {
   manifest: {
     basePath: '/',
   },
-
   chainWebpack: webpackPlugin,
   // base:'/web/', // 为了打包后，在index.html的routeBase添加前缀，可以配置多个的目录项目
 };
